@@ -34,3 +34,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 lanch-partner-dashboard-firebase-adminsdk-6ywl9-cb8e26d619.json
+.env
