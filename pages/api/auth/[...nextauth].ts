@@ -19,6 +19,8 @@ export const authOptions = {
           (credentials as any).password || ""
         )
           .then((userCredential) => {
+            console.log("Moin!");
+            console.log(userCredential);
             if (userCredential.user) {
               return userCredential.user;
             }
