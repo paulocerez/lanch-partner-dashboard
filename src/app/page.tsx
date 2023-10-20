@@ -235,12 +235,12 @@ const itemsSoled = [
 ];
 
 export default function Home(){
-  const session = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect("/login");
-    },
-  });
+  // const session = useSession({
+  //   required: true,
+  //   onUnauthenticated() {
+  //     redirect("/login");
+  //   },
+  // });
 
 
 
