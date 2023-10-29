@@ -1,8 +1,12 @@
 'use client';
 
-import { Button } from "@tremor/react";
+import HeaderComponent from "./_components/header";
+import FilterBarComponent from "./_components/filterBar";
 
-import Image from "next/image";
+import Test from "./_components/test";
+import DisplayTest from "./_components/displayTest";
+
+
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation"
 import {
@@ -19,34 +23,18 @@ import {
   BarChart,
   Flex,
   Bold,
-  BarList
+  BarList,
+  DateRangePickerValue
 } from "@tremor/react";
-import { DatePicker } from "./(components)/datepicker";
 
 
 import { useState } from "react";
-import {
-  MultiSelect,
-  MultiSelectItem,
-} from "@tremor/react";
 
-import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 
 import { gql } from "@apollo/client";
 
-const query = gql`query getAllVendors($_brands: [String!] = ["Happy Slice", "Loco Chicken"], $_countries: [String!] = ["DE"]) {
-  api_partner_dashboard_api_pd_food_orders(limit: 100, distinct_on: vendor_id, order_by: {vendor_id: asc}, where: {brand: {_in: $_brands}, country: {_in: $_countries}}) {
-    vendor_id
-  }
-}`;
 
-interface FoodOrder {
-  vendor_id: string;
-}
 
-interface GetAllVendorsResponse {
-  api_partner_dashboard_api_pd_food_orders: FoodOrder[];
-}
 
 const getTotalGMVQuery = gql`
   query getTotalGMV($_brands: [String!] = ["Happy Slice", "Loco Chicken"], $_countries: [String!] = ["DE"], $_vendor_ids: [String!] = ["DE_Berlin_0014"], $_fromDate: Timestamp = "2023-07-15", $_toDate: Timestamp = "2023-10-27") {
@@ -289,22 +277,35 @@ export default function Home(){
   //     redirect("/login");
   //   },
   // });
-  const { data } = useSuspenseQuery<GetAllVendorsResponse>(query);
 
-  //const { data } = useSuspenseQuery<GetTotalGMVResponse>(getTotalGMVQuery);
 
-  let MultiSelectItemArray = data?.api_partner_dashboard_api_pd_food_orders.map((vendor) => (
-    <MultiSelectItem key={vendor.vendor_id} value={vendor.vendor_id}>
-        {vendor.vendor_id}
-    </MultiSelectItem>
-  ));
+  const [counter, setCounter] = useState<number>(0);
 
-  //const vendors = data.other_api_pd_food_orders.
+  const updateCounter = (newCounter: number) => {
+    setCounter(newCounter);
+  };
 
   const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
 
-  // const handleValueChange = (values: string[]) => {
-  //   setSelectedVendors(values);
+  const updateSelectedVendors = (newSelectedVendors: string[]) => {
+    setSelectedVendors(newSelectedVendors);
+  }
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const updateSelectedDate = (newSelectedDate: Date | null) => {
+    setSelectedDate(newSelectedDate);
+  }
+
+  const [dateRange, setDateRange] = useState<DateRangePickerValue>({
+    selectValue: "last_week",
+  });
+  const updateDateRange = (newDateRange: DateRangePickerValue) => {
+    setDateRange(newDateRange);
+  }
+
+
+
+
 
 
   return (
@@ -318,32 +319,13 @@ export default function Home(){
     
 
       <div className="">
-          <div className="flex justify-between">
-            <div className="flex items-center">
-              <Image src="/lanch_logo.png" alt="" width="30" height="30"/>
-              <Title>LANCH Dashboard</Title>
-            </div>
-            
-            <Button onClick={()=> signOut()}>Logout</Button>
-          </div>
-          
-          {/* <Text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</Text> */}
-          <div>
-            <div className="flex items-start md:items-center pt-6 flex-col md:flex-row">
-              <div>
-               <DatePicker/>
-              </div>
-              <div className="md:w-80 md:mx-6 space-y-6 w-auto mt-4 md:mt-0">
-                <MultiSelect value={selectedVendors} onValueChange={setSelectedVendors}>
-                  
-                  {MultiSelectItemArray}
-                  
-                </MultiSelect>
-              </div>
-              
-            </div>
-            
-          </div>
+        <HeaderComponent/>
+        <FilterBarComponent dateRange={dateRange} updateDateRange={updateDateRange} selectedVendors={selectedVendors} updateSelectedVendors={updateSelectedVendors}/>
+        <div>
+          <Test counter={counter} updateCounter={updateCounter}/>
+          <DisplayTest counter={counter}/>
+        </div>
+        
           <TabGroup className="mt-6">
             <TabList>
               <Tab>Alle Plattformen</Tab>
