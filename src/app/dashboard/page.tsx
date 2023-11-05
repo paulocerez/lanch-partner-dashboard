@@ -31,7 +31,9 @@ import {
 import { useState } from "react";
 
 
-import { gql } from "@apollo/client";
+import { gql, useSuspenseQuery } from "@apollo/client";
+import RevenueCard from "./_components/revenueCard";
+import OrderCountCard from "./_components/orderCountCard";
 
 
 
@@ -233,7 +235,6 @@ const revenueData = [
     Wolt: 5700,
   },
 ];
-const valueFormatter = (number:number) => Intl.NumberFormat("de").format(number).toString();
 
 const itemsSoled = [
   {
@@ -279,31 +280,93 @@ export default function Home(){
   // });
 
 
-  const [counter, setCounter] = useState<number>(0);
-
-  const updateCounter = (newCounter: number) => {
-    setCounter(newCounter);
-  };
-
+  // state management 
   const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
-
   const updateSelectedVendors = (newSelectedVendors: string[]) => {
     setSelectedVendors(newSelectedVendors);
-  }
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const updateSelectedDate = (newSelectedDate: Date | null) => {
-    setSelectedDate(newSelectedDate);
   }
 
   const [dateRange, setDateRange] = useState<DateRangePickerValue>({
     selectValue: "last_week",
   });
   const updateDateRange = (newDateRange: DateRangePickerValue) => {
+    if (newDateRange?.selectValue) {
+       if (newDateRange.selectValue === "last_week") {
+        newDateRange.from = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 8));
+        newDateRange.to = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1));
+      } else if (newDateRange.selectValue === "last_two_week") {
+        newDateRange.from = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 15));
+        newDateRange.to = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1));
+      } else if (newDateRange.selectValue === "last_month") {
+        newDateRange.from = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 29));
+        newDateRange.to = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1));
+      } else if (newDateRange.selectValue === "last_three_month") {
+        newDateRange.from = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 85));
+        newDateRange.to = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1));
+      }
+    }
     setDateRange(newDateRange);
   }
 
+  const [selectFromDate, setFromDate] = useState<Date>(new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 8)));
+  const updateFromDate = (newFromDate: Date) => {
+    setFromDate(newFromDate);
+  }
 
+  const [selectToDate, setToDate] = useState<Date>(new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1)));
+  const updateToDate = (newToDate: Date) => {
+    setToDate(newToDate);
+  }
+
+  const valueFormatter = (number:number) => Intl.NumberFormat("de").format(number).toString();
+
+
+  const getTotalGMVQuery = gql`
+  query getTotalGMV(
+  $_brands: [String!] = ["Happy Slice", "Loco Chicken"], 
+  $_countries: [String!] = ["DE"], 
+  $_vendor_ids: [String!] = ["DE_Berlin_0014"], 
+  $_fromDate: Timestamp = "2023-09-15", 
+  $_toDate: Timestamp = "2023-10-27",
+  $_order_source_names: [String!] = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"]
+) {
+  api_partner_dashboard_api_pd_food_orders_aggregate(
+    where: {
+      brand: { _in: $_brands }, 
+      country: { _in: $_countries },
+      vendor_id: { _in: $_vendor_ids },
+      order_source_name: { _in: $_order_source_names },
+      ordered_at: { 
+        _gte: $_fromDate, 
+        _lte: $_toDate 
+      }
+    }
+  ) {
+    aggregate {
+      count
+      sum {
+        gmv
+      }
+    }
+  }
+}
+`;
+
+  interface GetTotalGMVResponse {
+    response: {
+      other_api_pd_food_orders_aggregate: {
+        aggregate: {
+          count: string;
+          sum: {
+            gmv: string;
+          };
+        };
+      };
+    };
+  }
+
+  const getTotalGMVresponse  = useSuspenseQuery<GetTotalGMVResponse>(getTotalGMVQuery);
+  // console.log(getTotalGMVresponse?.data?.response)
 
 
 
@@ -321,11 +384,7 @@ export default function Home(){
       <div className="">
         <HeaderComponent/>
         <FilterBarComponent dateRange={dateRange} updateDateRange={updateDateRange} selectedVendors={selectedVendors} updateSelectedVendors={updateSelectedVendors}/>
-        <div>
-          <Test counter={counter} updateCounter={updateCounter}/>
-          <DisplayTest counter={counter}/>
-        </div>
-        
+
           <TabGroup className="mt-6">
             <TabList>
               <Tab>Alle Plattformen</Tab>
@@ -337,12 +396,13 @@ export default function Home(){
             <TabPanels>
               <TabPanel>
                 <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
-                {categories.map((item) => (
-                  <Card key={item.title}>
-                    <Text>{item.title}</Text>
-                    <Metric>{item.metric}</Metric>
-                  </Card>
-                ))}
+                  <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} />
+                  <OrderCountCard vendorIds={selectedVendors} dateRange={dateRange} />
+                  {/* <Card>
+                    <Text>
+                      {JSON.stringify(getTotalGMVresponse?.data?.response)}
+                    </Text>
+                  </Card> */}
                 </Grid>
                 <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
                 <div className="mt-6">

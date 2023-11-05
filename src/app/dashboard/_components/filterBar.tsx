@@ -44,12 +44,17 @@ interface FilterBarProps {
   updateDateRange: (dateRange: DateRangePickerValue) => void;
 }
 
-const FilterBarComponent = (filterBarPobs: FilterBarProps) => {
-  const { selectedVendors, updateSelectedVendors, dateRange, updateDateRange } = filterBarPobs;
+const FilterBarComponent = (filterBarPops: FilterBarProps) => {
+  const { selectedVendors, updateSelectedVendors, dateRange, updateDateRange } = filterBarPops;
 
   const vendorlist = useSuspenseQuery<GetAllVendorsResponse>(getAllVendorsQuery);
 
+  React.useEffect(() => {
 
+    if (vendorlist?.data?.api_partner_dashboard_api_pd_food_orders) {
+      updateSelectedVendors(vendorlist.data.api_partner_dashboard_api_pd_food_orders.map((vendor) => vendor.vendor_id));
+    }
+  }, []);
 
   return (
     <div>
