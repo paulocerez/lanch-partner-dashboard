@@ -1,6 +1,7 @@
 import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
 import { Card, DateRangePickerValue, Metric, Text } from "@tremor/react";
 import React from "react";
+import Spinner from "./spinner";
 
 interface RevenueCardProps {
   vendorIds: string[];
@@ -74,7 +75,7 @@ const getTotalGMVQuery = gql`
   if (loading) return (
     <Card>
       <Text>Bestellungen</Text>
-      <Metric>Loading ...</Metric>
+      <Spinner />
     </Card>
   )
 
