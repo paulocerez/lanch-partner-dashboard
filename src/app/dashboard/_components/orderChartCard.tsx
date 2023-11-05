@@ -42,7 +42,7 @@ function aggregateData(data: InputType[]): OutputType[] {
   });
 
   return Object.keys(aggregate).map(date => {
-      return { date, ...aggregate[date] };
+      return { "date": date, ...aggregate[date] };
   });
 }
 
@@ -90,7 +90,8 @@ query getGMVperDay(
       order_date: {
         _gte: $_fromDate, _lte: $_toDate
         }
-      }
+      },
+    order_by: {order_date: asc}
     ) {
     total_gmv
     order_count
@@ -150,22 +151,16 @@ interface GetGMVperDaiyResponse {
   return (
     <Card>
     <Title>Orders</Title>
-    <Text>Orderanzahl nach Plattform</Text>
-    {/* <p>lol</p>
-    <p>
-      {
-        JSON.stringify(revenueData)
-      }
-    </p> */}
+    <Text>Orderanzahl nach Plattform (absolut)</Text>
       <BarChart
         className="mt-4 h-80"
         data={revenueData}
-        index="Month"
+        index="date"
         categories={["Lieferando", "Uber Eats", "Wolt"]}
         colors={["amber", "lime", "sky"]}
         valueFormatter={valueFormatter}
         stack={true}
-        relative={true}
+        relative={false}
       />
   </Card>
   )

@@ -24,11 +24,10 @@ import {
 
 import { useState } from "react";
 
-import { gql, useSuspenseQuery } from "@apollo/client";
 import RevenueCard from "./_components/revenueCard";
 import OrderCountCard from "./_components/orderCountCard";
 import RevenueChartCard from "./_components/revenueChartCard";
-import OrderChartCard from "./_components/orderChartCard copy";
+import OrderChartCard from "./_components/orderChartCard";
 
 
 
