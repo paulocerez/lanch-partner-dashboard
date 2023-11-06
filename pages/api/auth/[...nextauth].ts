@@ -5,9 +5,9 @@ import { auth } from "@/app/firebase";
 
 export const authOptions = {
   // Configure one or more authentication providers
-  pages: {
-    signIn: "/login",
-  },
+  // pages: {
+  //   signIn: "/login",
+  // },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -19,7 +19,7 @@ export const authOptions = {
           (credentials as any).password || ""
         )
           .then((userCredential) => {
-            console.log("Moin!");
+            console.log("Moin! loggging in");
             console.log(userCredential);
             if (userCredential.user) {
               return userCredential.user;
