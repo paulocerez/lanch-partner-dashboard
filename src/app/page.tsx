@@ -283,12 +283,12 @@ const itemsSoled = [
 ];
 
 export default function Home(){
-  // const session = useSession({
-  //   required: true,
-  //   onUnauthenticated() {
-  //     redirect("/login");
-  //   },
-  // });
+  const session = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/login");
+    },
+  });
   const { data } = useSuspenseQuery<GetAllVendorsResponse>(query);
 
   //const { data } = useSuspenseQuery<GetTotalGMVResponse>(getTotalGMVQuery);
@@ -327,7 +327,6 @@ export default function Home(){
             <Button onClick={()=> signOut()}>Logout</Button>
           </div>
           
-          {/* <Text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</Text> */}
           <div>
             <div className="flex items-start md:items-center pt-6 flex-col md:flex-row">
               <div>

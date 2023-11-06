@@ -89,7 +89,7 @@ query getGMVperDay(
         _in: $_order_source_names
         }, 
       order_date: {
-        _gte: $_fromDate, _lte: $_toDate
+        _gt: $_fromDate, _lte: $_toDate
         }
       },
     order_by: {order_date: asc}
@@ -151,8 +151,8 @@ interface GetGMVperDaiyResponse {
 
   return (
     <Card>
-    <Title>Umsatz</Title>
-    <Text>Außenumsatz nach Plattform (relativ)</Text>
+      <Title>Umsatz</Title>
+      <Text>Außenumsatz nach Plattform (relativ)</Text>
     {/* <p>lol</p>
     <p>
       {
@@ -163,7 +163,7 @@ interface GetGMVperDaiyResponse {
         className="mt-4 h-80"
         data={revenueData}
         index="date"
-        categories={["Lieferando", "Uber Eats", "Wolt"]}
+        categories={["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"]}
         colors={["amber", "lime", "sky"]}
         valueFormatter={valueFormatter}
         stack={true}
