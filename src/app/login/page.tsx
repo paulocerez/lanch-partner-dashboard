@@ -1,13 +1,58 @@
 'use client';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { getRedirectResult, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase';
 
 export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    getRedirectResult(auth).then(async (userCred) => {
+      if (!userCred) {
+        return;
+      }
+
+      fetch("/api/auth", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${await userCred.user.getIdToken()}`,
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          router.push("/dashboard");
+        }
+      });
+    });
+  }, []);
+
+  function signIn(email: string, password:string) {
+
+    signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
+      console.log("signing in")
+      //signed in
+      const user = userCredential.user;
+      fetch("/api/auth", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${await userCredential.user.getIdToken()}`,
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          router.push("/dashboard");
+        }
+      });
+      // ..
+    })
+    .catch((error) => { 
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
+  }
 
   return (
     <>
@@ -79,7 +124,7 @@ export default function Signin() {
 
             <div>
               <button
-                onClick={() => signIn('credentials', {email, password, redirect: true, callbackUrl: '/'})}
+                onClick={() => signIn(email, password)}
                 disabled={!email || !password}
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

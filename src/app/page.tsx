@@ -3,7 +3,6 @@
 import { Button } from "@tremor/react";
 
 import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation"
 import {
   Card,
@@ -283,12 +282,12 @@ const itemsSoled = [
 ];
 
 export default function Home(){
-  const session = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect("/login");
-    },
-  });
+  // const session = useSession({
+  //   required: true,
+  //   onUnauthenticated() {
+  //     redirect("/login");
+  //   },
+  // });
   const { data } = useSuspenseQuery<GetAllVendorsResponse>(query);
 
   //const { data } = useSuspenseQuery<GetTotalGMVResponse>(getTotalGMVQuery);
@@ -324,7 +323,7 @@ export default function Home(){
               <Title>LANCH Dashboard</Title>
             </div>
             
-            <Button onClick={()=> signOut()}>Logout</Button>
+            <Button onClick={()=> {}}>Logout</Button>
           </div>
           
           <div>

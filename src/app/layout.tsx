@@ -1,7 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import SessionProvider from './SessionProvider'
 import { ApolloWrapper } from "./ApolloWrapper";
 
 const inter = Inter({ subsets: ['latin'] })
@@ -21,9 +20,9 @@ export default function RootLayout({
     <html lang="en" className="h-full bg-white">
       <body className="h-full p-8">
       <ApolloWrapper>
-        <SessionProvider>
+
           {children}
-        </SessionProvider>
+
       </ApolloWrapper>
       </body>
     </html>

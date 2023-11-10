@@ -3,7 +3,6 @@
 import HeaderComponent from "./_components/header";
 import FilterBarComponent from "./_components/filterBar";
 
-import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation"
 import {
   Card,

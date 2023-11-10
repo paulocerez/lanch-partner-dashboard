@@ -24,7 +24,7 @@ export function DatePicker(datePickerProbs: DatePickerProps) {
       selectPlaceholder="Auswählen"
       color="rose"
       minDate={new Date("2023-04-25")}
-      weekStartsOn={1}
+      weekStartsOn={1} 
     >
       <DateRangePickerItem
         key="last_week"

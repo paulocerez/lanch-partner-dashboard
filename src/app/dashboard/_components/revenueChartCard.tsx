@@ -1,6 +1,6 @@
 
-import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
-import { BarChart, Card, DateRangePickerValue, Metric, Text, Title } from "@tremor/react";
+import { gql, useQuery } from "@apollo/client";
+import { BarChart, Card, DateRangePickerValue, Text, Title } from "@tremor/react";
 import React from "react";
 import Spinner from "./spinner";
 
