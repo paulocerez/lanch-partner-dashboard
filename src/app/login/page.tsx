@@ -10,24 +10,24 @@ export default function Signin() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  useEffect(() => {
-    getRedirectResult(auth).then(async (userCred) => {
-      if (!userCred) {
-        return;
-      }
+  // useEffect(() => {
+  //   getRedirectResult(auth).then(async (userCred) => {
+  //     if (!userCred) {
+  //       return;
+  //     }
 
-      fetch("/api/auth", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${await userCred.user.getIdToken()}`,
-        },
-      }).then((response) => {
-        if (response.status === 200) {
-          router.push("/dashboard");
-        }
-      });
-    });
-  }, []);
+  //     fetch("/api/auth", {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${await userCred.user.getIdToken()}`,
+  //       },
+  //     }).then((response) => {
+  //       if (response.status === 200) {
+  //         router.push("/dashboard");
+  //       }
+  //     });
+  //   });
+  // }, []);
 
   function signIn(email: string, password:string) {
 
