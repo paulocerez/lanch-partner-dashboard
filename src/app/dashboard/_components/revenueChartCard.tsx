@@ -126,7 +126,6 @@ interface GetGMVperDaiyResponse {
   });
   // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
   //console.log(data?.api_partner_dashboard_api_pd_food_orders_daily)
-  console.log("hello")
   // console.log()
 
   let revenueData: OutputType[] = []
