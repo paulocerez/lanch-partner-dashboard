@@ -27,6 +27,7 @@ import OrderCountCard from "./_components/orderCountCard";
 import RevenueChartCard from "./_components/revenueChartCard";
 import OrderChartCard from "./_components/orderChartCard";
 import TopItemChartCard from "./_components/topItemsChartCard";
+import RatingByVendorCard from "./_components/ratingByVendorCard";
 
 
 
@@ -154,6 +155,9 @@ export default function Home(){
                 </div>
                 <div className="mt-6">
                   <TopItemChartCard vendorIds={selectedVendors} dateRange={dateRange}/>
+                </div>
+                <div>
+                  <RatingByVendorCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
                 </Grid>
               </TabPanel>
