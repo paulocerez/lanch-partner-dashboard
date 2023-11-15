@@ -38,9 +38,8 @@ function calculateRatingPerVendor(ratings: VendorRating[]): RatingItem[] {
   for (let rating of ratings) {
       let vendor_id = rating.vendor_id;
       let vendor_name = rating.vendor_name;
-      console.log("vendor_name", vendor_name)
-      let rating30 = parseInt(rating.average_rating_last_30_days);
-      let count30 = parseInt(rating.count_reviews_last_30_days);
+      let rating30 = parseFloat(rating.average_rating_last_30_days);
+      let count30 = parseFloat(rating.count_reviews_last_30_days);
       //let plattform = rating.order_source_name;
 
 
@@ -65,7 +64,6 @@ function calculateRatingPerVendor(ratings: VendorRating[]): RatingItem[] {
       }
   }
 
-  console.log("nameMap", nameMap)
 
   // Create an array of items and their total quantities
   let result: RatingItem[] = [];
@@ -89,7 +87,6 @@ const RatingByVendorCard = (RevenueCardProps: TopItemCardProps) => {
 
   const { vendorIds, dateRange, order_portal } = RevenueCardProps;
 
-// console.log(vendorIds)
 
 
   const getRatingsQuery = gql`
@@ -104,7 +101,6 @@ const RatingByVendorCard = (RevenueCardProps: TopItemCardProps) => {
     }
 `;
 
-  // console.log(getTotalGMVQuery)
   const { loading, error, data } = useQuery<GetRatingResponse>(getRatingsQuery, {
     variables: {
       _vendor_ids: vendorIds,
@@ -113,10 +109,7 @@ const RatingByVendorCard = (RevenueCardProps: TopItemCardProps) => {
       // Other variables can be added here
     },
   });
-  // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
-  //console.log(data?.api_partner_dashboard_api_pd_food_orders_daily)
-  console.log("hello")
-  // console.log()
+
 
   let ratings: RatingItem[] = []
   if (data?.api_partner_dashboard_api_pd_vendor_food_ratings) {

@@ -28,6 +28,7 @@ import RevenueChartCard from "./_components/revenueChartCard";
 import OrderChartCard from "./_components/orderChartCard";
 import TopItemChartCard from "./_components/topItemsChartCard";
 import RatingByVendorCard from "./_components/ratingByVendorCard";
+import RatingAverageCard from "./_components/ratingAverageCard";
 
 
 
@@ -145,15 +146,16 @@ export default function Home(){
                 <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
                   <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} />
                   <OrderCountCard vendorIds={selectedVendors} dateRange={dateRange} />
+                  <RatingAverageCard vendorIds={selectedVendors} dateRange={dateRange} />
                 </Grid>
                 <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
-                <div className="mt-6">
+                <div>
                   <RevenueChartCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
                 <div>
                   <OrderChartCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
-                <div className="mt-6">
+                <div>
                   <TopItemChartCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
                 <div>
