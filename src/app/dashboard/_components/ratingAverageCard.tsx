@@ -104,7 +104,7 @@ const RatingAverageCard = (RevenueCardProps: TopItemCardProps) => {
 
   return (
     <Card>
-      <Text>⌀ Rating (Gestern)</Text>
+      <Text>Durschnitt letzte 30 Tage Rating</Text>
       <Metric>{
         display_data.avg_rating
       }</Metric>

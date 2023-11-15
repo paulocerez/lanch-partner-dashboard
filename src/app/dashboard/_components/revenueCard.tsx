@@ -81,7 +81,7 @@ const getTotalGMVQuery = gql`
       <Text>Umsatz</Text>
       <Metric>{
         vendorIds.length > 0 ?
-        data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate.sum.gmv + "€" 
+        parseFloat(data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate.sum.gmv || "0").toLocaleString() + "€" 
         :
           "Wähle Restaurants"
       }</Metric>

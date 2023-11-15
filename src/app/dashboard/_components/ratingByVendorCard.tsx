@@ -132,7 +132,7 @@ const RatingByVendorCard = (RevenueCardProps: TopItemCardProps) => {
   )
 
   return (
-    <Card className="max-w-xs">
+    <Card className="max-w">
                         <Title>Ratings letzte 30 Tage</Title>
                   <Flex className="mt-4">
                     <Text>

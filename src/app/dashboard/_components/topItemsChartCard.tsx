@@ -136,7 +136,7 @@ query getTopItemsQuery(
   )
 
   return (
-    <Card className="max-w-xs">
+    <Card className="max-w">
                         <Title>Top Seller</Title>
                   <Flex className="mt-4">
                     <Text>
