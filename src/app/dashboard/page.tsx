@@ -14,7 +14,6 @@ import {
   TabGroup,
   TabPanel,
   TabPanels,
-  BarChart,
   Flex,
   Bold,
   BarList,
@@ -27,6 +26,7 @@ import RevenueCard from "./_components/revenueCard";
 import OrderCountCard from "./_components/orderCountCard";
 import RevenueChartCard from "./_components/revenueChartCard";
 import OrderChartCard from "./_components/orderChartCard";
+import TopItemChartCard from "./_components/topItemsChartCard";
 
 
 
@@ -153,18 +153,7 @@ export default function Home(){
                   <OrderChartCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
                 <div className="mt-6">
-                  <Card>
-                  <Title>Top Seller</Title>
-                  <Flex className="mt-4">
-                    <Text>
-                      <Bold>Item</Bold>
-                    </Text>
-                    <Text>
-                      <Bold>Verkäufe</Bold>
-                    </Text>
-                  </Flex>
-                  <BarList data={itemsSoled} className="mt-2" />
-                  </Card>
+                  <TopItemChartCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
                 </Grid>
               </TabPanel>
