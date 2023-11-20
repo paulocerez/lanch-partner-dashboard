@@ -3,20 +3,13 @@
 import HeaderComponent from "./_components/header";
 import FilterBarComponent from "./_components/filterBar";
 
-import { redirect } from "next/navigation"
 import {
-  Card,
   Grid,
-  Title,
-  Text,
   Tab,
   TabList,
   TabGroup,
   TabPanel,
   TabPanels,
-  Flex,
-  Bold,
-  BarList,
   DateRangePickerValue
 } from "@tremor/react";
 
@@ -31,42 +24,12 @@ import RatingByVendorCard from "./_components/ratingByVendorCard";
 import RatingAverageCard from "./_components/ratingAverageCard";
 
 
-
-
-const itemsSoled = [
-  {
-    name: "Pizza",
-    value: 456,   
-  },
-  {
-    name: "Pasta",
-    value: 321,
-  },
-  {
-    name: "Burger",
-    value: 234,
-  },
-  {
-    name: "Chicken",
-    value: 123,
-  },
-  {
-    name: "Fries",
-    value: 89,
-  },
-  {
-    name: "Rolls",
-    value: 78,
-  },
-  {
-    name: "Waffel",
-    value: 45,
-  },
-  {
-    name: "Drinks",
-    value: 12,
-  },
-];
+export enum OrderPortal {
+  "LIEFERANDO" = "Lieferando",
+  "UBER" = "Uber Eats",
+  "WOLT" = "Wolt",
+  "LANCH" = "Lanch Webshop"
+}
 
 export default function Home(){
   // const session = useSession({
@@ -117,7 +80,7 @@ export default function Home(){
   // }
 
 
-
+  const order_portals = [OrderPortal.LIEFERANDO, OrderPortal.UBER, OrderPortal.WOLT, OrderPortal.LANCH];
 
   return (
     // <div>
@@ -163,13 +126,31 @@ export default function Home(){
                 </div>
                 </Grid>
               </TabPanel>
-              <TabPanel>
-                <div className="mt-6">
-                  <Card>
-                    <div className="h-96" />
-                  </Card>
-                </div>
-              </TabPanel>
+
+              {order_portals.map((order_portal) => (
+                <TabPanel key={order_portal}>
+                  <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
+                    <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
+                    <OrderCountCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
+                    <RatingAverageCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
+                  </Grid>
+                  <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
+                    <div>
+                      <RevenueChartCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
+                    </div>
+                    <div>
+                      <OrderChartCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
+                    </div>
+                    <div>
+                      <TopItemChartCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
+                    </div>
+                    <div>
+                      <RatingByVendorCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
+                    </div>
+                  </Grid>
+                </TabPanel>
+              ))}
+                      
             </TabPanels>
           </TabGroup>
         </div>

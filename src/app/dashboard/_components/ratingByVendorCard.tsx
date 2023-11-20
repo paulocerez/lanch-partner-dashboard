@@ -87,6 +87,13 @@ const RatingByVendorCard = (RevenueCardProps: TopItemCardProps) => {
 
   const { vendorIds, dateRange, order_portal } = RevenueCardProps;
 
+  let order_portal_list: string[];
+
+  if (!order_portal) {
+    order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+  } else {
+    order_portal_list = order_portal;
+  }
 
 
   const getRatingsQuery = gql`
@@ -106,6 +113,7 @@ const RatingByVendorCard = (RevenueCardProps: TopItemCardProps) => {
       _vendor_ids: vendorIds,
       _fromDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 8)),
       _toDate: dateRange?.to ? dateRange.to.toISOString().split('T')[0] : new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1)),
+      _order_source_names: order_portal_list
       // Other variables can be added here
     },
   });
