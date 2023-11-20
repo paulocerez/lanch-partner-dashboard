@@ -24,7 +24,7 @@ import RatingByVendorCard from "./_components/ratingByVendorCard";
 import RatingAverageCard from "./_components/ratingAverageCard";
 
 
-export enum OrderPortal {
+enum OrderPortal {
   "LIEFERANDO" = "Lieferando",
   "UBER" = "Uber Eats",
   "WOLT" = "Wolt",
