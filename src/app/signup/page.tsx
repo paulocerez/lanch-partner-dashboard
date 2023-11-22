@@ -12,13 +12,50 @@ export default function Signup() {
   const router = useRouter();
 
   const signup = () => {
+    console.log("signup started");
     createUserWithEmailAndPassword(auth, signupEmail, signupPassword).catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
+    }).then((res) => {
+      console.log("regestrieung");
+
+      const admin_secret = "fFdgywmUUJRaiKLn2FVzNKbHW1nBtH81fpFjc1bRIE0JbxFN7CE0X3PpbM11wQ6J";
+      const url = "https://eternal-leech-72.hasura.app/v1/graphql";
+      const query = `mutation($user_id_firebase: String!, $userEmail: String) {
+        insert_user(objects: [{
+          user_id_firebase: $user_id_firebase, email: $userEmail, last_seen: "now()"
+        }], on_conflict: {constraint: user_pkey, update_columns: [last_seen, email]}
+        ) {
+          affected_rows
+        }
+      }`;
+
+      const variables = { user_id_firebase: res?.user.uid, userEmail: res?.user.email };
+
+      fetch(url, {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+          "x-hasura-admin-secret": admin_secret,
+        },
+        body: JSON.stringify({
+          query: query,
+          variables: variables,
+        })
+      })
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, ':', errorMessage);
     }).then(() => {
-      router.push('/');
-    });
+      console.log("redirect after successfull signup");
+      router.push('/dashboard');
+    });;
+    
+    
+
   };
 
   return (
@@ -47,7 +84,7 @@ export default function Signup() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <div className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email
@@ -112,7 +149,7 @@ export default function Signup() {
                 Regestrieren
               </button>
             </div>
-          </form>
+          </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Zurück zum Login?{' '}

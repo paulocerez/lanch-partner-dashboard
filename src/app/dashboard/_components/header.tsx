@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Image from 'next/image';
 import {
@@ -5,9 +6,23 @@ import {
   Title
 } from "@tremor/react";
 
+
 const HeaderComponent = () => {
+
   const signOut = () => {
     // Add your sign out logic here
+    console.log("signing out")
+    //Add the cookie to the browser
+    fetch("/api/logout", {
+      method: "POST",
+    }).then((response) => {
+      if (response.status === 200) {
+        //router.push("/login");
+        console.log("logged out")
+      }
+    });
+    
+
   };
 
   return (
