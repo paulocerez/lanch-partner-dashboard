@@ -13,7 +13,7 @@ import {
   DateRangePickerValue
 } from "@tremor/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import RevenueCard from "./_components/revenueCard";
 import OrderCountCard from "./_components/orderCountCard";
@@ -22,6 +22,9 @@ import OrderChartCard from "./_components/orderChartCard";
 import TopItemChartCard from "./_components/topItemsChartCard";
 import RatingByVendorCard from "./_components/ratingByVendorCard";
 import RatingAverageCard from "./_components/ratingAverageCard";
+
+import { auth } from "@/firebase/config"
+import { User, onAuthStateChanged } from "firebase/auth";
 
 
 enum OrderPortal {
@@ -38,6 +41,8 @@ export default function Home(){
   //     redirect("/login");
   //   },
   // });
+
+  console.log( "AUTHuser",auth.currentUser)
 
 
   // state management 
@@ -69,15 +74,21 @@ export default function Home(){
     setDateRange(newDateRange);
   }
 
-  // const [selectFromDate, setFromDate] = useState<Date>(new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 8)));
-  // const updateFromDate = (newFromDate: Date) => {
-  //   setFromDate(newFromDate);
-  // }
+  const [user, setUser] = useState<User | null>(null);
 
-  // const [selectToDate, setToDate] = useState<Date>(new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1)));
-  // const updateToDate = (newToDate: Date) => {
-  //   setToDate(newToDate);
-  // }
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        console.log("local dash: user is signed in");
+      } else {
+        console.log("local dash: nope nobody is signed in");
+      }
+    });
+  
+    // Cleanup function to unsubscribe when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
 
   const order_portals = [OrderPortal.LIEFERANDO, OrderPortal.UBER, OrderPortal.WOLT, OrderPortal.LANCH];
@@ -94,7 +105,13 @@ export default function Home(){
 
       <div className="">
         <HeaderComponent/>
-        <FilterBarComponent dateRange={dateRange} updateDateRange={updateDateRange} selectedVendors={selectedVendors} updateSelectedVendors={updateSelectedVendors}/>
+        <FilterBarComponent 
+          user={user}
+          dateRange={dateRange} 
+          updateDateRange={updateDateRange} 
+          selectedVendors={selectedVendors} 
+          updateSelectedVendors={updateSelectedVendors}
+          />
 
           <TabGroup className="mt-6">
             <TabList>
@@ -122,7 +139,6 @@ export default function Home(){
                   <TopItemChartCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
                 <div>
-                  <RatingByVendorCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
                 </Grid>
               </TabPanel>
@@ -145,7 +161,6 @@ export default function Home(){
                       <TopItemChartCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
                     </div>
                     <div>
-                      <RatingByVendorCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
                     </div>
                   </Grid>
                 </TabPanel>

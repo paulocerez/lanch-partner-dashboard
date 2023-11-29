@@ -8,7 +8,6 @@ import Spinner from './spinner';
 import { useRouter } from 'next/navigation'
 
 
-
 interface User {
   id: number;
   email: string;
