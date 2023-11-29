@@ -19,9 +19,6 @@ interface GetVendorListResponse {
   api_partner_dashboard_api_pd_food_order_items: Vendor[];
 }
 
-
-
-
 const getVendorList = gql`
   query getVendorList {
     api_partner_dashboard_api_pd_food_order_items(distinct_on: vendor_name, order_by: {vendor_name: asc}) {

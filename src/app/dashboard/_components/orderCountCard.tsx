@@ -12,13 +12,13 @@ const OrderCountCard = (RevenueCardProps: RevenueCardProps) => {
 
 const { vendorIds, dateRange, order_portal } = RevenueCardProps;
 
-if(dateRange?.from && dateRange?.to) {
-  console.log("dateRange dates")
-  console.log(dateRange.from)
-  console.log(dateRange.to)
-} else {
-  console.log(dateRange.selectValue)
-}
+// if(dateRange?.from && dateRange?.to) {
+//   console.log("dateRange dates")
+//   console.log(dateRange.from)
+//   console.log(dateRange.to)
+// } else {
+//   console.log(dateRange.selectValue)
+// }
 
 let order_portal_list: string[];
 

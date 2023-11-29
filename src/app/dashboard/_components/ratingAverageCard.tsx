@@ -35,14 +35,14 @@ function calculateRatingPerVendor(ratings: VendorRating[]): DisplayData {
   for (let rating of ratings) {
       let newRating = parseFloat(rating.average_rating_last_30_days);
       let newCount = parseFloat(rating.count_reviews_last_30_days);
-      console.log("newRating", newRating)
-      console.log("newCount", newCount)
+      // console.log("newRating", newRating)
+      // console.log("newCount", newCount)
 
       temp_rating = (temp_rating * count + newRating * newCount) / (count + newCount);
-      console.log("temp_rating", temp_rating)
+      // console.log("temp_rating", temp_rating)
       count = count + newCount;
   }
-  console.log("temp_rating", temp_rating)
+  // console.log("temp_rating", temp_rating)
   let avg_rating = temp_rating.toFixed(2)
 
   return {avg_rating, count};

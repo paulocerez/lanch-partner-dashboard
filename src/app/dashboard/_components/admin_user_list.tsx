@@ -24,8 +24,6 @@ interface GetUsersResponse {
 }
 
 
-
-
 const getUsersResponse = gql`
   query getUsers {
   user(distinct_on: user_id_firebase) {

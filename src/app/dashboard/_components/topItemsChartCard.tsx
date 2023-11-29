@@ -131,8 +131,6 @@ query getTopItemsQuery(
   
 
 
-
-
   if (loading) return (
     <Card>
       <Title>Top Seller</Title>
@@ -146,16 +144,16 @@ query getTopItemsQuery(
 
   return (
     <Card className="max-w">
-                        <Title>Top Selling Products</Title>
-                  <Flex className="mt-4">
-                    <Text>
-                      <Bold>Item</Bold>
-                    </Text>
-                    <Text>
-                      <Bold>Verkäufe</Bold>
-                    </Text>
-                  </Flex>
-                  <BarList data={topItems.slice(0,10)} className="mt-2" />
+      <Title>Top Selling Products</Title>
+      <Flex className="mt-4">
+        <Text>
+          <Bold>Item</Bold>
+        </Text>
+        <Text>
+          <Bold>Verkäufe</Bold>
+        </Text>
+      </Flex>
+      <BarList data={topItems.slice(0,10)} className="mt-2" />
     </Card>
 
 

@@ -21,10 +21,10 @@ export async function middleware(request: NextRequest, response: NextResponse) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  return NextResponse.redirect(new URL("/login", request.url));
+  return NextResponse.next();
 }
 
 //Add your protected routes
 export const config = {
-  matcher: ["/"],
+  matcher: ["/", "/dashboard"],
 };

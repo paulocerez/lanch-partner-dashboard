@@ -35,6 +35,7 @@ export default function Signin() {
       console.log("signing in")
       //signed in
       const user = userCredential.user;
+      console.log(user.uid)
       fetch("/api/auth", {
         method: "POST",
         headers: {
@@ -42,7 +43,9 @@ export default function Signin() {
         },
       }).then((response) => {
         if (response.status === 200) {
+          
           router.push("/dashboard");
+
         }
       });
       // ..
