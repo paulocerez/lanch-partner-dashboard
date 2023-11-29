@@ -5,6 +5,8 @@ import { StatusOnlineIcon } from "@heroicons/react/outline";
 import { gql, useQuery } from "@apollo/client";
 import Spinner from './spinner';
 
+import { useRouter } from 'next/navigation'
+
 
 
 interface User {
@@ -39,6 +41,7 @@ const getUsersResponse = gql`
 `;
 
 const AdminUserList = () => {
+  const router = useRouter()
 
   // console.log(getTotalGMVQuery)
   const { loading, error, data } = useQuery<GetUsersResponse>(getUsersResponse, {
@@ -72,6 +75,7 @@ console.log(JSON.stringify(data?.user))
         <TableRow>
           <TableHeaderCell>Email</TableHeaderCell>
           <TableHeaderCell>Name</TableHeaderCell>
+          <TableHeaderCell>UserId</TableHeaderCell>
           <TableHeaderCell>Admin</TableHeaderCell>
           <TableHeaderCell>Active</TableHeaderCell>
           <TableHeaderCell>Last Seen</TableHeaderCell>
@@ -86,6 +90,9 @@ console.log(JSON.stringify(data?.user))
               <Text>{item?.name}</Text>
             </TableCell>
             <TableCell>
+              <Text>{item?.user_id_firebase}</Text>
+            </TableCell>
+            <TableCell>
               <Text>{item.is_admin ? "yes": "no"}</Text>
             </TableCell>
             <TableCell>
@@ -98,6 +105,7 @@ console.log(JSON.stringify(data?.user))
               <Button
                 className="flex items-center"
                 variant="secondary"
+                onClick={() => {router.push(`/admin/${item.id}`)}}
               > Edit Vendors
               </Button>
             </TableCell>

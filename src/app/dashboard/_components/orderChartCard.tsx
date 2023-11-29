@@ -121,7 +121,7 @@ interface GetGMVperDaiyResponse {
 } 
 
   // console.log(getTotalGMVQuery)
-  const { loading, error, data } = useQuery<GetGMVperDaiyResponse>(getGMVperDayQuery, {
+const { loading, error, data } = useQuery<GetGMVperDaiyResponse>(getGMVperDayQuery, {
     variables: {
       _vendor_ids: vendorIds,
       _fromDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 8)),
