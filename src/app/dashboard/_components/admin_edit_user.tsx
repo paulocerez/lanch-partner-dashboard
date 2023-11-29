@@ -5,6 +5,9 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import Spinner from './spinner';
 import SuccessMsg from './successMsg';
 
+import { auth } from "@/firebase/config"
+import { User, onAuthStateChanged } from 'firebase/auth';
+
 
 interface Vendor {
   vendor_id: string;
@@ -63,22 +66,45 @@ const removeVendorFromUser = gql`
 }
 `;
 
+interface AdminEditUserProps {
+  userID: string;
+}
 
 
+const AdminEditUser = (componentPops: AdminEditUserProps) => {
+  // const [user, setUser] = React.useState<User | null>(null);
 
-const AdminEditUser = () => {
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     // User is signed in, see docs for a list of available properties
+  //     // https://firebase.google.com/docs/reference/js/firebase.User
+  //     setUser(user)
+  //   } else {
+  //     // User is signed out
+  //     // ...
+  //     console.log("local: nope nobody is signed in");
+  //   }
+  // });
+  // console.log("AUTHHH", user?.uid)
+
   const [addTodo, { data, loading, error }] = useMutation(addVendorToUser);
   const [removeTodo, { data: dataRemove, loading: loadingRemove, error: errorRemove }] = useMutation(removeVendorFromUser);
 
   const clickhandler = (e: any) => {
     console.log(e.target.checked)
     console.log(e.target.id)
+    
+    console.log("user", componentPops.userID)
+
+
+
     // send update to server
     // if successfull trigger success msg
+
     if(e.target.checked) {
       console.log("add")
       addTodo({ variables: { 
-        _userID: "HOGNpF3wuCUAU0vhnlzZj3Wu2st2",
+        _userID: componentPops.userID,
         _vendorID: e.target.id
         } 
       });
@@ -86,7 +112,7 @@ const AdminEditUser = () => {
       // remove from user
       console.log("remove")
       removeTodo({ variables: { 
-        _userID: "HOGNpF3wuCUAU0vhnlzZj3Wu2st2",
+        _userID: componentPops.userID,
         _vendorID: e.target.id
         } 
       });
@@ -104,7 +130,7 @@ const AdminEditUser = () => {
 
   let { loading: loadingAssigned, error: errorAssigned, data: dataAssigned } = useQuery<getAssignedVendorsResponse>(getAssignedVendors, {
     variables: {
-      _userID: "HOGNpF3wuCUAU0vhnlzZj3Wu2st2"
+      _userID: componentPops.userID
     }
   });
 

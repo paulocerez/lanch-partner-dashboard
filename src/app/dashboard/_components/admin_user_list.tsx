@@ -105,7 +105,7 @@ console.log(JSON.stringify(data?.user))
               <Button
                 className="flex items-center"
                 variant="secondary"
-                onClick={() => {router.push(`/admin/${item.id}`)}}
+                onClick={() => {router.push(`/admin/${item.user_id_firebase}`)}}
               > Edit Vendors
               </Button>
             </TableCell>
