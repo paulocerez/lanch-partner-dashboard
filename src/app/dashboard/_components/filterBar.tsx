@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DatePicker } from './datepicker';
 import {
   DateRangePickerValue,
@@ -8,7 +8,7 @@ import {
 
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { User } from 'firebase/auth';
 
 // TODO filter here by permission for vendors
@@ -18,7 +18,6 @@ const getAllVendorsQuery = gql`
     $_countries: [String!] = ["DE"]
   ) {
     api_partner_dashboard_api_pd_food_orders(
-      limit: 100
       distinct_on: vendor_id
       order_by: { vendor_id: asc }
       where: { brand: { _in: $_brands }, country: { _in: $_countries } }
@@ -70,25 +69,30 @@ const FilterBarComponent = (filterBarPops: FilterBarProps) => {
   const { selectedVendors, updateSelectedVendors, dateRange, updateDateRange } = filterBarPops;
 
   const vendorlist = useSuspenseQuery<GetAllVendorsResponse>(getAllVendorsQuery);
-  const assignedVendors = useSuspenseQuery<getAssignedVendorsResponse>(getAssignedVendors,
+  // const assignedVendors = useSuspenseQuery<getAssignedVendorsResponse>(getAssignedVendors,
+  //   {
+  //     variables: {
+  //       _userID: filterBarPops.user?.uid || ""
+  //     }
+  //   });
+
+  const { loading, error, data: assignedVendors } = useQuery<getAssignedVendorsResponse>(getAssignedVendors,
     {
       variables: {
         _userID: filterBarPops.user?.uid || ""
       }
     });
 
-  React.useEffect(() => {
-
-
-
-    if (vendorlist?.data?.api_partner_dashboard_api_pd_food_orders) {
-      updateSelectedVendors(vendorlist.data.api_partner_dashboard_api_pd_food_orders
-        .filter((vendor) => {
-          return assignedVendors?.data?.vendors_of_user?.some((vendorOfUser) => vendorOfUser.vendor_id === vendor.vendor_id);
-        })
-        .map((vendor) => vendor.vendor_id));
-    }
-  }, []);
+    
+    useEffect(() => {
+      console.log("assigned", assignedVendors?.vendors_of_user);
+      if (assignedVendors?.vendors_of_user) {
+        const vendorIds = assignedVendors.vendors_of_user.map((vendor) => vendor.vendor_id);
+        updateSelectedVendors(vendorIds);
+      }
+    }, [assignedVendors]);
+    
+    console.log(vendorlist?.data?.api_partner_dashboard_api_pd_food_orders)
 
   return (
     <div>
@@ -103,7 +107,7 @@ const FilterBarComponent = (filterBarPops: FilterBarProps) => {
           >
             {vendorlist?.data?.api_partner_dashboard_api_pd_food_orders
             .filter((vendor) => {
-              return assignedVendors?.data?.vendors_of_user?.some((vendorOfUser) => vendorOfUser.vendor_id === vendor.vendor_id);
+              return assignedVendors?.vendors_of_user?.some((vendorOfUser) => vendorOfUser.vendor_id === vendor.vendor_id);
             })
             .map(
               (vendor) => (
