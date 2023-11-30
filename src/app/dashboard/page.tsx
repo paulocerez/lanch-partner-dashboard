@@ -31,7 +31,11 @@ enum OrderPortal {
   "LIEFERANDO" = "Lieferando",
   "UBER" = "Uber Eats",
   "WOLT" = "Wolt",
-  "LANCH" = "Lanch Webshop"
+  "LANCH" = "Lanch Webshop",
+  "POS" = "FH Store",
+  "restablo" = "Restablo",
+  "Lieferservice.de" = "Lieferservice.de",
+  "Foodpanda" = "Foodpanda",
 }
 
 export default function Home(){
