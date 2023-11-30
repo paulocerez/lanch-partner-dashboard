@@ -4,14 +4,18 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { auth } from '../firebase';
 import Image from 'next/image';
+import Spinner from '../dashboard/_components/spinner';
 
 export default function Signup() {
   const [signupEmail, setEmail] = useState('');
   const [signupPassword, setPassword] = useState('');
   const [passwordAgain, setPasswordAgain] = useState('');
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
 
   const signup = () => {
+    setLoading(true);
     console.log("signup started");
     createUserWithEmailAndPassword(auth, signupEmail, signupPassword).catch((error) => {
       const errorCode = error.code;
@@ -46,10 +50,12 @@ export default function Signup() {
       })
     })
     .catch((error) => {
+      setLoading(false);
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, ':', errorMessage);
     }).then(() => {
+      setLoading(false);
       console.log("redirect after successfull signup");
       router.push('/dashboard');
     });;
@@ -58,16 +64,27 @@ export default function Signup() {
 
   };
 
+  if (loading) return (
+    <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
+    <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="flex justify-center">
+        <Image
+          src="/lanch_logo_with_text.png"
+          alt="LANCH Logo"
+          width="150"
+          height="150"
+        />
+      </div> 
+      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+        Regestrieren
+      </h2>
+    </div>
+    <Spinner />
+    </div>
+    )
+
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="flex justify-center">

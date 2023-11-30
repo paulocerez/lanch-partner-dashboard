@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getRedirectResult, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
+import Spinner from '../dashboard/_components/spinner';
 
 export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
   //   getRedirectResult(auth).then(async (userCred) => {
@@ -28,9 +30,8 @@ export default function Signin() {
   //     });
   //   });
   // }, []);
-
   function signIn(email: string, password:string) {
-
+    setLoading(true);
     signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
       console.log("signing in")
       //signed in
@@ -43,7 +44,8 @@ export default function Signin() {
         },
       }).then((response) => {
         if (response.status === 200) {
-          
+          //setLoading(false);
+          console.log("pushing to dashboard")
           router.push("/dashboard");
 
         }
@@ -51,11 +53,31 @@ export default function Signin() {
       // ..
     })
     .catch((error) => { 
+      setLoading(false);
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
     });
   }
+
+  if (loading) return (
+    <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="flex justify-center">
+            <Image
+              src="/lanch_logo_with_text.png"
+              alt="LANCH Logo"
+              width="150"
+              height="150"
+            />
+          </div> 
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            Sign in to your account
+          </h2>
+        </div>
+        <Spinner />
+    </div>
+  )
 
   return (
     <>
@@ -82,6 +104,7 @@ export default function Signin() {
           </h2>
         </div>
 
+        
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="space-y-6">
             <div>
