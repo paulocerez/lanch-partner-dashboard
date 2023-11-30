@@ -120,7 +120,7 @@ query getRatingsQuery(
 
   return (
     <Card>
-      <Text>Externes Rating letze 30 Tage</Text>
+      <Text>Aktuelles Rating</Text>
       <Metric>{
         display_data.avg_rating
       }</Metric>
