@@ -25,6 +25,7 @@ import RatingAverageCard from "./_components/ratingAverageCard";
 
 import { auth } from "@/firebase/config"
 import { User, onAuthStateChanged } from "firebase/auth";
+import AOVCard from "./_components/AOVCard";
 
 
 enum OrderPortal {
@@ -130,6 +131,7 @@ export default function Home(){
                 <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
                   <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} />
                   <OrderCountCard vendorIds={selectedVendors} dateRange={dateRange} />
+                  <AOVCard vendorIds={selectedVendors} dateRange={dateRange}/>
                   <RatingAverageCard vendorIds={selectedVendors} dateRange={dateRange} />
                 </Grid>
                 <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
@@ -143,6 +145,7 @@ export default function Home(){
                   <TopItemChartCard vendorIds={selectedVendors} dateRange={dateRange}/>
                 </div>
                 <div>
+                  
                 </div>
                 </Grid>
               </TabPanel>
