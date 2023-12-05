@@ -2,6 +2,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ApolloWrapper } from "./ApolloWrapper";
+import { Analytics } from '@vercel/analytics/react';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +24,7 @@ export default function RootLayout({
       <ApolloWrapper>
 
           {children}
-
+          <Analytics />
       </ApolloWrapper>
       </body>
     </html>
