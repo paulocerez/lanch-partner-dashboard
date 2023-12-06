@@ -3,8 +3,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ApolloWrapper } from "./ApolloWrapper";
 import { Analytics } from '@vercel/analytics/react';
-import GoogleAnalytics from './googleAnalytics';
-import Head from 'next/head';
 import Script from 'next/script';
 
 
