@@ -22,7 +22,7 @@ export default function Signup() {
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
     }).then((res) => {
-      console.log("regestrieung");
+      console.log("registering");
 
       const admin_secret = "fFdgywmUUJRaiKLn2FVzNKbHW1nBtH81fpFjc1bRIE0JbxFN7CE0X3PpbM11wQ6J";
       const url = "https://eternal-leech-72.hasura.app/v1/graphql";

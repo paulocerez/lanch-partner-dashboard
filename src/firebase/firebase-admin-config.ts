@@ -8,8 +8,6 @@ const serviceAccount = {
   privateKey: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),
 };
 
-console.log("ENV", JSON.stringify(serviceAccount));
-
 const firebaseAdminConfig = {
   credential: cert(serviceAccount),
 };

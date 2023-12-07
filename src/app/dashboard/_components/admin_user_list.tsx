@@ -48,7 +48,7 @@ const AdminUserList = () => {
   //console.log(data?.api_partner_dashboard_api_pd_food_orders_daily)
     // console.log()
 
-console.log(JSON.stringify(data?.user))
+//console.log(JSON.stringify(data?.user))
 
   if (loading) return (
     <Card>

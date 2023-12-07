@@ -85,14 +85,14 @@ const FilterBarComponent = (filterBarPops: FilterBarProps) => {
 
     
     useEffect(() => {
-      console.log("assigned", assignedVendors?.vendors_of_user);
+      //console.log("assigned", assignedVendors?.vendors_of_user);
       if (assignedVendors?.vendors_of_user) {
         const vendorIds = assignedVendors.vendors_of_user.map((vendor) => vendor.vendor_id);
         updateSelectedVendors(vendorIds);
       }
     }, [assignedVendors]);
     
-    console.log(vendorlist?.data?.api_partner_dashboard_api_pd_food_orders)
+    //console.log(vendorlist?.data?.api_partner_dashboard_api_pd_food_orders)
 
   return (
     <div>

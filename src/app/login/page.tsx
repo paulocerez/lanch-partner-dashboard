@@ -36,7 +36,7 @@ export default function Signin() {
       console.log("signing in")
       //signed in
       const user = userCredential.user;
-      console.log(user.uid)
+      //console.log(user.uid)
       fetch("/api/auth", {
         method: "POST",
         headers: {

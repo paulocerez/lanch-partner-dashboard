@@ -48,7 +48,7 @@ export default function Home(){
   //   },
   // });
 
-  console.log( "AUTHuser",auth.currentUser)
+  //console.log( "AUTHuser",auth.currentUser)
 
 
   // state management 

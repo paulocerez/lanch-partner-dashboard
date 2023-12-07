@@ -88,10 +88,10 @@ const AdminEditUser = (componentPops: AdminEditUserProps) => {
   const [removeTodo, { data: dataRemove, loading: loadingRemove, error: errorRemove }] = useMutation(removeVendorFromUser);
 
   const clickhandler = (e: any) => {
-    console.log(e.target.checked)
-    console.log(e.target.id)
+    // console.log(e.target.checked)
+    // console.log(e.target.id)
     
-    console.log("user", componentPops.userID)
+    // console.log("user", componentPops.userID)
 
 
 

@@ -15,7 +15,7 @@ export const loginWithEmailAndPassword = async (
       password
     );
     const user = userCredential.user;
-    console.log("Logged in user:", user);
+    console.log("Logged in user:");
     return user;
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {

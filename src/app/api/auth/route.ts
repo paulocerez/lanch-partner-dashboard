@@ -5,7 +5,7 @@ import { cookies, headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  console.log("GET request", request);
+  //console.log("GET request", request);
   const session = cookies().get("session")?.value || "";
   //Validate if the cookie exist in the request
   if (!session) {
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest, response: NextResponse) {
-  console.log("POST request", request);
+  //console.log("POST request", request);
   const authorization = headers().get("Authorization");
 
   if (authorization?.startsWith("Bearer ")) {
