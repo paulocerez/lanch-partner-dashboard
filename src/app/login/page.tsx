@@ -162,7 +162,7 @@ export default function Signin() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Neu hier?{' '}
             <button onClick={() => router.push('signup')} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Regestrieren
+              Registrieren
             </button>
           </p>
         </div>
