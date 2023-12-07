@@ -26,6 +26,7 @@ import RatingAverageCard from "./_components/ratingAverageCard";
 import { auth } from "@/firebase/config"
 import { User, onAuthStateChanged } from "firebase/auth";
 import AOVCard from "./_components/AOVCard";
+import LatestRatingCard from "./_components/latestRatingCard";
 
 
 enum OrderPortal {
@@ -132,7 +133,7 @@ export default function Home(){
                   <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} />
                   <OrderCountCard vendorIds={selectedVendors} dateRange={dateRange} />
                   <AOVCard vendorIds={selectedVendors} dateRange={dateRange}/>
-                  <RatingAverageCard vendorIds={selectedVendors} dateRange={dateRange} />
+                  <LatestRatingCard vendorIds={selectedVendors} dateRange={dateRange} />
                 </Grid>
                 <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
                 <div>
@@ -155,7 +156,8 @@ export default function Home(){
                   <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
                     <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
                     <OrderCountCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
-                    <RatingAverageCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
+                    <AOVCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]}/>
+                    <LatestRatingCard vendorIds={selectedVendors} dateRange={dateRange} order_portal={[order_portal]} />
                   </Grid>
                   <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
                     <div>
