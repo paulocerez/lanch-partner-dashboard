@@ -90,7 +90,7 @@ const getTotalGMVQuery = gql`
 
   return (
     <Card>
-      <Text>Bestellungen</Text>
+      <Text>Anz. Bestellungen</Text>
       <Metric>{parseFloat(data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate?.count || "0").toLocaleString()}</Metric>
     </Card>
   )
