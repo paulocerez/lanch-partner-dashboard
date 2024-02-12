@@ -39,20 +39,16 @@ npm run dev
 - dbt: Data transformation tool in data warehouses.
 
 ## CI/CD
-- 
+- waiting for Tobi
 
 
 ## Data
 
 ### BigQuery
+
 - Accessing data from LANCH's data warehouse about food orders and vendor data
-
-
 - Data transformation using dbt here to process data before queries:
 https://github.com/trycrumz/data-transformations/blob/main/models/reporting/api_partner_dashboard/api_pd_vendor_food_ratings.sql
-
-
-
 
 
 ### Google Cloud Platform
@@ -60,9 +56,3 @@ https://github.com/trycrumz/data-transformations/blob/main/models/reporting/api_
 
 
 ## Outlook
-
-
-
-```console
-go run github.com/gowebly/gowebly/v2@latest create
-```

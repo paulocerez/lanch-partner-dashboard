@@ -1,5 +1,5 @@
   // some mock data
-  const top_seller = [
+  const topSeller = [
     { name: "Pizza", value: 1230 },
     { name: "Chicken", value: 751 },
     { name: "Rolls", value: 471 },
@@ -164,7 +164,6 @@ const revenueData = [
     Wolt: 5700,
   },
 ];
-const valueFormatter = (number:number) => Intl.NumberFormat("de").format(number).toString();
 
 const itemsSold = [
   {
@@ -201,4 +200,4 @@ const itemsSold = [
   },
 ];
 
-export { top_seller, vendors, categories, revenueData, valueFormatter, itemsSoled }
+export { topSeller, vendors, categories, revenueData, itemsSold }

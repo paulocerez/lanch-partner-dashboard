@@ -1,7 +1,7 @@
 'use client';
 
-import HeaderComponent from "./_components/header";
-import FilterBarComponent from "./_components/filterBar";
+import HeaderComponent from "./_components/dashboard-helpers/header";
+import FilterBarComponent from "./_components/dashboard-helpers/filterBar";
 
 import {
   Grid,
@@ -15,18 +15,18 @@ import {
 
 import { useEffect, useState } from "react";
 
-import RevenueCard from "./_components/revenueCard";
-import OrderCountCard from "./_components/orderCountCard";
-import RevenueChartCard from "./_components/revenueChartCard";
-import OrderChartCard from "./_components/orderChartCard";
-import TopItemChartCard from "./_components/topItemsChartCard";
-import RatingByVendorCard from "./_components/ratingByVendorCard";
-import RatingAverageCard from "./_components/ratingAverageCard";
+import RevenueCard from "./_components/metric-cards/revenueCard";
+import OrderCountCard from "./_components/metric-cards/orderCountCard";
+import RevenueChartCard from "./_components/metric-cards/revenueChartCard";
+import OrderChartCard from "./_components/metric-cards/orderChartCard";
+import TopItemChartCard from "./_components/metric-cards/topItemsChartCard";
+import RatingByVendorCard from "./_components/metric-cards/ratingByVendorCard";
+import RatingAverageCard from "./_components/metric-cards/ratingAverageCard";
 
 import { auth } from "@/firebase/config"
 import { User, onAuthStateChanged } from "firebase/auth";
-import AOVCard from "./_components/AOVCard";
-import LatestRatingCard from "./_components/latestRatingCard";
+import AOVCard from "./_components/metric-cards/AOVCard";
+import LatestRatingCard from "./_components/metric-cards/latestRatingCard";
 
 
 enum OrderPortal {
@@ -61,6 +61,10 @@ export default function Home(){
     from: new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 8)),
     to: new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1))
   });
+
+  console.log(dateRange)
+
+
   const updateDateRange = (newDateRange: DateRangePickerValue) => {
     if (newDateRange?.selectValue) {
        if (newDateRange.selectValue === "last_week") {
@@ -79,6 +83,8 @@ export default function Home(){
     }
     setDateRange(newDateRange);
   }
+
+  console.log(dateRange)
 
   const [user, setUser] = useState<User | null>(null);
 
@@ -106,8 +112,6 @@ export default function Home(){
     //   <button onClick={()=> signOut()}>Logout</button>
       
     // </div>
-    
-    
 
       <div className="">
         <HeaderComponent/>

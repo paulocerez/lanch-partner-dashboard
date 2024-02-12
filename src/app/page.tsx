@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from "@tremor/react";
-
 import Image from "next/image";
 import { redirect } from "next/navigation"
 import {
@@ -28,14 +27,7 @@ import {
 } from "@tremor/react";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { gql } from "@apollo/client";
-import * as data from "./data";
-
-
-
-
-
-
-
+import { topSeller, vendors, categories, revenueData, itemsSold } from './data';
 
 const query = gql`query getAllVendors($_brands: [String!] = ["Happy Slice", "Loco Chicken"], $_countries: [String!] = ["DE"]) {
   api_partner_dashboard_api_pd_food_orders(limit: 100, distinct_on: vendor_id, order_by: {vendor_id: asc}, where: {brand: {_in: $_brands}, country: {_in: $_countries}}) {
@@ -75,6 +67,8 @@ interface GetTotalGMVResponse {
     };
   };
 }
+
+const valueFormatter = (number:number) => Intl.NumberFormat("de").format(number).toString();
 
 export default function Home(){
   // const session = useSession({
@@ -183,7 +177,7 @@ export default function Home(){
                       <Bold>Verkäufe</Bold>
                     </Text>
                   </Flex>
-                  <BarList data={itemsSoled} className="mt-2" />
+                  <BarList data={itemsSold} className="mt-2" />
                   </Card>
                 </div>
                 </Grid>

@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, Title, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Text, Badge, Button, Tab } from '@tremor/react';
 
 import { gql, useMutation, useQuery } from "@apollo/client";
-import Spinner from './spinner';
-import SuccessMsg from './successMsg';
+import Spinner from '../dashboard-helpers/spinner';
+import SuccessMsg from '../dashboard-helpers/successMsg';
 
 import { auth } from "@/firebase/config"
 import { User, onAuthStateChanged } from 'firebase/auth';
@@ -96,7 +96,7 @@ const AdminEditUser = (componentPops: AdminEditUserProps) => {
 
 
     // send update to server
-    // if successfull trigger success msg
+    // if successful trigger success msg
 
     if(e.target.checked) {
       console.log("add")

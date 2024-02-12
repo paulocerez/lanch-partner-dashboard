@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getRedirectResult, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
-import Spinner from '../dashboard/_components/spinner';
+import Spinner from '../dashboard/_components/dashboard-helpers/spinner';
 
 export default function Signin() {
   const [email, setEmail] = useState('');

@@ -3,7 +3,7 @@ import { Card, Title, Table, TableHead, TableRow, TableHeaderCell, TableBody, Ta
 import { StatusOnlineIcon } from "@heroicons/react/outline";
 
 import { gql, useQuery } from "@apollo/client";
-import Spinner from './spinner';
+import Spinner from '../dashboard-helpers/spinner';
 
 import { useRouter } from 'next/navigation'
 
