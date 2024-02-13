@@ -2,7 +2,7 @@
 import { gql, useQuery,  } from "@apollo/client";
 import { BarChart, Bold, Card, DateRangePickerValue, Flex, List, ListItem, Metric, Text, Title, BarList } from "@tremor/react";
 import React from "react";
-import Spinner from "./spinner";
+import Spinner from "../dashboard-helpers/spinner";
 
 interface TopItemCardProps {
   vendorIds: string[];

@@ -1,8 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation'
 
-import HeaderComponent from "../../dashboard/_components/header";
-import AdminEditUser from '../../dashboard/_components/admin_edit_user';
+import HeaderComponent from "../../dashboard/_components/dashboard-helpers/header";
+import AdminEditUser from '../../dashboard/_components/admin/admin_edit_user';
 import { Button } from '@tremor/react';
 
 

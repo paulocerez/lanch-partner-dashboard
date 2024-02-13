@@ -2,7 +2,7 @@
 import { gql, useQuery,  } from "@apollo/client";
 import { BarChart, Bold, Card, DateRangePickerValue, Flex, List, ListItem, Metric, Text, Title, BarList } from "@tremor/react";
 import React from "react";
-import Spinner from "./spinner";
+import Spinner from "../dashboard-helpers/spinner";
 
 interface TopItemCardProps {
   vendorIds: string[];
@@ -88,7 +88,6 @@ query getTopItemsQuery(
   ) {
   api_partner_dashboard_api_pd_food_order_items_daily(
     where: {
-
       vendor_id: {
         _in: $_vendor_ids
         }, 
@@ -107,9 +106,7 @@ query getTopItemsQuery(
 }
 `;
 
-
-
-  // console.log(getTotalGMVQuery)
+// not showing the right data currently! still needs to be fixed timewise
   const { loading, error, data } = useQuery<GetTopItemsResponse>(getTopItemsQuery, {
     variables: {
       _vendor_ids: vendorIds,
@@ -119,9 +116,7 @@ query getTopItemsQuery(
       // Other variables can be added here
     },
   });
-  // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
-  //console.log(data?.api_partner_dashboard_api_pd_food_orders_daily)
-  // console.log()
+
 
   let topItems: TopItems[] = []
   if (data?.api_partner_dashboard_api_pd_food_order_items_daily) {

@@ -8,12 +8,9 @@ interface DatePickerProps {
   updateDateRange: (newDateRange: DateRangePickerValue) => void;
 }
 
-
-
 export function DatePicker(datePickerProbs: DatePickerProps) {
 
   const { dateRange, updateDateRange } = datePickerProbs;
-
 
   return (
     <DateRangePicker

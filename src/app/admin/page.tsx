@@ -1,7 +1,7 @@
 'use client';
 
-import HeaderComponent from "../dashboard/_components/header";
-import AdminUserList from "../dashboard/_components/admin_user_list";
+import HeaderComponent from "../dashboard/_components/dashboard-helpers/header";
+import AdminUserList from "../dashboard/_components/admin/admin_user_list";
 
 export default function Home(){
 
@@ -9,7 +9,6 @@ export default function Home(){
 
       <div className="">
         <HeaderComponent/>
-
         <AdminUserList/>
       </div>
 

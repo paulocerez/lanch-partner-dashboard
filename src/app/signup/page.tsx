@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { auth } from '../firebase';
 import Image from 'next/image';
-import Spinner from '../dashboard/_components/spinner';
+import Spinner from '../dashboard/_components/dashboard-helpers/spinner';
 
 export default function Signup() {
   const [signupEmail, setEmail] = useState('');

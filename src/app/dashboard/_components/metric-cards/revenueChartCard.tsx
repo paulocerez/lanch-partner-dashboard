@@ -2,7 +2,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { BarChart, Card, DateRangePickerValue, Text, Title } from "@tremor/react";
 import React from "react";
-import Spinner from "./spinner";
+import Spinner from "../dashboard-helpers/spinner";
 
 interface RevenueCardProps {
   vendorIds: string[];
@@ -35,9 +35,10 @@ function aggregateData(data: InputType[]): OutputType[] {
       }
 
       if (!aggregate[local_order_date][datum.order_source_name]) {
-          aggregate[local_order_date][datum.order_source_name] = datum.order_count;
+          aggregate[local_order_date][datum.order_source_name] = datum.total_gmv;
       } else {
-          aggregate[local_order_date][datum.order_source_name] = (parseFloat(aggregate[local_order_date][datum.order_source_name]) + parseFloat(datum.order_count)).toFixed(2).toString();
+          // Convert the total_gmv to a number, add the current total_gmv, then convert it back to a string
+          aggregate[local_order_date][datum.order_source_name] = (parseFloat(aggregate[local_order_date][datum.order_source_name]) + parseFloat(datum.total_gmv)).toFixed(2).toString();
       }
   });
 
@@ -61,7 +62,7 @@ function convertDateFormat(inputDate: string): string {
   return `${day}.${month}.${year}`;
 }
 
-const OrderChartCard = (RevenueCardProps: RevenueCardProps) => {
+const RevenueChartCard = (RevenueCardProps: RevenueCardProps) => {
 
   const { vendorIds, dateRange, order_portal } = RevenueCardProps;
 
@@ -72,6 +73,8 @@ const OrderChartCard = (RevenueCardProps: RevenueCardProps) => {
   } else {
     order_portal_list = order_portal;
   }
+
+// console.log(vendorIds)
 
 
   const getGMVperDayQuery = gql`
@@ -121,7 +124,7 @@ interface GetGMVperDaiyResponse {
 } 
 
   // console.log(getTotalGMVQuery)
-const { loading, error, data } = useQuery<GetGMVperDaiyResponse>(getGMVperDayQuery, {
+  const { loading, error, data } = useQuery<GetGMVperDaiyResponse>(getGMVperDayQuery, {
     variables: {
       _vendor_ids: vendorIds,
       _fromDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 8)),
@@ -132,7 +135,7 @@ const { loading, error, data } = useQuery<GetGMVperDaiyResponse>(getGMVperDayQue
   });
   // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
   //console.log(data?.api_partner_dashboard_api_pd_food_orders_daily)
-    // console.log()
+  // console.log()
 
   let revenueData: OutputType[] = []
   if (data?.api_partner_dashboard_api_pd_food_orders_daily) {
@@ -156,8 +159,14 @@ const { loading, error, data } = useQuery<GetGMVperDaiyResponse>(getGMVperDayQue
 
   return (
     <Card>
-    <Title>Orders</Title>
-    <Text>Orderanzahl nach Plattform (absolut)</Text>
+      <Title>Umsatz</Title>
+      <Text>Außenumsatz nach Plattform (relativ)</Text>
+    {/* <p>lol</p>
+    <p>
+      {
+        JSON.stringify(revenueData)
+      }
+    </p> */}
       <BarChart
         className="mt-4 h-80"
         data={revenueData}
@@ -166,10 +175,10 @@ const { loading, error, data } = useQuery<GetGMVperDaiyResponse>(getGMVperDayQue
         colors={["amber", "lime", "sky"]}
         valueFormatter={valueFormatter}
         stack={true}
-        relative={false}
+        relative={true}
       />
   </Card>
   )
 };
 
-export default OrderChartCard;
+export default RevenueChartCard;
