@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   }
 
   //Call the authentication endpoint
-  const responseAPI = await fetch(`${request.nextUrl.origin}/api/auth`, {
+  const responseAPI = await fetch(`${request.nextUrl.origin}/middleware/auth`, {
     headers: {
       Cookie: `session=${session?.value}`,
     },

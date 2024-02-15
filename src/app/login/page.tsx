@@ -37,7 +37,7 @@ export default function Signin() {
       //signed in
       const user = userCredential.user;
       //console.log(user.uid)
-      fetch("/api/auth", {
+      fetch("/middleware/auth", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${await userCredential.user.getIdToken()}`,

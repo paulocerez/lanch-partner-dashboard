@@ -7,6 +7,7 @@ import SuccessMsg from '../dashboard-helpers/successMsg';
 
 import { auth } from "@/firebase/config"
 import { User, onAuthStateChanged } from 'firebase/auth';
+import { get } from 'http';
 
 
 interface Vendor {
@@ -19,16 +20,6 @@ interface GetVendorListResponse {
   api_partner_dashboard_api_pd_food_order_items: Vendor[];
 }
 
-const getVendorList = gql`
-  query getVendorList {
-    api_partner_dashboard_api_pd_food_order_items(distinct_on: vendor_name, order_by: {vendor_name: asc}) {
-      vendor_id
-      vendor_name
-      vendor_region
-    }
-  }
-`;
-
 interface getAssignedVendorsResponse {
   vendors_of_user: VendorOfUser[];
 }
@@ -37,6 +28,19 @@ interface VendorOfUser {
   vendor_id: string;
   user_id: string;
 }
+
+
+const getVendorList = gql`
+  query getVendorList {
+    api_partner_dashboard_api_pd_food_order_items(distinct_on: vendor_id, order_by: {vendor_id: asc}) {
+      vendor_id
+      vendor_name
+      vendor_region
+    }
+  }
+`;
+
+
 
 const getAssignedVendors = gql`
   query getVendorList($_userID: String) {
@@ -122,6 +126,7 @@ const AdminEditUser = (componentPops: AdminEditUserProps) => {
     // no vars
   });
 
+  // console.log("dataVendorList", dataVendorList)
 
 
 
