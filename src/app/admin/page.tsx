@@ -22,29 +22,30 @@ export default function Admin() {
 
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  //   event.preventDefault();
   
-    // POST request to the server
-    const response = await fetch('/api/admin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ password }),
-    });
-    console.log(password)
+  //   // POST request to the server
+  //   const response = await fetch('/api/admin', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ password }),
+  //   });
+  //   console.log(password)
 
   
-    // Only attempt to parse the response body as JSON if the status is 200 OK
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Successful authentication")
-      setIsAuthenticated(true);
-    } else {
-      // For all other status codes, assume authentication failed
-      alert('Authentication failed');
-      console.log("Error during fetch: ", response.statusText)
-    }
+  //   // Only attempt to parse the response body as JSON if the status is 200 OK
+  //   if (response.ok) {
+  //     const data = await response.json();
+  //     console.log("Successful authentication")
+  //     setIsAuthenticated(true);
+  //   } else {
+  //     // For all other status codes, assume authentication failed
+  //     alert('Authentication failed');
+  //     setIsAuthenticated(false);
+  //     console.log("Error during fetch: ", response.statusText)
+  //   }
   };
 
   return (
