@@ -12,7 +12,7 @@ interface AuthResponse {
 export default function Admin() {
   // const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   // executes before content is rendered
   // if (password === 'partner-dashboard-2024') {
