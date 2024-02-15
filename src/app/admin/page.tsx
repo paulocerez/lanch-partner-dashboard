@@ -12,7 +12,7 @@ interface AuthResponse {
 export default function Admin() {
   // const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
   // executes before content is rendered
   // if (password === 'partner-dashboard-2024') {
@@ -38,7 +38,7 @@ export default function Admin() {
     // Only attempt to parse the response body as JSON if the status is 200 OK
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
+      console.log("Successful authentication")
       setIsAuthenticated(true);
     } else {
       // For all other status codes, assume authentication failed
@@ -50,7 +50,7 @@ export default function Admin() {
   return (
     <div>
       <HeaderComponent/>
-      {isAuthenticated ? (
+      {isAuthenticated && sessionStatus ? (
         <AdminUserList/>
       ) : (
         <div className='flex justify-center align-center items-center'>

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
+import { NextRequest, NextResponse } from 'next/server';
 
 dotenv.config();
 
