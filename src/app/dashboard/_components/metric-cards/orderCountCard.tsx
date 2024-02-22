@@ -30,8 +30,6 @@ if (!order_portal) {
 
 const getTotalGMVQuery = gql`
   query getTotalGMV(
-  $_brands: [String!] = ["Happy Slice", "Loco Chicken"], 
-  $_countries: [String!] = ["DE"], 
   $_vendor_ids: [String!] = ["DE_Berlin_0014"], 
   $_fromDate: Timestamp = "2023-09-15", 
   $_toDate: Timestamp = "2023-10-27",
@@ -39,8 +37,6 @@ const getTotalGMVQuery = gql`
 ) {
   api_partner_dashboard_api_pd_food_orders_aggregate(
     where: {
-      brand: { _in: $_brands }, 
-      country: { _in: $_countries },
       vendor_id: { _in: $_vendor_ids },
       order_source_name: { _in: $_order_source_names },
       ordered_at: { 

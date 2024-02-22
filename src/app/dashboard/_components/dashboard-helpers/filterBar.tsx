@@ -13,14 +13,10 @@ import { User } from 'firebase/auth';
 
 // TODO filter here by permission for vendors
 const getAllVendorsQuery = gql`
-  query getAllVendors(
-    $_brands: [String!] = ["Happy Slice", "Loco Chicken"]
-    $_countries: [String!] = ["DE"]
-  ) {
+  query getAllVendors {
     api_partner_dashboard_api_pd_food_orders(
       distinct_on: vendor_id
       order_by: { vendor_id: asc }
-      where: { brand: { _in: $_brands }, country: { _in: $_countries } }
     ) {
       vendor_id
       vendor_name

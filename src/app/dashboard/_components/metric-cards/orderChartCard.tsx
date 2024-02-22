@@ -76,7 +76,6 @@ const OrderChartCard = (RevenueCardProps: RevenueCardProps) => {
 
   const getGMVperDayQuery = gql`
 query getGMVperDay(
-    $_brands: [String!] = ["Happy Slice", "Loco Chicken"], 
     $_vendor_ids: [String!] = ["DE_Berlin_0014"], 
     $_fromDate: Date = "2023-09-15", 
     $_toDate: Date = "2023-10-27", 
@@ -84,9 +83,6 @@ query getGMVperDay(
   ) {
   api_partner_dashboard_api_pd_food_orders_daily(
     where: {
-      brand: {
-        _in: $_brands
-        },
       vendor_id: {
         _in: $_vendor_ids
         }, 
