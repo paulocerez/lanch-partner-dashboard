@@ -3,9 +3,10 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getRedirectResult, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '@/firebase/config';
+import { auth, analytics } from '@/firebase/config';
 import Spinner from '../dashboard/_components/dashboard-helpers/spinner';
-import { sendGAEvent } from '@next/third-parties/google'
+import { sendGAEvent } from '@next/third-parties/google';
+
 
 
 export default function Signin() {
@@ -49,7 +50,7 @@ export default function Signin() {
           //setLoading(false);
           console.log("pushing to dashboard")
           router.push("/dashboard");
-
+          sendGAEvent({ event: 'successfulLogin', value: email})
         }
       });
       // ..
