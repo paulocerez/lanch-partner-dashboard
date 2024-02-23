@@ -3,8 +3,10 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getRedirectResult, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase';
+import { auth } from '@/firebase/config';
 import Spinner from '../dashboard/_components/dashboard-helpers/spinner';
+import { sendGAEvent } from '@next/third-parties/google'
+
 
 export default function Signin() {
   const [email, setEmail] = useState('');

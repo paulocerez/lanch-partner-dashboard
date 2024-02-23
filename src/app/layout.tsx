@@ -4,11 +4,11 @@ import { Inter } from 'next/font/google'
 import { ApolloWrapper } from "./ApolloWrapper";
 import { Analytics } from '@vercel/analytics/react';
 import Script from 'next/script';
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 
-const inter = Inter({ subsets: ['latin'] })
 
-const GTM_ID = "G-TH36C8PKPK"
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'LANCH Partner Dashboard',
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
 
     <html lang="en" className="h-full bg-white">
-      <Script id="google-tag-manager" strategy="afterInteractive">
+      {/* <Script id="google-tag-manager" strategy="afterInteractive">
         {`
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -31,12 +31,13 @@ export default function RootLayout({
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','${GTM_ID}');
         `}
-    </Script>
+    </Script> */}
       <body className="h-full p-8">
       <ApolloWrapper>
 
           {children}
           <Analytics />
+          <GoogleAnalytics gaId="G-TH36C8PKPK" />
       </ApolloWrapper>
       </body>
   
