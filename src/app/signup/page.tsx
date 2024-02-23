@@ -2,7 +2,7 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { auth } from '../firebase';
+import { auth } from '@/firebase/config';
 import Image from 'next/image';
 import Spinner from '../dashboard/_components/dashboard-helpers/spinner';
 

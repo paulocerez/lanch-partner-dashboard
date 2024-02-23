@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { auth } from '../firebase';
+import { auth } from '@/firebase/config';
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
