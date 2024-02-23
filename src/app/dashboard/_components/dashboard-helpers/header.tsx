@@ -9,6 +9,7 @@ import {
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 
 const HeaderComponent = () => {
@@ -41,12 +42,14 @@ const HeaderComponent = () => {
 
   return (
     <div className="flex justify-between">
-      <div className="flex items-center">
+      <div className="flex items-center space-x-4">
         <Image src="/lanch_logo.png" alt="" width={30} height={30} />
         <Title>LANCH Dashboard</Title>
       </div>
-      
-      <Button onClick={doSignOut}>Logout</Button>
+      <div className='flex items-center space-x-8'>
+        <Link className="underline text-blue-600" href="https://tally.so/r/npBk6y">Feedback</Link>
+        <Button onClick={doSignOut}>Logout</Button>
+      </div>
     </div>
   );
 };
