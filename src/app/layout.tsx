@@ -34,7 +34,6 @@ export default function RootLayout({
     </Script> */}
       <body className="h-full p-8">
       <ApolloWrapper>
-
           {children}
           <Analytics />
           <GoogleAnalytics gaId={GTM_ID} />

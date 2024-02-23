@@ -91,10 +91,10 @@ const variables = {
   });
   // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
 
-  if (data) {
-    // console.log('Raw GMV:', data.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate.sum.gmv);
-    console.log("Date Range:", variables._fromDate, variables._toDate)
-  }
+  // if (data) {
+  //   // console.log('Raw GMV:', data.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate.sum.gmv);
+  //   console.log("Date Range:", variables._fromDate, variables._toDate)
+  // }
 
 
   if (loading) return (

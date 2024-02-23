@@ -27,6 +27,7 @@ import { auth } from "@/firebase/config"
 import { User, onAuthStateChanged } from "firebase/auth";
 import AOVCard from "./_components/metric-cards/AOVCard";
 import LatestRatingCard from "./_components/metric-cards/latestRatingCard";
+import GoogleAnalytics from "../(components)/GoogleAnalytics";
 
 
 enum OrderPortal {
@@ -62,9 +63,6 @@ export default function Home(){
     to: new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1))
   });
 
-  console.log(dateRange)
-
-
   const updateDateRange = (newDateRange: DateRangePickerValue) => {
     if (newDateRange?.selectValue) {
        if (newDateRange.selectValue === "last_week") {
@@ -83,8 +81,6 @@ export default function Home(){
     }
     setDateRange(newDateRange);
   }
-
-  console.log(dateRange)
 
   const [user, setUser] = useState<User | null>(null);
 
@@ -114,6 +110,7 @@ export default function Home(){
     // </div>
 
       <div className="">
+        <GoogleAnalytics />
         <HeaderComponent/>
         <FilterBarComponent 
           user={user}

@@ -6,6 +6,8 @@ import { getRedirectResult, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, analytics } from '@/firebase/config';
 import Spinner from '../dashboard/_components/dashboard-helpers/spinner';
 import { sendGAEvent } from '@next/third-parties/google';
+import { setGAUserId, trackGAEvent } from "../utils/google-analytics";
+import GoogleAnalytics from '../(components)/GoogleAnalytics';
 
 
 
@@ -39,7 +41,7 @@ export default function Signin() {
       console.log("signing in")
       //signed in
       const user = userCredential.user;
-      //console.log(user.uid)
+      setGAUserId(userCredential.user.uid);
       fetch("/middleware/auth", {
         method: "POST",
         headers: {
@@ -51,6 +53,7 @@ export default function Signin() {
           console.log("pushing to dashboard")
           router.push("/dashboard");
           sendGAEvent({ event: 'EmailAndPassword', value: user.email})
+          trackGAEvent("login", "successfulLogin", user.email as string)
         }
       });
     })
@@ -91,6 +94,7 @@ export default function Signin() {
         <body class="h-full">
         ```
       */}
+      <GoogleAnalytics />
       <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="flex justify-center">
@@ -99,7 +103,7 @@ export default function Signin() {
               alt="LANCH Logo"
               width="150"
               height="150"
-            />
+              />
           </div> 
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
@@ -122,7 +126,7 @@ export default function Signin() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                  />
               </div>
             </div>
 
@@ -146,7 +150,7 @@ export default function Signin() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                  />
               </div>
             </div>
 
@@ -155,7 +159,7 @@ export default function Signin() {
                 onClick={() => signIn(email, password)} 
                 disabled={!email || !password}
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
+                >
                 Einloggen
               </button>
             </div>
@@ -169,6 +173,6 @@ export default function Signin() {
           </p>
         </div>
       </div>
-    </>
+                </>
   )
 }
