@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import firebaseApp from "../config";
+import { firebaseApp } from "../config";
 
 const auth = getAuth(firebaseApp);
 

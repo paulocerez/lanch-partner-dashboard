@@ -1,5 +1,5 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import firebaseApp from "../config";
+import { firebaseApp } from "../config";
 import { FirebaseError } from "firebase/app";
 
 const auth = getAuth(firebaseApp);
