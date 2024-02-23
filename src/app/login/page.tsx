@@ -50,10 +50,9 @@ export default function Signin() {
           //setLoading(false);
           console.log("pushing to dashboard")
           router.push("/dashboard");
-          sendGAEvent({ event: 'successfulLogin', value: email})
+          sendGAEvent({ event: 'EmailAndPassword', value: user.email})
         }
       });
-      // ..
     })
     .catch((error) => { 
       setLoading(false);
