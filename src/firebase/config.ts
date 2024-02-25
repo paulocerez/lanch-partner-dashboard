@@ -9,7 +9,7 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 const firebaseApp =
@@ -25,9 +25,12 @@ const initAnalytics = async () => {
   }
 };
 
-if (typeof window !== 'undefined') {
-  initAnalytics().catch(error => {
-    console.error("An error occurred while initializing Firebase Analytics:", error);
+if (typeof window !== "undefined") {
+  initAnalytics().catch((error) => {
+    console.error(
+      "An error occurred while initializing Firebase Analytics:",
+      error
+    );
   });
 }
 
