@@ -10,7 +10,7 @@
     "version": "next --version"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.6",
+    "@apollo/client": "^3.9.5",
     "@apollo/experimental-nextjs-app-support": "^0.8.0",
     "@heroicons/react": "^1.0.6",
     "@next/third-parties": "^14.1.0",

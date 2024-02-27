@@ -30,7 +30,8 @@ function makeClient() {
     operation.setContext(({ headers }) => ({
       headers: {
         ...headers,
-        'x-hasura-admin-secret': 'fFdgywmUUJRaiKLn2FVzNKbHW1nBtH81fpFjc1bRIE0JbxFN7CE0X3PpbM11wQ6J', // Replace with your admin secret key
+        "x-hasura-admin-secret":
+          "fFdgywmUUJRaiKLn2FVzNKbHW1nBtH81fpFjc1bRIE0JbxFN7CE0X3PpbM11wQ6J", // Replace with your admin secret key
       },
     }));
 
@@ -52,10 +53,7 @@ function makeClient() {
             authLink,
             httpLink,
           ])
-        : ApolloLink.from([
-          authLink, 
-          httpLink
-        ]),
+        : ApolloLink.from([authLink, httpLink]),
   });
 }
 
