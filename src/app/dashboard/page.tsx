@@ -11,9 +11,11 @@ import {
   TabPanel,
   TabPanels,
   DateRangePickerValue,
+  Title,
 } from "@tremor/react";
 
 import { useEffect, useState } from "react";
+// import { withApollo } from "../lib/withApollo";
 
 import RevenueCard from "./_components/metric-cards/revenueCard";
 import OrderCountCard from "./_components/metric-cards/orderCountCard";
@@ -41,7 +43,7 @@ enum OrderPortal {
   "Foodpanda" = "Foodpanda",
 }
 
-export default function Home() {
+const Home = () => {
   // const session = useSession({
   //   required: true,
   //   onUnauthenticated() {
@@ -147,8 +149,10 @@ export default function Home() {
           <Tab>Wolt</Tab>
           <Tab>LANCH Shop</Tab>
         </TabList>
+         
         <TabPanels>
           <TabPanel>
+            <Title>Revenue Numbers</Title>
             <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
               <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} />
               <OrderCountCard
@@ -180,12 +184,15 @@ export default function Home() {
                   dateRange={dateRange}
                 />
               </div>
-              <div></div>
+              <div>
+                <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
+              </div>
             </Grid>
           </TabPanel>
 
           {order_portals.map((order_portal) => (
             <TabPanel key={order_portal}>
+              <Title>Revenue Numbers</Title>
               <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
                 <RevenueCard
                   vendorIds={selectedVendors}
@@ -230,6 +237,15 @@ export default function Home() {
                     order_portal={[order_portal]}
                   />
                 </div>
+              </Grid>
+              <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
+                <div>
+                  <ReviewCard
+                    vendorIds={selectedVendors}
+                    dateRange={dateRange}
+                    order_portal={[order_portal]}
+                  />
+                </div>
                 <div>
                   <ReviewCard
                     vendorIds={selectedVendors}
@@ -244,6 +260,8 @@ export default function Home() {
       </TabGroup>
     </div>
   );
-}
+};
 
+export default Home;
+// export default withApollo()(Home);
 Home.requireAuth = true;

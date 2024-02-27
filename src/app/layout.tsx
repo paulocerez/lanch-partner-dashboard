@@ -1,27 +1,25 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { ApolloWrapper } from "./ApolloWrapper";
-import { Analytics } from '@vercel/analytics/react';
-import Script from 'next/script';
-import { GoogleAnalytics } from '@next/third-parties/google'
-
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { ApolloWrapper } from "./lib/ApolloWrapper";
+import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const GTM_ID = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID!;
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'LANCH Partner Dashboard',
-  description: 'Dashboard for LANCH Partners',
-}
+  title: "LANCH Partner Dashboard",
+  description: "Dashboard for LANCH Partners",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-
     <html lang="en" className="h-full bg-white">
       {/* <Script id="google-analytics" strategy="afterInteractive">
         {`
@@ -33,13 +31,12 @@ export default function RootLayout({
         `}
     </Script> */}
       <body className="h-full p-8">
-      <ApolloWrapper>
+        <ApolloWrapper>
           {children}
           <Analytics />
           <GoogleAnalytics gaId={GTM_ID} />
-      </ApolloWrapper>
+        </ApolloWrapper>
       </body>
-  
     </html>
-  )
+  );
 }

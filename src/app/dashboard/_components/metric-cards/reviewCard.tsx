@@ -10,6 +10,7 @@ import {
   TableHeaderCell,
   TableRow,
   Text,
+  Title,
 } from "@tremor/react";
 import React from "react";
 import Spinner from "../dashboard-helpers/spinner";
@@ -57,12 +58,22 @@ const ReviewCard = (ReviewCardProps: ReviewCardProps) => {
     ) {
       api_partner_dashboard_api_pd_food_orders(
         where: {
-          vendor_id: { _in: $_vendor_ids }
-          order_source_name: { _in: $_order_source_names }
-          ordered_at: { _gte: $_fromDate, _lte: $_toDate }
+          _and: [
+            { vendor_id: { _in: $_vendor_ids } }
+            { ordered_at: { _gte: $_fromDate, _lte: $_toDate } }
+            { order_source_name: { _in: $_order_source_names } }
+            {
+              _or: [
+                { rating_delivery: { _is_null: false } }
+                { rating_food: { _is_null: false } }
+                { review_customer_comment: { _is_null: false } }
+              ]
+            }
+          ]
         }
       ) {
         order_id
+        ordered_at
         rating_delivery
         rating_food
         review_customer_comment
@@ -134,7 +145,8 @@ const ReviewCard = (ReviewCardProps: ReviewCardProps) => {
 
   return (
     <Card>
-      <Text>Reviews</Text>
+      <Title>Reviews & Ratings</Title>
+      <Text></Text>
       <div className="mx-auto max-w-2xl">
         <Table>
           <TableHead>
