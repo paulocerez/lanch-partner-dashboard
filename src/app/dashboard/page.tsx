@@ -17,19 +17,19 @@ import {
 import { useEffect, useState } from "react";
 // import { withApollo } from "../lib/withApollo";
 
-import RevenueCard from "./_components/metric-cards/revenueCard";
-import OrderCountCard from "./_components/metric-cards/orderCountCard";
-import RevenueChartCard from "./_components/metric-cards/revenueChartCard";
-import ReviewCard from "./_components/metric-cards/reviewCard";
-import OrderChartCard from "./_components/metric-cards/orderChartCard";
-import TopItemChartCard from "./_components/metric-cards/topItemsChartCard";
-import RatingByVendorCard from "./_components/metric-cards/ratingByVendorCard";
-import RatingAverageCard from "./_components/metric-cards/ratingAverageCard";
+import RevenueCard from "./_components/metric-cards/metrics/revenueCard";
+import OrderCountCard from "./_components/metric-cards/metrics/orderCountCard";
+import RevenueChartCard from "./_components/metric-cards/metrics/revenueChartCard";
+import ReviewCard from "./_components/metric-cards/reviews/reviewCard";
+import OrderChartCard from "./_components/metric-cards/metrics/orderChartCard";
+import TopItemChartCard from "./_components/metric-cards/metrics/topItemsChartCard";
+import RatingByVendorCard from "./_components/metric-cards/reviews/ratingByVendorCard";
+import RatingAverageCard from "./_components/metric-cards/reviews/ratingAverageCard";
 
 import { auth } from "@/firebase/config";
 import { User, onAuthStateChanged } from "firebase/auth";
-import AOVCard from "./_components/metric-cards/AOVCard";
-import LatestRatingCard from "./_components/metric-cards/latestRatingCard";
+import AOVCard from "./_components/metric-cards/metrics/AOVCard";
+import LatestRatingCard from "./_components/metric-cards/reviews/latestRatingCard";
 import GoogleAnalytics from "../(components)/GoogleAnalytics";
 
 enum OrderPortal {
@@ -183,6 +183,12 @@ const Home = () => {
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
                 />
+              </div>
+            </Grid>
+            <Title className="mt-6">Performance</Title>
+            <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
+              <div>
+                <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
               </div>
               <div>
                 <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
