@@ -120,12 +120,12 @@ const RevenueChartCard = (RevenueCardProps: RevenueCardProps) => {
     brand: string;
   }
 
-  interface GetGMVperDaiyResponse {
+  interface GetGMVperDailyResponse {
     api_partner_dashboard_api_pd_food_orders_daily: GMVperDay[];
   }
 
   // console.log(getTotalGMVQuery)
-  const { loading, error, data } = useQuery<GetGMVperDaiyResponse>(
+  const { loading, error, data } = useQuery<GetGMVperDailyResponse>(
     getGMVperDayQuery,
     {
       variables: {

@@ -153,7 +153,7 @@ const Home = () => {
          
         <TabPanels>
           <TabPanel>
-            <Title>Revenue Numbers</Title>
+            <Title>Umsatz</Title>
             <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
               <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} />
               <OrderCountCard
@@ -191,18 +191,18 @@ const Home = () => {
               <div>
                 <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
               </div>
-              {/* <div>
+              <div>
                 <RatingGraphCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
                 />
-              </div> */}
+              </div>
             </Grid>
           </TabPanel>
 
           {order_portals.map((order_portal) => (
             <TabPanel key={order_portal}>
-              <Title>Revenue Numbers</Title>
+              <Title>Umsatz</Title>
               <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
                 <RevenueCard
                   vendorIds={selectedVendors}
@@ -248,6 +248,7 @@ const Home = () => {
                   />
                 </div>
               </Grid>
+              <Title className="mt-6">Performance</Title>
               <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
                 <div>
                   <ReviewCard

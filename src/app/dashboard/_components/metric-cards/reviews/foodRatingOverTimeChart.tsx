@@ -13,19 +13,29 @@ import Spinner from "../../dashboard-helpers/spinner";
 interface RatingCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
-  order_portal?: string[];
+  orderPortal?: string[];
 }
 
 const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
-  const { vendorIds, dateRange, order_portal } = RatingCardProps;
+  const { vendorIds, dateRange, orderPortal } = RatingCardProps;
+  console.log(
+    "vendorIds:",
+    vendorIds,
+    "dateRange:",
+    dateRange,
+    "orderPortal:",
+    orderPortal
+  );
 
-  let order_portal_list: string[];
+  let orderPortalList: string[];
 
-  if (!order_portal) {
-    order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+  if (!orderPortal) {
+    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
   } else {
-    order_portal_list = order_portal;
+    orderPortalList = orderPortal;
   }
+  console.log("order_portal_list:", orderPortalList);
+
   const getWeeklyFoodOrderRatingsQuery = gql`
     query getWeeklyFoodOrderRatings(
       $_vendor_ids: [String!] = ["DE_Berlin_0014"]
@@ -61,15 +71,15 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
 
   // Define the types for your query response based on your schema
   interface RatingNode {
-    ordered_at: string;
-    rating_food: number;
+    orderedAt: string;
+    ratingFood: number;
   }
 
   interface GetWeeklyFoodOrderRatingsResponse {
     api_partner_dashboard_api_pd_food_orders_aggregate: {
       aggregate: {
         avg: {
-          rating_food: number;
+          ratingFood: number;
         };
       };
       nodes: RatingNode[];
@@ -87,21 +97,39 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
         _toDate: dateRange?.to
           ? dateRange.to.toISOString().split("T")[0]
           : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
-        _order_source_names: order_portal_list,
+        _order_source_names: orderPortalList,
       },
     }
   );
 
-  if (loading) return <Spinner />;
-  if (error) return <Text>Error loading data</Text>;
+  console.log("loading:", loading, "error:", error, "data:", data);
+
+  if (error) {
+    console.error("Error loading data:", error);
+    return <Text>Error loading data</Text>;
+  }
 
   // Process data to fit LineChart's data structure
   const chartData =
     data?.api_partner_dashboard_api_pd_food_orders_aggregate.nodes.map(
       (node) => ({
-        date: node.ordered_at, // Convert to a proper format if necessary
-        Rating: node.rating_food,
+        date: node.orderedAt, // Convert to a proper format if necessary
+        Rating: node.ratingFood,
       })
+    );
+
+  console.log("chartData:", chartData);
+
+  if (loading)
+    return (
+      <Card>
+        <Text>Ratings</Text>
+        <br></br>
+        <br></br>
+        <Spinner />
+        <br></br>
+        <br></br>
+      </Card>
     );
 
   return (
@@ -111,7 +139,7 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
         className="mt-4 h-80"
         data={chartData || []}
         index="date"
-        categories={["Rating"]}
+        categories={["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"]}
         colors={["blue"]}
         yAxisWidth={30}
         // Add any additional props you need for the LineChart
