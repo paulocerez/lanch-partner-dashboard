@@ -1,6 +1,13 @@
-'use client'
+"use client";
 import { gql, useSuspenseQuery } from "@apollo/client";
-import { BarChart, Card, DateRangePickerValue, Metric, Text, Title } from "@tremor/react";
+import {
+  BarChart,
+  Card,
+  DateRangePickerValue,
+  Metric,
+  Text,
+  Title,
+} from "@tremor/react";
 import React from "react";
 
 interface RevenueCardProps {
@@ -9,44 +16,43 @@ interface RevenueCardProps {
   order_portal?: string[];
 }
 const GmvGraphCard = (RevenueCardProps: RevenueCardProps) => {
+  const { vendorIds, dateRange, order_portal } = RevenueCardProps;
 
-const { vendorIds, dateRange, order_portal } = RevenueCardProps;
+  let order_portal_list: string[];
 
-let order_portal_list: string[];
-
-if (!order_portal) {
-  order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
-} else {
-  order_portal_list = order_portal;
-}
-
-
-const getGmvPerDayQuery = gql`
-  query getGMVperDay(
-    $_vendor_ids: [String!] = ["DE_Berlin_0014"], 
-    $_fromDate: Date = "2023-09-15", 
-    $_toDate: Date = "2023-10-27", 
-    $_order_source_names: [String!] = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"]
-  ) {
-  api_partner_dashboard_api_pd_food_orders_daily(
-    where: {
-      vendor_id: {
-        _in: $_vendor_ids
-      }, 
-      order_source_name: {
-        _in: $_order_source_names
-      }, 
-      order_date: {
-        _gte: $_fromDate, _lte: $_toDate
-      }}) {
-    total_gmv
-    order_count
-    order_source_name
-    order_date
-    brand
+  if (!order_portal) {
+    order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+  } else {
+    order_portal_list = order_portal;
   }
-}
-`;
+
+  const getGmvPerDayQuery = gql`
+    query getGMVperDay(
+      $_vendor_ids: [String!] = ["DE_Berlin_0014"]
+      $_fromDate: Date = "2023-09-15"
+      $_toDate: Date = "2023-10-27"
+      $_order_source_names: [String!] = [
+        "Lieferando"
+        "Uber Eats"
+        "Wolt"
+        "Lanch Webshop"
+      ]
+    ) {
+      api_partner_dashboard_api_pd_food_orders_daily(
+        where: {
+          vendor_id: { _in: $_vendor_ids }
+          order_source_name: { _in: $_order_source_names }
+          order_date: { _gte: $_fromDate, _lte: $_toDate }
+        }
+      ) {
+        total_gmv
+        order_count
+        order_source_name
+        order_date
+        brand
+      }
+    }
+  `;
 
   interface GetGmvPerDayResponse {
     api_partner_dashboard_api_pd_food_orders_daily: {
@@ -58,18 +64,23 @@ const getGmvPerDayQuery = gql`
     };
   }
 
-
-
   // console.log(getTotalGMVQuery)
-  const getGmvPerDayresponse = useSuspenseQuery<GetGmvPerDayResponse>(getGmvPerDayQuery, {
-    variables: {
-      _vendor_ids: vendorIds,
-      _fromDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 8)),
-      _toDate: dateRange?.to ? dateRange.to.toISOString().split('T')[0] : new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 1)),
-      _order_source_names: order_portal_list
-      // Other variables can be added here
-    },
-  });
+  const getGmvPerDayresponse = useSuspenseQuery<GetGmvPerDayResponse>(
+    getGmvPerDayQuery,
+    {
+      variables: {
+        _vendor_ids: vendorIds,
+        _fromDate: dateRange?.from
+          ? dateRange.from.toISOString().split("T")[0]
+          : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
+        _toDate: dateRange?.to
+          ? dateRange.to.toISOString().split("T")[0]
+          : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
+        _order_source_names: order_portal_list,
+        // Other variables can be added here
+      },
+    }
+  );
   // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
 
   return (
@@ -89,7 +100,6 @@ const getGmvPerDayQuery = gql`
       /> */}
     </Card>
 
-
     // <Card>
     //   <Text>Umsatz</Text>
     //   <Metric>{
@@ -99,8 +109,7 @@ const getGmvPerDayQuery = gql`
     //       "Wähle Restaurants"
     //   }</Metric>
     // </Card>
-
-  )
+  );
 };
 
 export default GmvGraphCard;

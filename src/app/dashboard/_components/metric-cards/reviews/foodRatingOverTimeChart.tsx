@@ -1,193 +1,123 @@
-// import { gql, useQuery } from "@apollo/client";
-// import {
-//   BarChart,
-//   Card,
-//   DateRangePickerValue,
-//   LineChart,
-//   Text,
-//   Title,
-// } from "@tremor/react";
-// import React from "react";
-// import Spinner from "../dashboard-helpers/spinner";
+"use client";
+import { gql, useQuery } from "@apollo/client";
+import {
+  LineChart,
+  Card,
+  DateRangePickerValue,
+  Text,
+  Title,
+} from "@tremor/react";
+import React from "react";
+import Spinner from "../../dashboard-helpers/spinner";
 
-// interface RevenueCardProps {
-//   vendorIds: string[];
-//   dateRange: DateRangePickerValue;
-//   order_portal?: string[];
-// }
+interface RatingCardProps {
+  vendorIds: string[];
+  dateRange: DateRangePickerValue;
+  order_portal?: string[];
+}
 
-// type InputType = {
-//   total_gmv: string;
-//   order_count: string;
-//   order_source_name: string;
-//   order_date: string;
-//   brand: string;
-// };
-// const valueFormatter = (number: number) =>
-//   Intl.NumberFormat("de").format(number).toString();
+const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
+  const { vendorIds, dateRange, order_portal } = RatingCardProps;
 
-// type OutputType = {
-//   date: string;
-//   [key: string]: string;
-// };
+  let order_portal_list: string[];
 
-// function aggregateData(data: InputType[]): OutputType[] {
-//   const aggregate: { [key: string]: { [key: string]: string } } = {};
+  if (!order_portal) {
+    order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+  } else {
+    order_portal_list = order_portal;
+  }
+  const getWeeklyFoodOrderRatingsQuery = gql`
+    query getWeeklyFoodOrderRatings(
+      $_vendor_ids: [String!] = ["DE_Berlin_0014"]
+      $_fromDate: Date = "2023-09-15"
+      $_toDate: Date = "2023-10-27"
+      $_order_source_names: [String!] = [
+        "Lieferando"
+        "Uber Eats"
+        "Wolt"
+        "Lanch Webshop"
+      ]
+    ) {
+      api_partner_dashboard_api_pd_food_orders_aggregate(
+        where: {
+          vendor_id: { _eq: $_vendor_ids }
+          order_source_name: { _in: $_order_source_names }
+          ordered_at: { _gte: $_fromDate, _lte: $_toDate }
+          rating_food: { _is_null: false }
+        }
+      ) {
+        aggregate {
+          avg {
+            rating_food
+          }
+        }
+        nodes {
+          ordered_at
+          rating_food
+        }
+      }
+    }
+  `;
 
-//   data.forEach((datum) => {
-//     const local_order_date = convertDateFormat(datum.order_date);
-//     if (!aggregate[local_order_date]) {
-//       aggregate[local_order_date] = {};
-//     }
+  // Define the types for your query response based on your schema
+  interface RatingNode {
+    ordered_at: string;
+    rating_food: number;
+  }
 
-//     if (!aggregate[local_order_date][datum.order_source_name]) {
-//       aggregate[local_order_date][datum.order_source_name] = datum.total_gmv;
-//     } else {
-//       // Convert the total_gmv to a number, add the current total_gmv, then convert it back to a string
-//       aggregate[local_order_date][datum.order_source_name] = (
-//         parseFloat(aggregate[local_order_date][datum.order_source_name]) +
-//         parseFloat(datum.total_gmv)
-//       )
-//         .toFixed(2)
-//         .toString();
-//     }
-//   });
+  interface GetWeeklyFoodOrderRatingsResponse {
+    api_partner_dashboard_api_pd_food_orders_aggregate: {
+      aggregate: {
+        avg: {
+          rating_food: number;
+        };
+      };
+      nodes: RatingNode[];
+    };
+  }
 
-//   return Object.keys(aggregate).map((date) => {
-//     return { date: date, ...aggregate[date] };
-//   });
-// }
+  const { loading, error, data } = useQuery<GetWeeklyFoodOrderRatingsResponse>(
+    getWeeklyFoodOrderRatingsQuery,
+    {
+      variables: {
+        _vendor_ids: vendorIds,
+        _fromDate: dateRange?.from
+          ? dateRange.from.toISOString().split("T")[0]
+          : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
+        _toDate: dateRange?.to
+          ? dateRange.to.toISOString().split("T")[0]
+          : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
+        _order_source_names: order_portal_list,
+      },
+    }
+  );
 
-// function convertDateFormat(inputDate: string): string {
-//   // Create a new date object from the input string
-//   let date = new Date(inputDate);
+  if (loading) return <Spinner />;
+  if (error) return <Text>Error loading data</Text>;
 
-//   // Extract the day, month and year from the date object
-//   let day = String(date.getDate()).padStart(2, "0");
-//   let month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0 based in JavaScript
-//   let year = String(date.getFullYear()).slice(-2); // Get the last two digits of the year
+  // Process data to fit LineChart's data structure
+  const chartData =
+    data?.api_partner_dashboard_api_pd_food_orders_aggregate.nodes.map(
+      (node) => ({
+        date: node.ordered_at, // Convert to a proper format if necessary
+        Rating: node.rating_food,
+      })
+    );
 
-//   // Return the date in "dd.mm.yy" format
-//   return `${day}.${month}.${year}`;
-// }
+  return (
+    <Card>
+      <Title>Weekly Average Food Ratings</Title>
+      <LineChart
+        className="mt-4 h-80"
+        data={chartData || []}
+        index="date"
+        categories={["Rating"]}
+        colors={["blue"]}
+        yAxisWidth={30}
+        // Add any additional props you need for the LineChart
+      />
+    </Card>
+  );
+};
 
-// const RevenueChartCard = (RevenueCardProps: RevenueCardProps) => {
-//   const { vendorIds, dateRange, order_portal } = RevenueCardProps;
-
-//   let order_portal_list: string[];
-
-//   if (!order_portal) {
-//     order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
-//   } else {
-//     order_portal_list = order_portal;
-//   }
-
-//   // console.log(vendorIds)
-
-//   const getGMVperDayQuery = gql`
-//     query getWeeklyFoodOrderRatings(
-//       $_vendor_ids: [String!] = ["DE_Berlin_0014"]
-//       $_fromDate: Date = "2023-09-15"
-//       $_toDate: Date = "2023-10-27"
-//       $_order_source_names: [String!] = [
-//         "Lieferando"
-//         "Uber Eats"
-//         "Wolt"
-//         "Lanch Webshop"
-//       ]
-//     ) {
-//       api_partner_dashboard_api_pd_food_orders_aggregate(
-//         where: {
-//           vendor_id: { _in: $_vendor_ids }
-//           ordered_at: { _gte: $_fromDate, _lte: $_toDate }
-//           order_source_name: { _in: $_order_source_names }
-//           rating_food: { _is_null: false }
-//         }
-//       ) {
-//         aggregate {
-//           avg {
-//             rating_food
-//           }
-//           count
-//         }
-//         nodes {
-//           ordered_at
-//           rating_food
-//         }
-//       }
-//     }
-//   `;
-
-//   interface FoodRatingOverTime {
-//     ordered_at: string;
-// 	rating_food: string;
-//   }
-
-//   interface GetFoodRatingOverTime {
-//     api_partner_dashboard_api_pd_food_orders_aggregate: FoodRatingOverTime[];
-//   }
-
-//   // console.log(getTotalGMVQuery)
-//   const { loading, error, data } = useQuery<GetFoodRatingOverTime>(
-//     getGMVperDayQuery,
-//     {
-//       variables: {
-//         _vendor_ids: vendorIds,
-//         _fromDate: dateRange?.from
-//           ? dateRange.from.toISOString().split("T")[0]
-//           : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
-//         _toDate: dateRange?.to
-//           ? dateRange.to.toISOString().split("T")[0]
-//           : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
-//         _order_source_names: order_portal_list,
-//         // Other variables can be added here
-//       },
-//     }
-//   );
-//   // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
-//   //console.log(data?.api_partner_dashboard_api_pd_food_orders_daily)
-//   // console.log()
-
-//   let reviewData: OutputType[] = [];
-//   if (data?.api_partner_dashboard_api_pd_food_orders_daily) {
-//     reviewData = aggregateData(
-//       data?.api_partner_dashboard_api_pd_food_orders_daily
-//     );
-//   }
-
-//   if (loading)
-//     return (
-//       <Card>
-//         <Text>Umsatz</Text>
-//         <br></br>
-//         <br></br>
-//         <Spinner />
-//         <br></br>
-//         <br></br>
-//       </Card>
-//     );
-
-//   return (
-//     <Card>
-//       <Title>Ratings, Reviews</Title>
-//       <Text>Reviews per Plattform</Text>
-//       {/* <p>lol</p>
-//     <p>
-//       {
-//         JSON.stringify(revenueData)
-//       }
-//     </p> */}
-//       <LineChart
-//         className="mt-4 h-72"
-//         data={reviewData}
-//         index="date"
-//         yAxisWidth={65}
-//         categories={["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"]}
-//         colors={["amber", "lime", "sky"]}
-//         valueFormatter={valueFormatter}
-//       />
-//     </Card>
-//   );
-// };
-
-// export default RevenueChartCard;
+export default RatingGraphCard;

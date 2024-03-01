@@ -31,6 +31,7 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import AOVCard from "./_components/metric-cards/metrics/AOVCard";
 import LatestRatingCard from "./_components/metric-cards/reviews/latestRatingCard";
 import GoogleAnalytics from "../(components)/GoogleAnalytics";
+import RatingGraphCard from "./_components/metric-cards/reviews/foodRatingOverTimeChart";
 
 enum OrderPortal {
   "LIEFERANDO" = "Lieferando",
@@ -190,9 +191,12 @@ const Home = () => {
               <div>
                 <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
               </div>
-              <div>
-                <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
-              </div>
+              {/* <div>
+                <RatingGraphCard
+                  vendorIds={selectedVendors}
+                  dateRange={dateRange}
+                />
+              </div> */}
             </Grid>
           </TabPanel>
 
@@ -252,13 +256,13 @@ const Home = () => {
                     order_portal={[order_portal]}
                   />
                 </div>
-                <div>
-                  <ReviewCard
+                {/* <div>
+                  <RatingGraphCard
                     vendorIds={selectedVendors}
                     dateRange={dateRange}
                     order_portal={[order_portal]}
                   />
-                </div>
+                </div> */}
               </Grid>
             </TabPanel>
           ))}
