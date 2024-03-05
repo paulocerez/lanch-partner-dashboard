@@ -1,8 +1,6 @@
 <div align="center">
 
-<Image>
-
-</Image>
+<a href="https://partner.lanch.com/login"><img src="../partner-dashboard/public/logo.svg"></a>
 
 # LANCH Partner Dashboard
 
