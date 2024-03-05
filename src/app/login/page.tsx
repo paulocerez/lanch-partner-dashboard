@@ -13,6 +13,7 @@ export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loginError, setIsLogginError] = useState("");
   const router = useRouter();
 
   // useEffect(() => {
@@ -60,8 +61,20 @@ export default function Signin() {
       .catch((error) => {
         setLoading(false);
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        const loginError = error.message;
+        if (
+          errorCode === "auth/wrong-password" ||
+          errorCode === "auth/user-not-found"
+        ) {
+          setIsLogginError(
+            "Die Kombination aus E-Mail und Passwort ist ungültig."
+          );
+        } else {
+          setIsLogginError(
+            "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut."
+          );
+        }
+        console.log(errorCode, loginError);
       });
   }
 
@@ -126,7 +139,11 @@ export default function Signin() {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setIsLogginError("");
+                  }}
                   required
                   className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -156,7 +173,11 @@ export default function Signin() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setIsLogginError("");
+                  }}
                   required
                   className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -172,6 +193,9 @@ export default function Signin() {
                 Einloggen
               </button>
             </div>
+            {loginError && (
+              <p className="text-red-500 text-sm mt-2">{loginError}</p>
+            )}
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
