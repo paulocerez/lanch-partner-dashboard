@@ -191,12 +191,12 @@ const Home = () => {
               <div>
                 <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
               </div>
-              <div>
+              {/* <div>
                 <RatingGraphCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
                 />
-              </div>
+              </div> */}
             </Grid>
           </TabPanel>
 

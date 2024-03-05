@@ -1,14 +1,15 @@
 <div align="center">
 
-<a href="https://gowebly.org" target="_blank" title="Go to the Gowebly CLI website"><img width="196px" alt="gowebly logo" src="https://raw.githubusercontent.com/gowebly/.github/main/images/gowebly-logo.svg"></a>
+<Image>
 
-<a name="readme-top"></a>
+</Image>
 
 # LANCH Partner Dashboard
 
 The partner dashboard enables LANCH partners to track their most important operations metrics by accessing data from LANCH's data warehouse and other sources. Features include:
 
 ## ✨ Features
+
 - Tracking most important sales and cost metrics
 - Insights on LANCH's marketing measures
 - ...
@@ -18,6 +19,7 @@ The partner dashboard enables LANCH partners to track their most important opera
 ## ⚡️ Quick start
 
 How to run the dashboard locally:
+
 - Fork the repo, install dependencies using "npm install" (or any other package manager)
 - Rename .env.example into .env and get needed properties.
 - Run locally by writing:
@@ -26,8 +28,8 @@ How to run the dashboard locally:
 npm run dev
 ```
 
-
 ## 🚀 Tech Stack
+
 - Next.js, TypeScript: Built using Next.js and TS, including Next.js API Routes (App Router File system).
 - Firebase: Authentication and user management provider.
 - GraphQL/Apollo Client: Query language for APIs + server-side runtime for Query execution. Apollo Client as a state management library for JS, enabling management of local and remote data with GraphQL + usage of GraphQL queries and mutations for data operations.
@@ -39,8 +41,8 @@ npm run dev
 - dbt: Data transformation tool in data warehouses.
 
 ## CI/CD
-- waiting for Tobi
 
+- waiting for Tobi
 
 ## Data
 
@@ -48,11 +50,10 @@ npm run dev
 
 - Accessing data from LANCH's data warehouse about food orders and vendor data
 - Data transformation using dbt here to process data before queries:
-https://github.com/trycrumz/data-transformations/blob/main/models/reporting/api_partner_dashboard/api_pd_vendor_food_ratings.sql
-
+  https://github.com/trycrumz/data-transformations/blob/main/models/reporting/api_partner_dashboard/api_pd_vendor_food_ratings.sql
 
 ### Google Cloud Platform
-- 
 
+-
 
 ## Outlook
