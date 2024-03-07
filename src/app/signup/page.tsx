@@ -7,69 +7,73 @@ import Image from "next/image";
 import Spinner from "../dashboard/_components/dashboard-helpers/spinner";
 import { assertWrappingType } from "graphql";
 
+interface FirebaseError extends Error {
+  code?: string;
+}
+
 export default function Signup() {
+  const router = useRouter();
   const [signupEmail, setEmail] = useState("");
   const [signupPassword, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [signupError, setIsSignupError] = useState("");
 
   const signup = async () => {
+    if (signupPassword !== passwordAgain) {
+      setIsSignupError("The passwords do not match.");
+      return;
+    }
     setLoading(true);
+    setIsSignupError("");
     console.log("signup started");
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      signupEmail,
-      signupPassword
-    )
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      })
-      .then((res) => {
-        console.log("registering");
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        signupEmail,
+        signupPassword
+      );
 
-        const admin_secret =
-          "fFdgywmUUJRaiKLn2FVzNKbHW1nBtH81fpFjc1bRIE0JbxFN7CE0X3PpbM11wQ6J";
-        const url = "https://eternal-leech-72.hasura.app/v1/graphql";
-        const query = `mutation($user_id_firebase: String!, $userEmail: String) {
-        insert_user(objects: [{
-          user_id_firebase: $user_id_firebase, email: $userEmail, last_seen: "now()"
-        }], on_conflict: {constraint: user_pkey, update_columns: [last_seen, email]}
-        ) {
-          affected_rows
-        }
-      }`;
+      const idToken = await userCredential.user.getIdToken();
 
-        const variables = {
-          user_id_firebase: res?.user.uid,
-          userEmail: res?.user.email,
-        };
-
-        fetch(url, {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-            "x-hasura-admin-secret": admin_secret,
-          },
-          body: JSON.stringify({
-            query: query,
-            variables: variables,
-          }),
-        });
-      })
-      .catch((error) => {
-        setLoading(false);
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, ":", errorMessage);
-      })
-      .then(() => {
-        setLoading(false);
-        console.log("redirect after successful signup");
-        router.push("/dashboard");
+      const response = await fetch("/api/signup", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
       });
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      const jwtToken = data.jwtToken;
+      router.push("/dashboard");
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+
+      switch (firebaseError.code) {
+        case "auth/weak-password":
+          setIsSignupError(
+            "The password is too weak. It must be 6 characters long or more."
+          );
+          break;
+        case "auth/email-already-in-use":
+          setIsSignupError(
+            "The email address is already in use by another account."
+          );
+          break;
+        case "auth/invalid-email":
+          setIsSignupError("The email address is not valid.");
+          break;
+        default:
+          setIsSignupError("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading)
@@ -189,6 +193,9 @@ export default function Signup() {
                 Registrieren
               </button>
             </div>
+            {signupError && (
+              <p className="text-red-500 text-sm mt-2">{signupError}</p>
+            )}
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">

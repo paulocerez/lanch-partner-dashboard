@@ -1,20 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import { headers } from "next/headers";
 
 export async function middleware(req: NextRequest) {
-  // Ensure you have HASURA_ADMIN_SECRET in your .env.local file
-  const adminSecret = process.env.HASURA_ADMIN_SECRET;
-  if (!adminSecret) {
-    throw new Error("HASURA_ADMIN_SECRET is not set");
-  }
-
   try {
+    const authHeader = headers().get("Authorization");
+
     const hasuraResponse = await fetch(
       "https://eternal-leech-72.hasura.app/v1/graphql",
       {
         method: "POST",
         headers: new Headers({
           "Content-Type": "application/json",
-          "x-hasura-admin-secret": adminSecret,
+          Authorization: authHeader || "",
         }),
         body: req.body,
       }

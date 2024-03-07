@@ -12,7 +12,7 @@ import {
 } from "@apollo/experimental-nextjs-app-support/ssr";
 
 // have a function to create a client for you
-const createApolloClient = () => {
+const createApolloClient = (authToken) => {
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
     uri: "/api/graphql",
@@ -29,41 +29,41 @@ const createApolloClient = () => {
     // get the authentication token from local storage if it exists
 
     // return the headers to the context so httpLink can read them
-    operation.setContext(({ headers }) => ({
+    const token = authToken ? `Bearer ${authToken}` : null;
+
+    operation.setContext({
       headers: {
-        ...headers,
-        "x-hasura-admin-secret":
-          "fFdgywmUUJRaiKLn2FVzNKbHW1nBtH81fpFjc1bRIE0JbxFN7CE0X3PpbM11wQ6J", // Replace with your admin secret key
+        Authorization: token,
       },
-    }));
+    });
 
     return forward(operation);
   });
 
-  return new NextSSRApolloClient({
-    // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
-    cache: new NextSSRInMemoryCache(),
-    link:
-      typeof window === "undefined"
-        ? ApolloLink.from([
-            // in a SSR environment, if you use multipart features like
-            // @defer, you need to decide how to handle these.
-            // This strips all interfaces with a `@defer` directive from your queries.
-            new SSRMultipartLink({
-              stripDefer: true,
-            }),
-            authLink,
-            httpLink,
-          ])
-        : ApolloLink.from([authLink, httpLink]),
-  });
+  //   return new NextSSRApolloClient({
+  //     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
+  //     cache: new NextSSRInMemoryCache(),
+  //     link:
+  //       typeof window === "undefined"
+  //         ? ApolloLink.from([
+  //             // in a SSR environment, if you use multipart features like
+  //             // @defer, you need to decide how to handle these.
+  //             // This strips all interfaces with a `@defer` directive from your queries.
+  //             new SSRMultipartLink({
+  //               stripDefer: true,
+  //             }),
+  //             authLink,
+  //             httpLink,
+  //           ])
+  //         : ApolloLink.from([authLink, httpLink]),
+  //   });
 };
 
 // you need to create a component to wrap your app in
-export function ApolloWrapper({ children }) {
+export function ApolloWrapper({ children, authToken }) {
+  const client = createApolloClient(authToken);
+
   return (
-    <ApolloNextAppProvider makeClient={makeClient}>
-      {children}
-    </ApolloNextAppProvider>
+    <ApolloNextAppProvider client={client}>{children}</ApolloNextAppProvider>
   );
 }

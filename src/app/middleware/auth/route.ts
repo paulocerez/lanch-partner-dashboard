@@ -33,7 +33,6 @@ export async function POST(request: NextRequest) {
 
     try {
       const decodedToken = await adminAuth.verifyIdToken(idToken);
-      console.log(decodedToken);
 
       if (decodedToken) {
         //Generate session cookie
@@ -49,7 +48,6 @@ export async function POST(request: NextRequest) {
           path: "/",
           sameSite: "strict",
         });
-        console.log(response);
         return response;
       }
     } catch (error) {
