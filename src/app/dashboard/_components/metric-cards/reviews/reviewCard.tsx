@@ -113,7 +113,7 @@ const ReviewCard = (ReviewCardProps: ReviewCardProps) => {
     // Other variables can be added here
   };
 
-  console.log("Query variables:", variables);
+  //   console.log("Query variables:", variables);
 
   const { loading, error, data } = useQuery<GetAllReviewsResponse>(
     getAllReviews,
@@ -123,9 +123,9 @@ const ReviewCard = (ReviewCardProps: ReviewCardProps) => {
     }
   );
 
-  console.log("Query loading:", loading);
-  console.log("Query error:", error);
-  console.log("Query data:", data);
+  //   console.log("Query loading:", loading);
+  //   console.log("Query error:", error);
+  //   console.log("Query data:", data);
 
   if (loading)
     return (

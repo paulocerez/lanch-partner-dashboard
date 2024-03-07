@@ -16,24 +16,6 @@ export default function Signin() {
   const [loginError, setIsLogginError] = useState("");
   const router = useRouter();
 
-  // useEffect(() => {
-  //   getRedirectResult(auth).then(async (userCred) => {
-  //     if (!userCred) {
-  //       return;
-  //     }
-
-  //     fetch("/api/auth", {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${await userCred.user.getIdToken()}`,
-  //       },
-  //     }).then((response) => {
-  //       if (response.status === 200) {
-  //         router.push("/dashboard");
-  //       }
-  //     });
-  //   });
-  // }, []);
   function signIn(email: string, password: string) {
     setLoading(true);
     signInWithEmailAndPassword(auth, email, password)
@@ -41,20 +23,25 @@ export default function Signin() {
         console.log("signing in");
         //signed in
         const user = userCredential.user;
+        const token = await userCredential.user.getIdToken();
         console.log(user);
         setGAUserId(userCredential.user.uid);
         fetch("/middleware/auth", {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${await userCredential.user.getIdToken()}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }).then((response) => {
           if (response.status === 200) {
             //setLoading(false);
             console.log("pushing to dashboard");
+            setLoading(false);
             router.push("/dashboard");
             sendGAEvent({ event: "EmailAndPassword", value: user.email });
             trackGAEvent("login", "successfulLogin", user.email as string);
+          } else {
+            throw new Error("Failed to log in");
           }
         });
       })

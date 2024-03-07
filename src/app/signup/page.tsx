@@ -5,6 +5,7 @@ import { useState } from "react";
 import { auth } from "@/firebase/config";
 import Image from "next/image";
 import Spinner from "../dashboard/_components/dashboard-helpers/spinner";
+import { assertWrappingType } from "graphql";
 
 export default function Signup() {
   const [signupEmail, setEmail] = useState("");
@@ -13,10 +14,14 @@ export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const signup = () => {
+  const signup = async () => {
     setLoading(true);
     console.log("signup started");
-    createUserWithEmailAndPassword(auth, signupEmail, signupPassword)
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      signupEmail,
+      signupPassword
+    )
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;

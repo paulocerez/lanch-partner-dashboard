@@ -1,53 +1,62 @@
 import { adminAuth } from "@/firebase/firebase-admin-config";
-
-// import { customInitApp } from "@/lib/firebase-admin-config";
-import { cookies, headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { cookies, headers } from "next/headers";
 
 export async function GET(request: NextRequest) {
-  //console.log("GET request", request);
-  const session = cookies().get("session")?.value || "";
-  //Validate if the cookie exist in the request
-  if (!session) {
-    return NextResponse.json({ isLogged: false }, { status: 401 });
+  const sessionCookie = cookies().get("session")?.value || "";
+  console.log(sessionCookie);
+  // Check if request comes with a session cookie
+  if (!sessionCookie) {
+    return new NextResponse(JSON.stringify({ isLogged: false }), {
+      status: 401,
+    });
   }
 
-  //Use Firebase Admin to validate the session cookie
-  const decodedClaims = await adminAuth.verifySessionCookie(session, true);
-
-  if (!decodedClaims) {
-    return NextResponse.json({ isLogged: false }, { status: 401 });
+  try {
+    // Use Firebase Admin to validate the session cookie
+    await adminAuth.verifySessionCookie(sessionCookie, true);
+    return new NextResponse(JSON.stringify({ isLogged: true }), {
+      status: 200,
+    });
+  } catch (error) {
+    return new NextResponse(JSON.stringify({ isLogged: false }), {
+      status: 401,
+    });
   }
-
-  return NextResponse.json({ isLogged: true }, { status: 200 });
 }
 
-export async function POST(request: NextRequest, response: NextResponse) {
-  //console.log("POST request", request);
+export async function POST(request: NextRequest) {
   const authorization = headers().get("Authorization");
 
   if (authorization?.startsWith("Bearer ")) {
     const idToken = authorization.split("Bearer ")[1];
-    const decodedToken = await adminAuth.verifyIdToken(idToken);
 
-    if (decodedToken) {
-      //Generate session cookie
-      const expiresIn = 60 * 60 * 24 * 5 * 1000;
-      const sessionCookie = await adminAuth.createSessionCookie(idToken, {
-        expiresIn,
-      });
-      const options = {
-        name: "session",
-        value: sessionCookie,
-        maxAge: expiresIn,
-        httpOnly: true,
-        secure: true,
-      };
+    try {
+      const decodedToken = await adminAuth.verifyIdToken(idToken);
+      console.log(decodedToken);
 
-      //Add the cookie to the browser
-      cookies().set(options);
+      if (decodedToken) {
+        //Generate session cookie
+        const expiresIn = 60 * 60 * 24 * 5 * 1000;
+        const sessionCookie = await adminAuth.createSessionCookie(idToken, {
+          expiresIn,
+        });
+        const response = new NextResponse(null);
+        response.cookies.set("session", sessionCookie, {
+          maxAge: expiresIn / 1000,
+          httpOnly: true,
+          secure: true,
+          path: "/",
+          sameSite: "strict",
+        });
+        console.log(response);
+        return response;
+      }
+    } catch (error) {
+      console.error("Failed to create session cookie: ", error);
+      return new NextResponse(null, { status: 401 });
     }
   }
 
-  return NextResponse.json({}, { status: 200 });
+  return new NextResponse(null, { status: 401 });
 }
