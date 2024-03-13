@@ -20,6 +20,8 @@ export async function POST(req: NextRequest) {
       const jwtToken = generateHasuraJWT(decodedToken.uid);
       console.log(jwtToken);
       return new NextResponse(JSON.stringify({ jwtToken }), { status: 200 });
+
+      //   returns Hasura JWT
     }
   } catch (error) {
     console.error(error);

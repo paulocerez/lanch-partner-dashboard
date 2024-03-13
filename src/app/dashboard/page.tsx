@@ -45,15 +45,6 @@ enum OrderPortal {
 }
 
 const Home = () => {
-  // const session = useSession({
-  //   required: true,
-  //   onUnauthenticated() {
-  //     redirect("/login");
-  //   },
-  // });
-
-  //console.log( "AUTHuser",auth.currentUser)
-
   // state management
   const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
   const updateSelectedVendors = (newSelectedVendors: string[]) => {
@@ -124,13 +115,6 @@ const Home = () => {
   ];
 
   return (
-    // <div>
-    //   <h1>Home</h1>
-    //   <p>{session.data?.user?.email}</p>
-    //   <button onClick={()=> signOut()}>Logout</button>
-
-    // </div>
-
     <div className="">
       <GoogleAnalytics />
       <HeaderComponent />

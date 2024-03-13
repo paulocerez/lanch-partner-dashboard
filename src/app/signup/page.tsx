@@ -6,6 +6,7 @@ import { auth } from "@/firebase/config";
 import Image from "next/image";
 import Spinner from "../dashboard/_components/dashboard-helpers/spinner";
 import { assertWrappingType } from "graphql";
+import { useAuth } from "@/app/context/AuthContext";
 
 interface FirebaseError extends Error {
   code?: string;
@@ -18,6 +19,8 @@ export default function Signup() {
   const [passwordAgain, setPasswordAgain] = useState("");
   const [loading, setLoading] = useState(false);
   const [signupError, setIsSignupError] = useState("");
+
+  const { setHasuraToken } = useAuth();
 
   const signup = async () => {
     if (signupPassword !== passwordAgain) {
@@ -40,6 +43,7 @@ export default function Signup() {
         method: "post",
         headers: {
           "content-type": "application/json",
+          //   Hasura JWT
           Authorization: `Bearer ${idToken}`,
         },
       });
@@ -49,7 +53,7 @@ export default function Signup() {
       }
 
       const data = await response.json();
-      const jwtToken = data.jwtToken;
+      setHasuraToken(data.jwtToken); // store Hasura JWT in AuthContext
       router.push("/dashboard");
     } catch (error) {
       const firebaseError = error as FirebaseError;

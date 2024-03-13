@@ -5,7 +5,7 @@ import { cookies, headers } from "next/headers";
 export async function GET(request: NextRequest) {
   const sessionCookie = cookies().get("session")?.value || "";
   console.log(sessionCookie);
-  // Check if request comes with a session cookie
+
   if (!sessionCookie) {
     return new NextResponse(JSON.stringify({ isLogged: false }), {
       status: 401,
@@ -36,10 +36,12 @@ export async function POST(request: NextRequest) {
 
       if (decodedToken) {
         //Generate session cookie
+
         const expiresIn = 60 * 60 * 24 * 5 * 1000;
         const sessionCookie = await adminAuth.createSessionCookie(idToken, {
           expiresIn,
         });
+
         const response = new NextResponse(null);
         response.cookies.set("session", sessionCookie, {
           maxAge: expiresIn / 1000,
