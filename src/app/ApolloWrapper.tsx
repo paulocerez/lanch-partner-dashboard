@@ -23,6 +23,7 @@ const createApolloClient = (
   });
 
   const authLink = new ApolloLink((operation, forward) => {
+    const { hasuraToken } = useAuth();
     operation.setContext({
       headers: {
         Authorization: hasuraToken ? `Bearer ${hasuraToken}` : "",

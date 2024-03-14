@@ -54,6 +54,7 @@ export default function Signup() {
 
       const data = await response.json();
       setHasuraToken(data.jwtToken); // store Hasura JWT in AuthContext
+      console.log(data.jwtToken);
       router.push("/dashboard");
     } catch (error) {
       const firebaseError = error as FirebaseError;

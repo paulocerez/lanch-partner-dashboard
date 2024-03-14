@@ -14,34 +14,7 @@ export default function Admin() {
   const [password, setPassword] = useState<string>("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
-  // executes before content is rendered
-  // if (password === 'partner-dashboard-2024') {
-  //   setIsAuthenticated(true);
-  // }
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    //   event.preventDefault();
-    //   // POST request to the server
-    //   const response = await fetch('/api/admin', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ password }),
-    //   });
-    //   console.log(password)
-    //   // Only attempt to parse the response body as JSON if the status is 200 OK
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     console.log("Successful authentication")
-    //     setIsAuthenticated(true);
-    //   } else {
-    //     // For all other status codes, assume authentication failed
-    //     alert('Authentication failed');
-    //     setIsAuthenticated(false);
-    //     console.log("Error during fetch: ", response.statusText)
-    //   }
-  };
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {};
 
   return (
     <div>

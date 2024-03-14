@@ -7,29 +7,28 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/app/context/AuthContext";
 
 const HeaderComponent = () => {
   const router = useRouter();
+  const { setHasuraToken } = useAuth();
 
   const doSignOut = () => {
-    // Add your sign out logic here
     console.log("signing out");
     signOut(auth)
       .then(() => {
         console.log("logged out");
-        // router.push("/login");
-        // Sign-out successful.
       })
       .catch((error) => {
-        // An error happened.
+        console.error("Error during sign-out: ", error);
       });
-    //Add the cookie to the browser
+
     fetch("/api/logout", {
       method: "POST",
     }).then((response) => {
       if (response.status === 200) {
         router.push("/login");
-        //console.log("logged out")
+        setHasuraToken(null);
       }
     });
   };
