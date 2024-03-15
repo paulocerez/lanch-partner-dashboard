@@ -175,12 +175,12 @@ const Home = () => {
               <div>
                 <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
               </div>
-              {/* <div>
+              <div>
                 <RatingGraphCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
                 />
-              </div> */}
+              </div>
             </Grid>
           </TabPanel>
 
@@ -241,13 +241,13 @@ const Home = () => {
                     order_portal={[order_portal]}
                   />
                 </div>
-                {/* <div>
+                <div>
                   <RatingGraphCard
                     vendorIds={selectedVendors}
                     dateRange={dateRange}
-                    order_portal={[order_portal]}
+                    orderPortal={[order_portal]}
                   />
-                </div> */}
+                </div>
               </Grid>
             </TabPanel>
           ))}

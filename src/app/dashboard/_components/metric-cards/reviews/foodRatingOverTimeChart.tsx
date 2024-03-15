@@ -18,15 +18,7 @@ interface RatingCardProps {
 
 const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
   const { vendorIds, dateRange, orderPortal } = RatingCardProps;
-  console.log(
-    "vendorIds:",
-    vendorIds,
-    "dateRange:",
-    dateRange,
-    "orderPortal:",
-    orderPortal
-  );
-
+  //   console.log("Received props:", { vendorIds, dateRange, orderPortal });
   let orderPortalList: string[];
 
   if (!orderPortal) {
@@ -34,13 +26,13 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
   } else {
     orderPortalList = orderPortal;
   }
-  console.log("order_portal_list:", orderPortalList);
+  //   console.log("order_portal_list:", orderPortalList);
 
   const getWeeklyFoodOrderRatingsQuery = gql`
     query getWeeklyFoodOrderRatings(
       $_vendor_ids: [String!] = ["DE_Berlin_0014"]
-      $_fromDate: Date = "2023-09-15"
-      $_toDate: Date = "2023-10-27"
+      $_fromDate: Timestamp = "2023-09-15"
+      $_toDate: Timestamp = "2023-10-27"
       $_order_source_names: [String!] = [
         "Lieferando"
         "Uber Eats"
@@ -50,7 +42,7 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
     ) {
       api_partner_dashboard_api_pd_food_orders_aggregate(
         where: {
-          vendor_id: { _eq: $_vendor_ids }
+          vendor_id: { _in: $_vendor_ids }
           order_source_name: { _in: $_order_source_names }
           ordered_at: { _gte: $_fromDate, _lte: $_toDate }
           rating_food: { _is_null: false }
@@ -62,8 +54,9 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
           }
         }
         nodes {
-          ordered_at
-          rating_food
+          ordered_at: timestamp_trunc_week
+          rating_food_avg: avg_rating_food
+          rating_food_count: count
         }
       }
     }
@@ -72,7 +65,8 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
   // Define the types for your query response based on your schema
   interface RatingNode {
     orderedAt: string;
-    ratingFood: number;
+    ratingFoodAvg: number;
+    ratingFoodCount: number;
   }
 
   interface GetWeeklyFoodOrderRatingsResponse {
@@ -91,21 +85,19 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
     {
       variables: {
         _vendor_ids: vendorIds,
-        _fromDate: dateRange?.from
-          ? dateRange.from.toISOString().split("T")[0]
-          : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
-        _toDate: dateRange?.to
-          ? dateRange.to.toISOString().split("T")[0]
-          : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
+        _fromDate: dateRange?.from?.toISOString() ?? "",
+        _toDate: dateRange?.to?.toISOString() ?? "",
         _order_source_names: orderPortalList,
       },
     }
   );
 
-  console.log("loading:", loading, "error:", error, "data:", data);
+  //   console.log("Query state:", { loading, error, data });
 
   if (error) {
     console.error("Error loading data:", error);
+    // console.log("Error details:", error);
+
     return <Text>Error loading data</Text>;
   }
 
@@ -113,12 +105,13 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
   const chartData =
     data?.api_partner_dashboard_api_pd_food_orders_aggregate.nodes.map(
       (node) => ({
-        date: node.orderedAt, // Convert to a proper format if necessary
-        Rating: node.ratingFood,
+        date: node.orderedAt, // This assumes your date is already in a proper format
+        Rating: node.ratingFoodAvg,
+        Count: node.ratingFoodCount, // Optional: You can show this in tooltips or elsewhere if needed
       })
     );
 
-  console.log("chartData:", chartData);
+  //   console.log("Processed chart data:", chartData);
 
   if (loading)
     return (
@@ -132,6 +125,17 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
       </Card>
     );
 
+  // Return some UI to let the user know they need to select a vendor
+  if (vendorIds.length === 0) {
+    return (
+      <Card>
+        <Text>
+          Please select at least one vendor to display the ratings chart.
+        </Text>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <Title>Weekly Average Food Ratings</Title>
@@ -139,8 +143,8 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
         className="mt-4 h-80"
         data={chartData || []}
         index="date"
-        categories={["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"]}
-        colors={["blue"]}
+        categories={orderPortalList}
+        colors={["blue", "red", "green", "yellow"]} // You can customize these colors
         yAxisWidth={30}
         // Add any additional props you need for the LineChart
       />

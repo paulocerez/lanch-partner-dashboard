@@ -1,62 +1,50 @@
-"use client";
-import React, { useState, FormEvent, useEffect, useLayoutEffect } from "react";
-import { sessionStatus } from "../utils/session";
+import React, { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import HeaderComponent from "../dashboard/_components/dashboard-helpers/header";
 import AdminUserList from "../dashboard/_components/admin/admin_user_list";
+import { useRouter } from "next/router";
+import { useAuth } from "@/app/context/AuthContext";
 
-// Define the structure for the response data
-interface AuthResponse {
-  message: string;
+interface DecodedToken {
+  "https://hasura.io/jwt/claims": {
+    "x-hasura-user-role": string;
+  };
 }
 
 export default function Admin() {
-  // const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>("");
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const router = useRouter();
+  const { hasuraToken } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {};
+  useEffect(() => {
+    if (hasuraToken) {
+      try {
+        const decodedToken = jwtDecode<DecodedToken>(hasuraToken);
+
+        const hasuraClaims = decodedToken["https://hasura.io/jwt/claims"];
+
+        if (hasuraClaims && hasuraClaims["x-hasura-user-role"] === "admin") {
+          setIsAuthenticated(true);
+        } else {
+          router.push("/login");
+        }
+      } catch (error) {
+        console.error("Failed to decode JWT: ", error);
+        router.push("/login");
+      }
+    } else {
+      router.push("/login");
+    }
+  }, [hasuraToken, router]);
+
+  if (!isAuthenticated) {
+    return <div>Loading...</div>; // Or handle redirect to login
+  }
 
   return (
     <div>
       <HeaderComponent />
-      {isAuthenticated && sessionStatus ? (
-        <AdminUserList />
-      ) : (
-        <div className="flex justify-center align-center items-center">
-          <div className="bg-white flex justify-center rounded-xl w-72 shadow-xl">
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col space-y-4 m-8 text-center"
-            >
-              <h1 className="decoration-solid font-bold">
-                Enter admin password
-              </h1>
-              {/* <input
-            className='p-2 bg-slate-100 rounded-md' 
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
-              /> */}
-              <input
-                className="p-2 bg-slate-100 rounded-md text-md"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPassword(e.target.value)
-                }
-              />
-              <button
-                type="submit"
-                className="bg-blue-500 text-white rounded-md p-2"
-              >
-                Log in
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+      <AdminUserList />
     </div>
   );
 }

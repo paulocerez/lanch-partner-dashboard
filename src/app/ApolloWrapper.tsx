@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import {
   ApolloClient,
   InMemoryCache,
@@ -6,24 +7,16 @@ import {
   ApolloLink,
   NormalizedCacheObject,
 } from "@apollo/client";
-import {
-  ApolloNextAppProvider,
-  NextSSRApolloClient,
-  SSRMultipartLink,
-  NextSSRInMemoryCache,
-} from "@apollo/experimental-nextjs-app-support/ssr";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "./context/AuthContext";
 
 const createApolloClient = (
   hasuraToken: string | null
 ): ApolloClient<NormalizedCacheObject> => {
   const httpLink = new HttpLink({
     uri: "https://eternal-leech-72.hasura.app/v1/graphql",
-    fetchOptions: { cache: "no-store" },
   });
 
   const authLink = new ApolloLink((operation, forward) => {
-    const { hasuraToken } = useAuth();
     operation.setContext({
       headers: {
         Authorization: hasuraToken ? `Bearer ${hasuraToken}` : "",
@@ -32,27 +25,16 @@ const createApolloClient = (
     return forward(operation);
   });
 
-  // In SSR, create an instance of `NextSSRApolloClient` instead of the standard `ApolloClient`
-  return typeof window === "undefined"
-    ? new NextSSRApolloClient({
-        cache: new NextSSRInMemoryCache(),
-        link: ApolloLink.from([
-          // SSR multipart link can be included or excluded based on your needs
-          new SSRMultipartLink({ stripDefer: true }),
-          authLink,
-          httpLink,
-        ]),
-      })
-    : new ApolloClient({
-        cache: new InMemoryCache(),
-        link: authLink.concat(httpLink),
-      });
+  return new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
 };
 
 export function ApolloWrapper({ children }: { children: React.ReactNode }) {
   const { hasuraToken } = useAuth();
-  const client = createApolloClient(hasuraToken);
 
-  // When using SSR, you might not need to wrap with a Provider if the client is passed down in a different
+  const client = useMemo(() => createApolloClient(hasuraToken), [hasuraToken]);
+
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
