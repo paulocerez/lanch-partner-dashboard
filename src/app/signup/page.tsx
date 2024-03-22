@@ -1,11 +1,10 @@
 "use client";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 import { auth } from "@/firebase/config";
 import Image from "next/image";
 import Spinner from "../dashboard/_components/dashboard-helpers/spinner";
-import { assertWrappingType } from "graphql";
 import { useAuth } from "@/app/context/AuthContext";
 
 interface FirebaseError extends Error {
@@ -20,7 +19,14 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [signupError, setIsSignupError] = useState("");
 
-  const { setHasuraToken } = useAuth();
+  const { setHasuraToken, hasuraToken } = useAuth();
+
+  useEffect(() => {
+    console.log("Effect run, hasuraToken:", hasuraToken);
+    if (hasuraToken) {
+      router.push("/dashboard");
+    }
+  }, [hasuraToken, router]);
 
   const signup = async () => {
     if (signupPassword !== passwordAgain) {
@@ -29,21 +35,17 @@ export default function Signup() {
     }
     setLoading(true);
     setIsSignupError("");
-    console.log("signup started");
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         signupEmail,
         signupPassword
       );
-
       const idToken = await userCredential.user.getIdToken();
-
       const response = await fetch("/api/signup", {
         method: "post",
         headers: {
           "content-type": "application/json",
-          //   Hasura JWT
           Authorization: `Bearer ${idToken}`,
         },
       });
@@ -53,53 +55,30 @@ export default function Signup() {
       }
 
       const data = await response.json();
-      setHasuraToken(data.jwtToken); // store Hasura JWT in AuthContext
-      console.log(data.jwtToken);
-      router.push("/dashboard");
+      setHasuraToken(data.jwtToken);
     } catch (error) {
       const firebaseError = error as FirebaseError;
-
-      switch (firebaseError.code) {
-        case "auth/weak-password":
-          setIsSignupError(
-            "The password is too weak. It must be 6 characters long or more."
-          );
-          break;
-        case "auth/email-already-in-use":
-          setIsSignupError(
-            "The email address is already in use by another account."
-          );
-          break;
-        case "auth/invalid-email":
-          setIsSignupError("The email address is not valid.");
-          break;
-        default:
-          setIsSignupError("An unexpected error occurred. Please try again.");
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      if (firebaseError && firebaseError.code) {
+        switch (firebaseError.code) {
+          case "auth/weak-password":
+            errorMessage =
+              "The password is too weak. It must be 6 characters long or more.";
+            break;
+          case "auth/email-already-in-use":
+            errorMessage =
+              "The email address is already in use by another account.";
+            break;
+          case "auth/invalid-email":
+            errorMessage = "The email address is not valid.";
+            break;
+        }
       }
+      setIsSignupError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
-
-  if (loading)
-    return (
-      <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <div className="flex justify-center">
-            <Image
-              src="/lanch_logo_with_text.png"
-              alt="LANCH Logo"
-              width="150"
-              height="150"
-            />
-          </div>
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Registrieren
-          </h2>
-        </div>
-        <Spinner />
-      </div>
-    );
 
   return (
     <>

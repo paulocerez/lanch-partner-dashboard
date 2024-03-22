@@ -3,9 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import generateHasuraJWT from "@/app/utils/generateHasuraJWT";
 
+// ... rest of your imports and setup
+
 export async function POST(req: NextRequest) {
   try {
-    const authorizationHeader = headers().get("Authorization");
+    const authorizationHeader = req.headers.get("Authorization");
 
     if (authorizationHeader?.startsWith("Bearer ")) {
       const idToken = authorizationHeader.split("Bearer ")[1];
@@ -16,12 +18,24 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      // Verify Firebase ID Token and extract UID
       const decodedToken = await adminAuth.verifyIdToken(idToken);
-      const jwtToken = generateHasuraJWT(decodedToken.uid);
-      console.log(jwtToken);
-      return new NextResponse(JSON.stringify({ jwtToken }), { status: 200 });
+      console.log("Firebase Decoded Token:", decodedToken);
 
-      //   returns Hasura JWT
+      // Generate a new JWT for Hasura with custom claims
+      const jwtToken = generateHasuraJWT(decodedToken.uid);
+      console.log("Hasura JWT Token:", jwtToken);
+
+      // Return the Hasura JWT token, not the Firebase token
+      return new NextResponse(JSON.stringify({ jwtToken }), { status: 200 });
+    } else {
+      return new NextResponse(
+        JSON.stringify({
+          message:
+            "Authorization header is missing or not in the correct format",
+        }),
+        { status: 401 }
+      );
     }
   } catch (error) {
     console.error(error);

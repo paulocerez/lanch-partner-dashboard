@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     console.log("Setting up Firebase auth state observer.");
+    console.log("Hasura Token updated in AuthContext:", hasuraToken);
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       console.log("The user auth state changed:", user);
@@ -74,6 +75,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       loading,
     });
   }, [user, authToken, hasuraToken, loading]);
+
+  useEffect(() => {
+    console.log("Hasura Token updated in AuthContext:", hasuraToken);
+  }, [hasuraToken]);
 
   return (
     <AuthContext.Provider
