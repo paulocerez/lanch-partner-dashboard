@@ -20,7 +20,7 @@ const generateHasuraJWT = (userId: string): string => {
     sub: userId,
     iat: Math.floor(Date.now() / 1000),
 
-    // Hasura claims
+    // Hasura claims -> extracted to identify user + rights
     "https://hasura.io/jwt/claims": {
       "x-hasura-allowed-roles": ["user"],
       "x-hasura-default-role": "user",

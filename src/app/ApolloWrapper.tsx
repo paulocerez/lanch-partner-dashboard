@@ -1,3 +1,4 @@
+// ApolloWrapper.tsx
 import React, { useMemo } from "react";
 import {
   ApolloClient,
@@ -7,13 +8,27 @@ import {
   ApolloLink,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { useAuth } from "./context/AuthContext";
+import {
+  NextSSRApolloClient,
+  NextSSRInMemoryCache,
+} from "@apollo/experimental-nextjs-app-support/ssr";
+import { useAuth } from "@/app/context/AuthContext";
 
+// Define the structure of your initial state (if you have any)
+interface InitialStateType {
+  [key: string]: any;
+}
+
+// Function to create Apollo Client with TypeScript return type
 const createApolloClient = (
-  hasuraToken: string | null
+  hasuraToken: string | null,
+  initialState?: InitialStateType
 ): ApolloClient<NormalizedCacheObject> => {
   const httpLink = new HttpLink({
-    uri: "https://eternal-leech-72.hasura.app/v1/graphql",
+    uri:
+      typeof window === "undefined"
+        ? "https://eternal-leech-72.hasura.app/v1/graphql" // Absolute URL for server-side
+        : "/api/graphql", // Relative URL for client-side
   });
 
   const authLink = new ApolloLink((operation, forward) => {
@@ -25,16 +40,33 @@ const createApolloClient = (
     return forward(operation);
   });
 
-  return new ApolloClient({
+  const cache = new NextSSRInMemoryCache().restore(initialState || {});
+
+  return new NextSSRApolloClient({
+    ssrMode: typeof window === "undefined",
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache,
   });
 };
 
-export function ApolloWrapper({ children }: { children: React.ReactNode }) {
-  const { hasuraToken } = useAuth();
+// Define the props for the ApolloWrapper component
+interface ApolloWrapperProps {
+  children: React.ReactNode;
+  initialState?: InitialStateType; // Optional prop for initial state
+}
 
-  const client = useMemo(() => createApolloClient(hasuraToken), [hasuraToken]);
+// ApolloWrapper component with TypeScript
+export const ApolloWrapper: React.FC<ApolloWrapperProps> = ({
+  children,
+  initialState,
+}) => {
+  const { hasuraToken } = useAuth(); // Your useAuth hook should return a valid token
+
+  // Use useMemo to avoid recreating the Apollo client on every render
+  const client = useMemo(
+    () => createApolloClient(hasuraToken, initialState),
+    [hasuraToken, initialState]
+  );
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
-}
+};

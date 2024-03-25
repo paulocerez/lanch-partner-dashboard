@@ -15,7 +15,6 @@ import {
 } from "@tremor/react";
 
 import { useEffect, useState } from "react";
-// import { withApollo } from "../lib/withApollo";
 
 import RevenueCard from "./_components/metric-cards/metrics/revenueCard";
 import OrderCountCard from "./_components/metric-cards/metrics/orderCountCard";
@@ -32,6 +31,7 @@ import AOVCard from "./_components/metric-cards/metrics/AOVCard";
 import LatestRatingCard from "./_components/metric-cards/reviews/latestRatingCard";
 import GoogleAnalytics from "../(components)/GoogleAnalytics";
 import RatingGraphCard from "./_components/metric-cards/reviews/foodRatingOverTimeChart";
+import { useAuth } from "../context/AuthContext";
 
 enum OrderPortal {
   "LIEFERANDO" = "Lieferando",
@@ -50,6 +50,12 @@ const Home = () => {
   const updateSelectedVendors = (newSelectedVendors: string[]) => {
     setSelectedVendors(newSelectedVendors);
   };
+
+  const { hasuraToken } = useAuth();
+
+  useEffect(() => {
+    console.log("Dashboard hasuraToken:", hasuraToken);
+  }, [hasuraToken]);
 
   const [dateRange, setDateRange] = useState<DateRangePickerValue>({
     from: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
@@ -258,5 +264,4 @@ const Home = () => {
 };
 
 export default Home;
-// export default withApollo()(Home);
 Home.requireAuth = true;

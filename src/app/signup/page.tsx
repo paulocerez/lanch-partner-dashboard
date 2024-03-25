@@ -1,6 +1,6 @@
 "use client";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { auth } from "@/firebase/config";
 import Image from "next/image";
@@ -58,19 +58,19 @@ export default function Signup() {
       setHasuraToken(data.jwtToken);
     } catch (error) {
       const firebaseError = error as FirebaseError;
-      let errorMessage = "An unexpected error occurred. Please try again.";
+      let errorMessage = "Es ist ein unerwarteter Fehler aufgetreten.";
       if (firebaseError && firebaseError.code) {
         switch (firebaseError.code) {
           case "auth/weak-password":
             errorMessage =
-              "The password is too weak. It must be 6 characters long or more.";
+              "Das Password ist zu schwach, es muss mind. 6 Zeichen enthalten.";
             break;
           case "auth/email-already-in-use":
             errorMessage =
-              "The email address is already in use by another account.";
+              "Diese Email-Adresse wird bereits von einem anderen Account genutzt.";
             break;
           case "auth/invalid-email":
-            errorMessage = "The email address is not valid.";
+            errorMessage = "Die Email-Adresse ist nicht gültig.";
             break;
         }
       }
@@ -185,7 +185,7 @@ export default function Signup() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Zurück zum Login?{" "}
             <button
-              onClick={() => router.push("login")}
+              onClick={() => router.push("/login")}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Einloggen

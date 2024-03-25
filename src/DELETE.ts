@@ -11,15 +11,16 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
   //Call the authentication endpoint
   const responseAPI = await fetch(`${request.nextUrl.origin}/middleware/auth`, {
+    method: "POST",
     headers: {
-      Cookie: `session=${session?.value}`,
+      Cookie: `session=Bearer ${session?.value}`,
     },
   });
 
   //Return to /login if token is not authorized
-  if (responseAPI.status !== 200) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  //   if (responseAPI.status !== 200) {
+  //     return NextResponse.redirect(new URL("/login", request.url));
+  //   }
 
   return NextResponse.next();
 }

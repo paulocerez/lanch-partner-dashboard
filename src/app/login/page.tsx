@@ -8,6 +8,7 @@ import Spinner from "../dashboard/_components/dashboard-helpers/spinner";
 import { sendGAEvent } from "@next/third-parties/google";
 import { setGAUserId, trackGAEvent } from "../utils/google-analytics";
 import GoogleAnalytics from "../(components)/GoogleAnalytics";
+import { useAuth } from "../context/AuthContext";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [loginError, setIsLogginError] = useState("");
   const router = useRouter();
+  const { setHasuraToken, hasuraToken } = useAuth();
 
   function signIn(email: string, password: string) {
     setLoading(true);
@@ -24,7 +26,6 @@ export default function Signin() {
         //signed in
         const user = userCredential.user;
         const token = await userCredential.user.getIdToken();
-        console.log(user);
         setGAUserId(userCredential.user.uid);
         fetch("/middleware/auth", {
           method: "POST",
@@ -32,19 +33,29 @@ export default function Signin() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }).then((response) => {
+        }).then(async (response) => {
           if (response.status === 200) {
-            //setLoading(false);
+            const data = await response.json();
+            console.log("Received JWT:", data.jwtToken);
             console.log("pushing to dashboard");
             setLoading(false);
-            router.push("/dashboard");
             sendGAEvent({ event: "EmailAndPassword", value: user.email });
             trackGAEvent("login", "successfulLogin", user.email as string);
+            setHasuraToken(data.jwtToken);
+            console.log("Hello", hasuraToken);
+            router.push("/dashboard");
           } else {
+            const errorText = await response.text();
+            console.error("Failed to log in:", errorText);
             throw new Error("Failed to log in");
           }
         });
       })
+      //   network errors
+      .catch((fetchError) => {
+        console.error("Network error:", fetchError);
+      })
+      //   firebase errors
       .catch((error) => {
         setLoading(false);
         const errorCode = error.code;
@@ -188,7 +199,7 @@ export default function Signin() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Neu hier?{" "}
             <button
-              onClick={() => router.push("signup")}
+              onClick={() => router.push("/signup")}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Registrieren

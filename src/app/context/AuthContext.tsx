@@ -37,11 +37,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [hasuraToken, setHasuraToken] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("Setting up Firebase auth state observer.");
-    console.log("Hasura Token updated in AuthContext:", hasuraToken);
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("The user auth state changed:", user);
       if (user) {
         const token = await user.getIdToken();
         console.log("User is signed in, new token:", token);
@@ -66,7 +63,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setHasuraToken(token);
   }, []);
 
-  // Debugging context values every time they change
   useEffect(() => {
     console.log("AuthContext state changed:", {
       user,
