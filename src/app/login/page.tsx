@@ -39,7 +39,6 @@ export default function Signin() {
             setLoading(false);
             sendGAEvent({ event: "EmailAndPassword", value: user.email });
             trackGAEvent("login", "successfulLogin", user.email as string);
-            console.log("Setting Hasura token in context:", data.jwtToken);
             setHasuraToken(data.jwtToken);
             router.push("/dashboard");
           } else {

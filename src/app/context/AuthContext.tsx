@@ -41,7 +41,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const token = await user.getIdToken();
-        console.log("User is signed in, new token:", token);
         setUser(user);
         setAuthToken(token);
       } else {
@@ -59,7 +58,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const handleSetHasuraToken = useCallback((token: string | null) => {
-    console.log("Updating Hasura JWT:", token);
     setHasuraToken(token);
   }, []);
 
