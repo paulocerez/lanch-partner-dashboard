@@ -4,7 +4,6 @@ import { cookies, headers } from "next/headers";
 import generateHasuraJWT from "@/app/utils/generateHasuraJWT";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  console.log("AUF LOCK");
   const authorization = headers().get("Authorization");
   console.log(authorization);
 
@@ -13,14 +12,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     try {
       const decodedToken = await adminAuth.verifyIdToken(idToken);
+      console.log(decodedToken);
       const expiresIn = 1000 * 60 * 60 * 24 * 5; // 5 days
       const sessionCookie = await adminAuth.createSessionCookie(idToken, {
         expiresIn,
       });
+      console.log(sessionCookie);
 
       const hasuraJWT = generateHasuraJWT(decodedToken.uid);
       console.log(hasuraJWT);
-      console.log("1,2,3,4");
+      console.log("1, 2, 3, 4");
       const response = new NextResponse(
         JSON.stringify({ jwtToken: hasuraJWT }),
         {
@@ -40,6 +41,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       });
 
       // Return the response with the Hasura JWT token
+      console.log(response);
       return response;
     } catch (error) {
       console.error("Failed to create session cookie or Hasura JWT:", error);
