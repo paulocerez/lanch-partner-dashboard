@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import HeaderComponent from "../dashboard/_components/dashboard-helpers/header";
