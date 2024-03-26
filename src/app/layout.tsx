@@ -4,9 +4,8 @@ import { Inter } from "next/font/google";
 import { ApolloWrapper } from "@/app/lib/ApolloWrapper";
 // import { ApolloWrapper } from "@/app/ApolloWrapper";
 import { Analytics } from "@vercel/analytics/react";
-import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { AuthContext, AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 
 const GTM_ID = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID!;
 const inter = Inter({ subsets: ["latin"] });

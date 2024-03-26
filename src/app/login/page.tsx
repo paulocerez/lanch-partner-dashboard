@@ -27,7 +27,7 @@ export default function Signin() {
         const user = userCredential.user;
         const token = await userCredential.user.getIdToken();
         setGAUserId(userCredential.user.uid);
-        fetch("/middleware/auth", {
+        fetch("/api/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -36,13 +36,10 @@ export default function Signin() {
         }).then(async (response) => {
           if (response.status === 200) {
             const data = await response.json();
-            console.log("Received JWT:", data.jwtToken);
-            console.log("pushing to dashboard");
             setLoading(false);
             sendGAEvent({ event: "EmailAndPassword", value: user.email });
             trackGAEvent("login", "successfulLogin", user.email as string);
             setHasuraToken(data.jwtToken);
-            console.log("Hello", hasuraToken);
             router.push("/dashboard");
           } else {
             const errorText = await response.text();
