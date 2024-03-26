@@ -10,7 +10,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   if (authorization?.startsWith("Bearer ")) {
     const idToken = authorization.split("Bearer ")[1];
-    // console.log(idToken);
 
     try {
       const decodedToken = await adminAuth.verifyIdToken(idToken);
@@ -20,6 +19,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       });
 
       const hasuraJWT = generateHasuraJWT(decodedToken.uid);
+      console.log(hasuraJWT);
+      console.log("1,2,3,4");
       const response = new NextResponse(
         JSON.stringify({ jwtToken: hasuraJWT }),
         {
