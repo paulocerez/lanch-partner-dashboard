@@ -44,20 +44,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(user);
         setAuthToken(token);
       } else {
-        console.log("User is signed out.");
+        console.log("User is signed out. Clearing tokens.");
         setUser(null);
         setAuthToken(null);
+        setHasuraToken(null);
       }
       setLoading(false);
     });
 
     return () => {
-      console.log("Unsubscribing Firebase auth state observer.");
+      console.log("Cleaning up AuthProvider.");
       unsubscribe();
     };
   }, []);
 
   const handleSetHasuraToken = useCallback((token: string | null) => {
+    console.log("Setting hasuraToken in context:", token);
     setHasuraToken(token);
   }, []);
 

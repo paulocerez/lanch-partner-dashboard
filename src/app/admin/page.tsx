@@ -16,12 +16,16 @@ interface DecodedToken {
 
 export default function Admin() {
   const router = useRouter();
-  const { hasuraToken } = useAuth();
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const { hasuraToken, loading } = useAuth();
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    console.log("Token in Admin component:", hasuraToken);
+    if (loading) return;
+
+    console.log("Token in Admin component:", hasuraToken); // currently null
     if (hasuraToken) {
+      // not triggered
       try {
         console.log("34");
         const decodedToken = jwtDecode<DecodedToken>(hasuraToken);
@@ -37,12 +41,18 @@ export default function Admin() {
       } catch (error) {
         console.error("Failed to decode JWT: ", error);
         console.log("ANNA");
-        router.push("/login");
+        // router.push("/login");
       }
     } else {
-      router.push("/login");
+      //   router.push("/login");
+      //   this gets logged at the moment
+      console.log("HERE WE GO");
     }
-  }, [hasuraToken, router]);
+  }, [hasuraToken, router, loading]);
+
+  if (loading) {
+    return <div>Loading authentication status...</div>;
+  }
 
   if (!isAuthenticated) {
     return <div>Loading...</div>;
