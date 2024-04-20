@@ -15,8 +15,8 @@ import {
 } from "@tremor/react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
-import Spinner from "../dashboard-helpers/spinner";
-import SuccessMsg from "../dashboard-helpers/successMsg";
+import Spinner from "../dashboard-helpers/Spinner";
+import SuccessMsg from "../dashboard-helpers/SuccessMessage";
 
 import { auth } from "@/firebase/config";
 import { User, onAuthStateChanged } from "firebase/auth";

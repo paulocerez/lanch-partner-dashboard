@@ -1,22 +1,18 @@
-'use client';
-import { useRouter } from 'next/navigation'
+"use client";
+import { useRouter } from "next/navigation";
 
-import HeaderComponent from "../../dashboard/_components/dashboard-helpers/header";
-import AdminEditUser from '../../dashboard/_components/admin/admin_edit_user';
-import { Button } from '@tremor/react';
+import HeaderComponent from "../../../components/dashboard/dashboard-helpers/Header";
+import AdminEditUser from "../../../components/dashboard/admin/admin_edit_user";
+import { Button } from "@tremor/react";
 
-
-export default function Home({ params }: { params: { userid: string } }){
-  const router = useRouter()
+export default function Home({ params }: { params: { userid: string } }) {
+  const router = useRouter();
 
   return (
-
-      <div className="">
-        <HeaderComponent/>
-        <Button  onClick={() => router.back()}> Zurück</Button>
-        <AdminEditUser userID={params.userid}/>
-      </div>
-
-  )
+    <div className="">
+      <HeaderComponent />
+      <Button onClick={() => router.back()}> Zurück</Button>
+      <AdminEditUser userID={params.userid} />
+    </div>
+  );
 }
-

@@ -8,7 +8,7 @@ import {
   Title,
 } from "@tremor/react";
 import React from "react";
-import Spinner from "../../dashboard-helpers/spinner";
+import Spinner from "../../dashboard-helpers/Spinner";
 
 interface RatingCardProps {
   vendorIds: string[];

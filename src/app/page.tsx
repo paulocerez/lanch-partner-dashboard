@@ -19,7 +19,7 @@ import {
   Bold,
   BarList,
 } from "@tremor/react";
-import { DatePicker } from "./(components)/datepicker";
+import { DatePicker } from "../components/dashboard/dashboard-helpers/DatePicker";
 import { useState } from "react";
 import { MultiSelect, MultiSelectItem } from "@tremor/react";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";

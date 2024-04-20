@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { DatePicker } from './datepicker';
+import React, { useEffect } from "react";
+import { DatePicker } from "./DatePickerFilter";
 import {
   DateRangePickerValue,
   MultiSelect,
@@ -9,7 +9,7 @@ import {
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 
 import { gql, useQuery } from "@apollo/client";
-import { User } from 'firebase/auth';
+import { User } from "firebase/auth";
 
 // TODO filter here by permission for vendors
 const getAllVendorsQuery = gql`
@@ -33,7 +33,6 @@ interface GetAllVendorsResponse {
   api_partner_dashboard_api_pd_food_orders: FoodOrder[];
 }
 
-
 interface getAssignedVendorsResponse {
   vendors_of_user: VendorOfUser[];
 }
@@ -45,13 +44,12 @@ interface VendorOfUser {
 
 const getAssignedVendors = gql`
   query getVendorList($_userID: String) {
-    vendors_of_user(where: {user_id: {_eq: $_userID}}) {
+    vendors_of_user(where: { user_id: { _eq: $_userID } }) {
       vendor_id
       user_id
     }
   }
 `;
-
 
 interface FilterBarProps {
   selectedVendors: string[];
@@ -62,9 +60,11 @@ interface FilterBarProps {
 }
 
 const FilterBarComponent = (filterBarPops: FilterBarProps) => {
-  const { selectedVendors, updateSelectedVendors, dateRange, updateDateRange } = filterBarPops;
+  const { selectedVendors, updateSelectedVendors, dateRange, updateDateRange } =
+    filterBarPops;
 
-  const vendorlist = useSuspenseQuery<GetAllVendorsResponse>(getAllVendorsQuery);
+  const vendorlist =
+    useSuspenseQuery<GetAllVendorsResponse>(getAllVendorsQuery);
   // const assignedVendors = useSuspenseQuery<getAssignedVendorsResponse>(getAssignedVendors,
   //   {
   //     variables: {
@@ -72,29 +72,33 @@ const FilterBarComponent = (filterBarPops: FilterBarProps) => {
   //     }
   //   });
 
-  const { loading, error, data: assignedVendors } = useQuery<getAssignedVendorsResponse>(getAssignedVendors,
-    {
-      variables: {
-        _userID: filterBarPops.user?.uid || ""
-      }
-    });
+  const {
+    loading,
+    error,
+    data: assignedVendors,
+  } = useQuery<getAssignedVendorsResponse>(getAssignedVendors, {
+    variables: {
+      _userID: filterBarPops.user?.uid || "",
+    },
+  });
 
-    
-    useEffect(() => {
-      //console.log("assigned", assignedVendors?.vendors_of_user);
-      if (assignedVendors?.vendors_of_user) {
-        const vendorIds = assignedVendors.vendors_of_user.map((vendor) => vendor.vendor_id);
-        updateSelectedVendors(vendorIds);
-      }
-    }, [assignedVendors]);
-    
-    //console.log(vendorlist?.data?.api_partner_dashboard_api_pd_food_orders)
+  useEffect(() => {
+    //console.log("assigned", assignedVendors?.vendors_of_user);
+    if (assignedVendors?.vendors_of_user) {
+      const vendorIds = assignedVendors.vendors_of_user.map(
+        (vendor) => vendor.vendor_id
+      );
+      updateSelectedVendors(vendorIds);
+    }
+  }, [assignedVendors]);
+
+  //console.log(vendorlist?.data?.api_partner_dashboard_api_pd_food_orders)
 
   return (
     <div>
       <div className="flex items-start md:items-center pt-6 flex-col md:flex-row">
         <div>
-          <DatePicker dateRange={dateRange} updateDateRange={updateDateRange}/>
+          <DatePicker dateRange={dateRange} updateDateRange={updateDateRange} />
         </div>
         <div className="md:w-80 md:mx-6 space-y-6 w-auto mt-4 md:mt-0">
           <MultiSelect
@@ -102,16 +106,19 @@ const FilterBarComponent = (filterBarPops: FilterBarProps) => {
             onValueChange={updateSelectedVendors}
           >
             {vendorlist?.data?.api_partner_dashboard_api_pd_food_orders
-            .filter((vendor) => {
-              return assignedVendors?.vendors_of_user?.some((vendorOfUser) => vendorOfUser.vendor_id === vendor.vendor_id);
-            })
-            .map(
-              (vendor) => (
-                <MultiSelectItem key={vendor.vendor_id} value={vendor.vendor_id}>
+              .filter((vendor) => {
+                return assignedVendors?.vendors_of_user?.some(
+                  (vendorOfUser) => vendorOfUser.vendor_id === vendor.vendor_id
+                );
+              })
+              .map((vendor) => (
+                <MultiSelectItem
+                  key={vendor.vendor_id}
+                  value={vendor.vendor_id}
+                >
                   {vendor.vendor_name}
                 </MultiSelectItem>
-              )
-            )}
+              ))}
           </MultiSelect>
         </div>
       </div>

@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import HeaderComponent from "../dashboard/_components/dashboard-helpers/header";
-import AdminUserList from "../dashboard/_components/admin/admin_user_list";
+import HeaderComponent from "../../components/dashboard/dashboard-helpers/Header";
+import AdminUserList from "../../components/dashboard/admin/admin_user_list";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 import { log } from "console";

@@ -1,16 +1,26 @@
 import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
 import { Card, DateRangePickerValue, Metric, Text } from "@tremor/react";
 import React from "react";
-import Spinner from "../../dashboard-helpers/spinner";
+import Spinner from "../../../dashboard-helpers/Spinner";
 
-interface RevenueCardProps {
+interface AOVCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
   order_portal?: string[];
 }
-const RevenueCard = (RevenueCardProps: RevenueCardProps) => {
-  const { vendorIds, dateRange, order_portal } = RevenueCardProps;
 
+interface GetTotalGMVResponse {
+  api_partner_dashboard_api_pd_food_orders_aggregate: {
+    aggregate: {
+      count: string;
+      sum: {
+        gmv: string;
+      };
+    };
+  };
+}
+
+const AOVCard = ({ vendorIds, dateRange, order_portal }: AOVCardProps) => {
   let order_portal_list: string[];
 
   if (!order_portal) {
@@ -18,8 +28,6 @@ const RevenueCard = (RevenueCardProps: RevenueCardProps) => {
   } else {
     order_portal_list = order_portal;
   }
-
-  // query gets triggered once RevenueCard is rendered and if any variable passed to useQuery below changes
 
   const getTotalGMVQuery = gql`
     query getTotalGMV(
@@ -49,17 +57,6 @@ const RevenueCard = (RevenueCardProps: RevenueCardProps) => {
       }
     }
   `;
-
-  interface GetTotalGMVResponse {
-    api_partner_dashboard_api_pd_food_orders_aggregate: {
-      aggregate: {
-        count: string;
-        sum: {
-          gmv: string;
-        };
-      };
-    };
-  }
 
   const toISOStringLocal = (d: Date) => {
     return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
@@ -98,34 +95,36 @@ const RevenueCard = (RevenueCardProps: RevenueCardProps) => {
       variables: variables,
     }
   );
-  // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
-
-  // if (data) {
-  //   // console.log('Raw GMV:', data.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate.sum.gmv);
-  //   console.log("Date Range:", variables._fromDate, variables._toDate)
-  // }
 
   if (loading)
     return (
       <Card>
-        <Text>Umsatz</Text>
+        <Text>⌀ Warenkorbwert</Text>
         <Spinner />
       </Card>
     );
 
   return (
     <Card>
-      <Text>Umsatz</Text>
+      <Text>⌀ Warenkorbwert</Text>
       <Metric>
         {vendorIds.length > 0
-          ? parseFloat(
-              data?.api_partner_dashboard_api_pd_food_orders_aggregate
-                ?.aggregate.sum.gmv || "0"
-            ).toLocaleString() + "€"
+          ? (
+              parseFloat(
+                data?.api_partner_dashboard_api_pd_food_orders_aggregate
+                  ?.aggregate.sum.gmv || "0"
+              ) /
+              parseInt(
+                data?.api_partner_dashboard_api_pd_food_orders_aggregate
+                  ?.aggregate.count || "0"
+              )
+            )
+              .toFixed(2)
+              .toLocaleString() + "€"
           : "Wähle Restaurants"}
       </Metric>
     </Card>
   );
 };
 
-export default RevenueCard;
+export default AOVCard;

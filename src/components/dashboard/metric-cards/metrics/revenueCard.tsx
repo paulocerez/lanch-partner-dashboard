@@ -1,15 +1,15 @@
 import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
 import { Card, DateRangePickerValue, Metric, Text } from "@tremor/react";
 import React from "react";
-import Spinner from "../../dashboard-helpers/spinner";
+import Spinner from "../../dashboard-helpers/Spinner";
 
-interface AOVCardProps {
+interface RevenueCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
   order_portal?: string[];
 }
-const AOVCard = (AOVCardProps: AOVCardProps) => {
-  const { vendorIds, dateRange, order_portal } = AOVCardProps;
+const RevenueCard = (RevenueCardProps: RevenueCardProps) => {
+  const { vendorIds, dateRange, order_portal } = RevenueCardProps;
 
   let order_portal_list: string[];
 
@@ -18,6 +18,8 @@ const AOVCard = (AOVCardProps: AOVCardProps) => {
   } else {
     order_portal_list = order_portal;
   }
+
+  // query gets triggered once RevenueCard is rendered and if any variable passed to useQuery below changes
 
   const getTotalGMVQuery = gql`
     query getTotalGMV(
@@ -96,36 +98,34 @@ const AOVCard = (AOVCardProps: AOVCardProps) => {
       variables: variables,
     }
   );
+  // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
+
+  // if (data) {
+  //   // console.log('Raw GMV:', data.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate.sum.gmv);
+  //   console.log("Date Range:", variables._fromDate, variables._toDate)
+  // }
 
   if (loading)
     return (
       <Card>
-        <Text>⌀ Warenkorbwert</Text>
+        <Text>Umsatz</Text>
         <Spinner />
       </Card>
     );
 
   return (
     <Card>
-      <Text>⌀ Warenkorbwert</Text>
+      <Text>Umsatz</Text>
       <Metric>
         {vendorIds.length > 0
-          ? (
-              parseFloat(
-                data?.api_partner_dashboard_api_pd_food_orders_aggregate
-                  ?.aggregate.sum.gmv || "0"
-              ) /
-              parseInt(
-                data?.api_partner_dashboard_api_pd_food_orders_aggregate
-                  ?.aggregate.count || "0"
-              )
-            )
-              .toFixed(2)
-              .toLocaleString() + "€"
+          ? parseFloat(
+              data?.api_partner_dashboard_api_pd_food_orders_aggregate
+                ?.aggregate.sum.gmv || "0"
+            ).toLocaleString() + "€"
           : "Wähle Restaurants"}
       </Metric>
     </Card>
   );
 };
 
-export default AOVCard;
+export default RevenueCard;
