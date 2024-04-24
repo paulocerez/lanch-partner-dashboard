@@ -1,5 +1,3 @@
-// import { GMVData } from ""
-
 export const calculateAverage = (
   data: GMVData | undefined,
   vendorIdLength: number

@@ -8,7 +8,7 @@ interface LoadingCardProps {
 
 const LoadingCard = ({ metricTitle }: LoadingCardProps) => (
   <Card>
-    <Text>{metricTitle}</Text>
+    <Text>{metricTitle} wird geladen...</Text>
     <Spinner />
   </Card>
 );

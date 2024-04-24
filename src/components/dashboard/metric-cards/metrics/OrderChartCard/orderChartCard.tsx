@@ -7,7 +7,7 @@ import {
   Title,
 } from "@tremor/react";
 import React from "react";
-import Spinner from "../../dashboard-helpers/spinner";
+import Spinner from "../../../dashboard-helpers/spinner";
 
 interface RevenueCardProps {
   vendorIds: string[];
@@ -40,12 +40,11 @@ function aggregateData(data: InputType[]): OutputType[] {
     }
 
     if (!aggregate[local_order_date][datum.order_source_name]) {
-      aggregate[local_order_date][datum.order_source_name] = datum.total_gmv;
+      aggregate[local_order_date][datum.order_source_name] = datum.order_count;
     } else {
-      // Convert the total_gmv to a number, add the current total_gmv, then convert it back to a string
       aggregate[local_order_date][datum.order_source_name] = (
         parseFloat(aggregate[local_order_date][datum.order_source_name]) +
-        parseFloat(datum.total_gmv)
+        parseFloat(datum.order_count)
       )
         .toFixed(2)
         .toString();
@@ -70,7 +69,7 @@ function convertDateFormat(inputDate: string): string {
   return `${day}.${month}.${year}`;
 }
 
-const RevenueChartCard = (RevenueCardProps: RevenueCardProps) => {
+const OrderChartCard = (RevenueCardProps: RevenueCardProps) => {
   const { vendorIds, dateRange, orderPortal } = RevenueCardProps;
 
   let orderPortalList: string[];
@@ -80,8 +79,6 @@ const RevenueChartCard = (RevenueCardProps: RevenueCardProps) => {
   } else {
     orderPortalList = orderPortal;
   }
-
-  // console.log(vendorIds)
 
   const getGMVperDayQuery = gql`
     query getGMVperDay(
@@ -166,14 +163,8 @@ const RevenueChartCard = (RevenueCardProps: RevenueCardProps) => {
 
   return (
     <Card>
-      <Title>Umsatz</Title>
-      <Text>Außenumsatz nach Plattform (relativ)</Text>
-      {/* <p>lol</p>
-    <p>
-      {
-        JSON.stringify(revenueData)
-      }
-    </p> */}
+      <Title>Orders</Title>
+      <Text>Orderanzahl nach Plattform (absolut)</Text>
       <BarChart
         className="mt-4 h-80"
         data={revenueData}
@@ -182,10 +173,10 @@ const RevenueChartCard = (RevenueCardProps: RevenueCardProps) => {
         colors={["amber", "lime", "sky"]}
         valueFormatter={valueFormatter}
         stack={true}
-        relative={true}
+        relative={false}
       />
     </Card>
   );
 };
 
-export default RevenueChartCard;
+export default OrderChartCard;

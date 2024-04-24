@@ -16,19 +16,19 @@ import {
 
 import { useEffect, useState } from "react";
 
-import RevenueCard from "../../components/dashboard/metric-cards/metrics/RevenueCard";
-import OrderCountCard from "../../components/dashboard/metric-cards/metrics/OrderCountCard";
-import RevenueChartCard from "../../components/dashboard/metric-cards/metrics/RevenueChartCard";
+import RevenueCard from "../../components/dashboard/metric-cards/metrics/RevenueCard/RevenueCard";
+import OrderCountCard from "../../components/dashboard/metric-cards/metrics/OrderCountCard/OrderCountCard";
+import RevenueChartCard from "../../components/dashboard/metric-cards/metrics/RevenueChartCard/RevenueChartCard";
 import ReviewCard from "../../components/dashboard/metric-cards/reviews/ReviewCard";
-import OrderChartCard from "../../components/dashboard/metric-cards/metrics/OrderChartCard";
-import TopItemChartCard from "../../components/dashboard/metric-cards/metrics/TopItemsChartCard";
+import OrderChartCard from "../../components/dashboard/metric-cards/metrics/OrderChartCard/orderChartCard";
+import TopItemChartCard from "../../components/dashboard/metric-cards/metrics/TopItemsChartCard/TopItemsChartCard";
 import RatingByVendorCard from "../../components/dashboard/metric-cards/reviews/RatingByVendorCard";
 import RatingAverageCard from "../../components/dashboard/metric-cards/reviews/RatingAverageCard";
 
 import { auth } from "@/firebase/config";
 import { User, onAuthStateChanged } from "firebase/auth";
 import AOVCard from "../../components/dashboard/metric-cards/metrics/AOVCard/AOVCard";
-import LatestRatingCard from "../../components/dashboard/metric-cards/reviews/LatestRatingCard";
+import LatestRatingCard from "../../components/dashboard/metric-cards/reviews/CurrentRatingCard/LatestRatingCard";
 import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
 import RatingGraphCard from "../../components/dashboard/metric-cards/reviews/FoodRatingOverTimeChart";
 import { useAuth } from "../context/AuthContext";

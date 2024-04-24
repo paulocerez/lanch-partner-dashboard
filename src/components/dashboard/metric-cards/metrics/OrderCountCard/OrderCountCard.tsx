@@ -1,15 +1,23 @@
 import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
 import { Card, DateRangePickerValue, Metric, Text } from "@tremor/react";
 import React from "react";
-import Spinner from "../../dashboard-helpers/spinner";
+import Spinner from "../../../dashboard-helpers/spinner";
 
 interface RevenueCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
   orderPortal?: string[];
 }
-const RevenueCard = (RevenueCardProps: RevenueCardProps) => {
+const OrderCountCard = (RevenueCardProps: RevenueCardProps) => {
   const { vendorIds, dateRange, orderPortal } = RevenueCardProps;
+
+  // if(dateRange?.from && dateRange?.to) {
+  //   console.log("dateRange dates")
+  //   console.log(dateRange.from)
+  //   console.log(dateRange.to)
+  // } else {
+  //   console.log(dateRange.selectValue)
+  // }
 
   let orderPortalList: string[];
 
@@ -18,8 +26,6 @@ const RevenueCard = (RevenueCardProps: RevenueCardProps) => {
   } else {
     orderPortalList = orderPortal;
   }
-
-  // query gets triggered once RevenueCard is rendered and if any variable passed to useQuery below changes
 
   const getTotalGMVQuery = gql`
     query getTotalGMV(
@@ -98,34 +104,26 @@ const RevenueCard = (RevenueCardProps: RevenueCardProps) => {
       variables: variables,
     }
   );
-  // console.log(getTotalGMVresponse?.data?.api_partner_dashboard_api_pd_food_orders_aggregate)
-
-  // if (data) {
-  //   // console.log('Raw GMV:', data.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate.sum.gmv);
-  //   console.log("Date Range:", variables._fromDate, variables._toDate)
-  // }
 
   if (loading)
     return (
       <Card>
-        <Text>Umsatz</Text>
+        <Text>Bestellungen</Text>
         <Spinner />
       </Card>
     );
 
   return (
     <Card>
-      <Text>Umsatz</Text>
+      <Text>Anz. Bestellungen</Text>
       <Metric>
-        {vendorIds.length > 0
-          ? parseFloat(
-              data?.api_partner_dashboard_api_pd_food_orders_aggregate
-                ?.aggregate.sum.gmv || "0"
-            ).toLocaleString() + "€"
-          : "Wähle Restaurants"}
+        {parseFloat(
+          data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate
+            ?.count || "0"
+        ).toLocaleString()}
       </Metric>
     </Card>
   );
 };
 
-export default RevenueCard;
+export default OrderCountCard;
