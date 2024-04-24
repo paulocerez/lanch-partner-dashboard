@@ -2,9 +2,13 @@ import React from "react";
 import { Card, Text } from "@tremor/react";
 import Spinner from "./Spinner";
 
-const LoadingCard = () => (
+interface LoadingCardProps {
+  metricTitle: string;
+}
+
+const LoadingCard = ({ metricTitle }: LoadingCardProps) => (
   <Card>
-    <Text>⌀ Warenkorbwert</Text>
+    <Text>{metricTitle}</Text>
     <Spinner />
   </Card>
 );
