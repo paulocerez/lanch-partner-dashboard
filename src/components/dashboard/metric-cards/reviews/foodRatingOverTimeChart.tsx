@@ -26,7 +26,7 @@ const RatingGraphCard = (RatingCardProps: RatingCardProps) => {
   } else {
     orderPortalList = orderPortal;
   }
-  //   console.log("order_portal_list:", orderPortalList);
+  //   console.log("orderPortalList:", orderPortalList);
 
   const getWeeklyFoodOrderRatingsQuery = gql`
     query getWeeklyFoodOrderRatings(

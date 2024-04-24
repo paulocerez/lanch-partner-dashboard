@@ -113,7 +113,7 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
-  const order_portals = [
+  const orderPortals = [
     OrderPortal.LIEFERANDO,
     OrderPortal.UBER,
     OrderPortal.WOLT,
@@ -190,29 +190,29 @@ const Home = () => {
             </Grid>
           </TabPanel>
 
-          {order_portals.map((order_portal) => (
-            <TabPanel key={order_portal}>
+          {orderPortals.map((orderPortal) => (
+            <TabPanel key={orderPortal}>
               <Title>Umsatz</Title>
               <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
                 <RevenueCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
-                  order_portal={[order_portal]}
+                  orderPortal={[orderPortal]}
                 />
                 <OrderCountCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
-                  order_portal={[order_portal]}
+                  orderPortal={[orderPortal]}
                 />
                 <AOVCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
-                  order_portal={[order_portal]}
+                  orderPortal={[orderPortal]}
                 />
                 <LatestRatingCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
-                  order_portal={[order_portal]}
+                  orderPortal={[orderPortal]}
                 />
               </Grid>
               <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
@@ -220,21 +220,21 @@ const Home = () => {
                   <RevenueChartCard
                     vendorIds={selectedVendors}
                     dateRange={dateRange}
-                    order_portal={[order_portal]}
+                    orderPortal={[orderPortal]}
                   />
                 </div>
                 <div>
                   <OrderChartCard
                     vendorIds={selectedVendors}
                     dateRange={dateRange}
-                    order_portal={[order_portal]}
+                    orderPortal={[orderPortal]}
                   />
                 </div>
                 <div>
                   <TopItemChartCard
                     vendorIds={selectedVendors}
                     dateRange={dateRange}
-                    order_portal={[order_portal]}
+                    orderPortal={[orderPortal]}
                   />
                 </div>
               </Grid>
@@ -244,14 +244,14 @@ const Home = () => {
                   <ReviewCard
                     vendorIds={selectedVendors}
                     dateRange={dateRange}
-                    order_portal={[order_portal]}
+                    orderPortal={[orderPortal]}
                   />
                 </div>
                 {/* <div>
                   <RatingGraphCard
                     vendorIds={selectedVendors}
                     dateRange={dateRange}
-                    orderPortal={[order_portal]}
+                    orderPortal={[orderPortal]}
                   />
                 </div> */}
               </Grid>

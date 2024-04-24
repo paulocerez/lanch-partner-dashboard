@@ -2,11 +2,12 @@ import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
 import { Card, DateRangePickerValue, Metric, Text } from "@tremor/react";
 import React from "react";
 import Spinner from "../../../dashboard-helpers/Spinner";
+import LoadingCard from "@/components/dashboard/dashboard-helpers/LoadingCard";
 
 interface AOVCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
-  order_portal?: string[];
+  orderPortal?: string[];
 }
 
 interface GetTotalGMVResponse {
@@ -20,13 +21,13 @@ interface GetTotalGMVResponse {
   };
 }
 
-const AOVCard = ({ vendorIds, dateRange, order_portal }: AOVCardProps) => {
-  let order_portal_list: string[];
+const AOVCard = ({ vendorIds, dateRange, orderPortal }: AOVCardProps) => {
+  let orderPortalList: string[];
 
-  if (!order_portal) {
-    order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+  if (!orderPortal) {
+    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
   } else {
-    order_portal_list = order_portal;
+    orderPortalList = orderPortal;
   }
 
   const getTotalGMVQuery = gql`
@@ -85,7 +86,7 @@ const AOVCard = ({ vendorIds, dateRange, order_portal }: AOVCardProps) => {
       : toISOStringLocal(
           new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1)
         ),
-    _order_source_names: order_portal_list,
+    _order_source_names: orderPortalList,
     // Other variables can be added here
   };
   const { loading, error, data } = useQuery<GetTotalGMVResponse>(
@@ -96,13 +97,7 @@ const AOVCard = ({ vendorIds, dateRange, order_portal }: AOVCardProps) => {
     }
   );
 
-  if (loading)
-    return (
-      <Card>
-        <Text>⌀ Warenkorbwert</Text>
-        <Spinner />
-      </Card>
-    );
+  if (loading) return <LoadingCard />;
 
   return (
     <Card>

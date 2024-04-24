@@ -18,7 +18,7 @@ import Spinner from "../../dashboard-helpers/Spinner";
 interface TopItemCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
-  order_portal?: string[];
+  orderPortal?: string[];
 }
 
 interface VendorRating {
@@ -61,15 +61,15 @@ function calculateRatingPerVendor(ratings: VendorRating[]): DisplayData {
 }
 
 const RatingAverageCard = (RevenueCardProps: TopItemCardProps) => {
-  const { vendorIds, dateRange, order_portal } = RevenueCardProps;
+  const { vendorIds, dateRange, orderPortal } = RevenueCardProps;
 
   // console.log(vendorIds)
-  let order_portal_list: string[];
+  let orderPortalList: string[];
 
-  if (!order_portal) {
-    order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+  if (!orderPortal) {
+    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
   } else {
-    order_portal_list = order_portal;
+    orderPortalList = orderPortal;
   }
 
   const getRatingsQuery = gql`
@@ -124,7 +124,7 @@ const RatingAverageCard = (RevenueCardProps: TopItemCardProps) => {
       : toISOStringLocal(
           new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1)
         ),
-    _order_source_names: order_portal_list,
+    _order_source_names: orderPortalList,
     // Other variables can be added here
   };
   const { loading, error, data } = useQuery<GetRatingResponse>(

@@ -18,7 +18,7 @@ import Spinner from "../../dashboard-helpers/Spinner";
 interface ReviewCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
-  order_portal?: string[];
+  orderPortal?: string[];
 }
 
 interface Review {
@@ -34,14 +34,14 @@ interface GetAllReviewsResponse {
 }
 
 const ReviewCard = (ReviewCardProps: ReviewCardProps) => {
-  const { vendorIds, dateRange, order_portal } = ReviewCardProps;
+  const { vendorIds, dateRange, orderPortal } = ReviewCardProps;
 
-  let order_portal_list: string[];
+  let orderPortalList: string[];
 
-  if (!order_portal) {
-    order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+  if (!orderPortal) {
+    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
   } else {
-    order_portal_list = order_portal;
+    orderPortalList = orderPortal;
   }
 
   const getAllReviews = gql`
@@ -109,7 +109,7 @@ const ReviewCard = (ReviewCardProps: ReviewCardProps) => {
       : toISOStringLocal(
           new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1)
         ),
-    _order_source_names: order_portal_list,
+    _order_source_names: orderPortalList,
     // Other variables can be added here
   };
 

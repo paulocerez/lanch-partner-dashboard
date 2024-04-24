@@ -18,7 +18,7 @@ import Spinner from "../../dashboard-helpers/spinner";
 interface TopItemCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
-  order_portal?: string[];
+  orderPortal?: string[];
 }
 
 interface FoodOrderItem {
@@ -75,16 +75,16 @@ function calculateTotal(items: FoodOrderItem[]): TopItems[] {
 }
 
 const TopItemChartCard = (RevenueCardProps: TopItemCardProps) => {
-  const { vendorIds, dateRange, order_portal } = RevenueCardProps;
+  const { vendorIds, dateRange, orderPortal } = RevenueCardProps;
 
   // console.log(vendorIds)
 
-  let order_portal_list: string[];
+  let orderPortalList: string[];
 
-  if (!order_portal) {
-    order_portal_list = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+  if (!orderPortal) {
+    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
   } else {
-    order_portal_list = order_portal;
+    orderPortalList = orderPortal;
   }
 
   const getTopItemsQuery = gql`
@@ -120,7 +120,7 @@ const TopItemChartCard = (RevenueCardProps: TopItemCardProps) => {
         _toDate: dateRange?.to
           ? dateRange.to.toISOString().split("T")[0]
           : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
-        _order_source_names: order_portal_list,
+        _order_source_names: orderPortalList,
         // Other variables can be added here
       },
     }
