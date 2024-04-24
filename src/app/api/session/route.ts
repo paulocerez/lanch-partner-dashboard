@@ -1,7 +1,7 @@
 import { adminAuth } from "@/firebase/firebase-admin-config";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies, headers } from "next/headers";
-import generateHasuraJWT from "@/app/utils/generateHasuraJWT";
+import generateHasuraJWT from "@/utils/generateHasuraJWT";
 
 // API route to validate the Authorization Header
 

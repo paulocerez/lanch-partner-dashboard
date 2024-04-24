@@ -16,21 +16,21 @@ import {
 
 import { useEffect, useState } from "react";
 
-import RevenueCard from "../../components/dashboard/metric-cards/metrics/revenueCard";
-import OrderCountCard from "../../components/dashboard/metric-cards/metrics/orderCountCard";
-import RevenueChartCard from "../../components/dashboard/metric-cards/metrics/revenueChartCard";
-import ReviewCard from "../../components/dashboard/metric-cards/reviews/reviewCard";
-import OrderChartCard from "../../components/dashboard/metric-cards/metrics/orderChartCard";
-import TopItemChartCard from "../../components/dashboard/metric-cards/metrics/topItemsChartCard";
-import RatingByVendorCard from "../../components/dashboard/metric-cards/reviews/ratingByVendorCard";
-import RatingAverageCard from "../../components/dashboard/metric-cards/reviews/ratingAverageCard";
+import RevenueCard from "../../components/dashboard/metric-cards/metrics/RevenueCard";
+import OrderCountCard from "../../components/dashboard/metric-cards/metrics/OrderCountCard";
+import RevenueChartCard from "../../components/dashboard/metric-cards/metrics/RevenueChartCard";
+import ReviewCard from "../../components/dashboard/metric-cards/reviews/ReviewCard";
+import OrderChartCard from "../../components/dashboard/metric-cards/metrics/OrderChartCard";
+import TopItemChartCard from "../../components/dashboard/metric-cards/metrics/TopItemsChartCard";
+import RatingByVendorCard from "../../components/dashboard/metric-cards/reviews/RatingByVendorCard";
+import RatingAverageCard from "../../components/dashboard/metric-cards/reviews/RatingAverageCard";
 
 import { auth } from "@/firebase/config";
 import { User, onAuthStateChanged } from "firebase/auth";
 import AOVCard from "../../components/dashboard/metric-cards/metrics/AOVCard/AOVCard";
-import LatestRatingCard from "../../components/dashboard/metric-cards/reviews/latestRatingCard";
+import LatestRatingCard from "../../components/dashboard/metric-cards/reviews/LatestRatingCard";
 import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
-import RatingGraphCard from "../../components/dashboard/metric-cards/reviews/foodRatingOverTimeChart";
+import RatingGraphCard from "../../components/dashboard/metric-cards/reviews/FoodRatingOverTimeChart";
 import { useAuth } from "../context/AuthContext";
 
 enum OrderPortal {

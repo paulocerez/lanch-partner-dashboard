@@ -2,7 +2,7 @@
 // initialize GA on the client
 
 import { useEffect } from "react";
-import { initializeGA } from "@/app/utils/googleAnalytics";
+import { initializeGA } from "@/utils/googleAnalytics";
 
 const GoogleAnalytics: React.FC = () => {
   // useEffect initializes GA right when component mounts

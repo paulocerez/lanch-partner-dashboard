@@ -7,7 +7,7 @@ import {
   Title,
 } from "@tremor/react";
 import React from "react";
-import Spinner from "../../dashboard-helpers/Spinner";
+import Spinner from "../../dashboard-helpers/spinner";
 
 interface RevenueCardProps {
   vendorIds: string[];

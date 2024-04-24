@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 
 import HeaderComponent from "../../../components/dashboard/dashboard-helpers/Header";
-import AdminEditUser from "../../../components/dashboard/admin/admin_edit_user";
+import AdminEditUser from "../../../components/dashboard/admin/AdminEditUser";
 import { Button } from "@tremor/react";
 
 export default function Home({ params }: { params: { userid: string } }) {

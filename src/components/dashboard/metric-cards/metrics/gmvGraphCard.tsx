@@ -15,11 +15,9 @@ interface RevenueCardProps {
   dateRange: DateRangePickerValue;
   order_portal?: string[];
 }
-const GmvGraphCard = ({
-  vendorIds,
-  dateRange,
-  order_portal,
-}: RevenueCardProps) => {
+const GmvGraphCard = (RevenueCardProps: RevenueCardProps) => {
+  const { vendorIds, dateRange, order_portal } = RevenueCardProps;
+
   let order_portal_list: string[];
 
   if (!order_portal) {

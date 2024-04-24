@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import HeaderComponent from "../../components/dashboard/dashboard-helpers/Header";
-import AdminUserList from "../../components/dashboard/admin/admin_user_list";
+import AdminUserList from "../../components/dashboard/admin/AdminUserList";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 import { log } from "console";

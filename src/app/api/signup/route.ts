@@ -1,7 +1,7 @@
 import { adminAuth } from "@/firebase/firebase-admin-config";
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
-import generateHasuraJWT from "@/app/utils/generateHasuraJWT";
+import generateHasuraJWT from "@/utils/generateHasuraJWT";
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,23 +1,16 @@
+import React from "react";
+import Spinner from "@/components/dashboard/dashboard-helpers/Spinner";
 import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
 import { Card, DateRangePickerValue, Metric, Text } from "@tremor/react";
-import React from "react";
-import Spinner from "../../dashboard-helpers/spinner";
 
-interface RevenueCardProps {
+interface AOVCardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
   order_portal?: string[];
 }
-const OrderCountCard = (RevenueCardProps: RevenueCardProps) => {
-  const { vendorIds, dateRange, order_portal } = RevenueCardProps;
 
-  // if(dateRange?.from && dateRange?.to) {
-  //   console.log("dateRange dates")
-  //   console.log(dateRange.from)
-  //   console.log(dateRange.to)
-  // } else {
-  //   console.log(dateRange.selectValue)
-  // }
+const AOVCard = (AOVCardProps: AOVCardProps) => {
+  const { vendorIds, dateRange, order_portal } = AOVCardProps;
 
   let order_portal_list: string[];
 
@@ -108,22 +101,32 @@ const OrderCountCard = (RevenueCardProps: RevenueCardProps) => {
   if (loading)
     return (
       <Card>
-        <Text>Bestellungen</Text>
+        <Text>⌀ Warenkorbwert</Text>
         <Spinner />
       </Card>
     );
 
   return (
     <Card>
-      <Text>Anz. Bestellungen</Text>
+      <Text>⌀ Warenkorbwert</Text>
       <Metric>
-        {parseFloat(
-          data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate
-            ?.count || "0"
-        ).toLocaleString()}
+        {vendorIds.length > 0
+          ? (
+              parseFloat(
+                data?.api_partner_dashboard_api_pd_food_orders_aggregate
+                  ?.aggregate.sum.gmv || "0"
+              ) /
+              parseInt(
+                data?.api_partner_dashboard_api_pd_food_orders_aggregate
+                  ?.aggregate.count || "0"
+              )
+            )
+              .toFixed(2)
+              .toLocaleString() + "€"
+          : "Wähle Restaurants"}
       </Metric>
     </Card>
   );
 };
 
-export default OrderCountCard;
+export default AOVCard;
