@@ -44,7 +44,7 @@ const BASE_QUERY = `
 	  )
   `;
 
-export const getTotalGmvQuery = gql`
+export const getTotalGMVQuery = gql`
   query getTotalGMV(
     $_vendor_ids: [String!] = ["DE_Berlin_0014"]
     $_fromDate: Timestamp = "2023-09-15"

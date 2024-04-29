@@ -1,3 +1,5 @@
+import { GMVData } from "@/components/dashboard/metric-cards/metrics/AOVCard/useAOVData";
+
 export const calculateAverage = (
   data: GMVData | undefined,
   vendorIdLength: number

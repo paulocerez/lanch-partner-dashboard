@@ -27,8 +27,8 @@ import RatingAverageCard from "../../components/dashboard/metric-cards/reviews/R
 
 import { auth } from "@/firebase/config";
 import { User, onAuthStateChanged } from "firebase/auth";
-import AOVCard from "../../components/dashboard/metric-cards/metrics/AOVCard/AOVCard";
-import LatestRatingCard from "../../components/dashboard/metric-cards/reviews/CurrentRatingCard/LatestRatingCard";
+import { AOVCard } from "@/components/dashboard/metric-cards/metrics/AOVCard/AOVCard";
+import LatestRatingCard from "../../components/dashboard/metric-cards/reviews/CurrentRatingCard/CurrentRatingCard";
 import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
 import RatingGraphCard from "../../components/dashboard/metric-cards/reviews/FoodRatingOverTimeChart";
 import { useAuth } from "../context/AuthContext";
