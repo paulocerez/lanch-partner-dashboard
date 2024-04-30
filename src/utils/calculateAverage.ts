@@ -12,7 +12,7 @@ export const calculateAverage = (
   );
 
   if (data?.aggregate?.count === 0) {
-    return "Bisher keine Bestellungen durchgeführt.";
+    return "Bisher keine Bestellungen durchgeführt";
   }
   if (data?.aggregate?.sum.gmv === 0) {
     return "Bisher keinen Umsatz generiert";

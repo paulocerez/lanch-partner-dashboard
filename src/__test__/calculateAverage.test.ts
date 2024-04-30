@@ -40,7 +40,7 @@ describe("calculateAverage", () => {
       },
     };
     const result = calculateAverage(mockData, 2);
-    expect(result).toBe("Anfrage fehlgeschlagen");
+    expect(result).toBe("Bisher keine Bestellungen durchgeführt");
   });
   it('should return "Anfrage fehlgeschlagen" when gmv sum is zero', () => {
     const mockData: GMVData = {
@@ -50,6 +50,6 @@ describe("calculateAverage", () => {
       },
     };
     const average = calculateAverage(mockData, 2);
-    expect(average).toBe("Anfrage fehlgeschlagen");
+    expect(average).toBe("Bisher keinen Umsatz generiert");
   });
 });
