@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { getTotalGMVQuery } from "@/utils/gqlQueries";
-import { DateRangePickerValue } from "./AOVCardProps";
+import { DateRangePickerValue } from "../CardProps";
 
 export interface GMVData {
   aggregate: {
@@ -24,6 +24,12 @@ export const useAOVData = (
     _toDate: dateRange?.to?.toISOString(),
     _order_source_name: orderPortalList,
   };
-  return useQuery<GMVData>(getTotalGMVQuery, { variables });
+
+  const { loading, error, data } = useQuery<GMVData>(getTotalGMVQuery, {
+    variables,
+  });
+  console.log("GraphQL Error:", error);
+  return { loading, error, data };
+
   // <GMVData> as the expected shape of the data to be returned (TS generic type), getTotalGMVQuery as the query to be performed, { variables } as the object passed to the useQuery hook and being passed to the query itself
 };

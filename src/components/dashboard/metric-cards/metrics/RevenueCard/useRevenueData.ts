@@ -13,7 +13,7 @@ export interface GMVData {
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 
-export const useOrderCountData = (
+export const useRevenueData = (
   vendorIds: string[],
   dateRange: DateRangePickerValue,
   orderPortalList: string[]

@@ -145,12 +145,21 @@ const Home = () => {
           <TabPanel>
             <Title>Umsatz</Title>
             <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
-              <RevenueCard vendorIds={selectedVendors} dateRange={dateRange} />
+              <RevenueCard
+                vendorIds={selectedVendors}
+                dateRange={dateRange}
+                orderPortal={[]}
+              />
               <OrderCountCard
                 vendorIds={selectedVendors}
                 dateRange={dateRange}
+                orderPortal={[]}
               />
-              <AOVCard vendorIds={selectedVendors} dateRange={dateRange} />
+              <AOVCard
+                vendorIds={selectedVendors}
+                dateRange={dateRange}
+                orderPortal={[]}
+              />
               <LatestRatingCard
                 vendorIds={selectedVendors}
                 dateRange={dateRange}

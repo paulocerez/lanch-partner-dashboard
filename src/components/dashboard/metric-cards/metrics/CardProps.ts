@@ -3,7 +3,7 @@ export interface DateRangePickerValue {
   to?: Date;
 }
 
-export interface AOVCardProps {
+export interface CardProps {
   vendorIds: string[];
   dateRange: DateRangePickerValue;
   orderPortal: string[];
