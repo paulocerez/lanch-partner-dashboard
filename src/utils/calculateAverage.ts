@@ -1,4 +1,4 @@
-import { GMVData } from "@/components/dashboard/metric-cards/metrics/AOVCard/useAOVData";
+import { GMVData } from "@/components/dashboard/metric-cards/numbers/AOVCard/useAOVData";
 
 export const calculateAverage = (
   data: GMVData | undefined,

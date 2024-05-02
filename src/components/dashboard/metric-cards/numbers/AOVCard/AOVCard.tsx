@@ -1,6 +1,6 @@
 import React from "react";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/LoadingCard";
-import { CardProps } from "../CardProps";
+import { CardProps } from "../../CardProps";
 import { useAOVData } from "./useAOVData";
 import { calculateAverage } from "@/utils/calculateAverage";
 import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";

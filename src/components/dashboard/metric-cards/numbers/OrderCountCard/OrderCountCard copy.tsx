@@ -2,7 +2,7 @@ import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
 import { Card, DateRangePickerValue, Metric, Text } from "@tremor/react";
 import React from "react";
 import Spinner from "@/components/dashboard/dashboard-helpers/Spinner";
-import { CardProps } from "../CardProps";
+import { CardProps } from "../../CardProps";
 
 const OrderCountCard = (RevenueCardProps: CardProps) => {
   const { vendorIds, dateRange, orderPortal } = RevenueCardProps;

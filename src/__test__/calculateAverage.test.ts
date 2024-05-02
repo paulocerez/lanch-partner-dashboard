@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { GMVData } from "@/components/dashboard/metric-cards/metrics/useTotalGMVData";
+import { GMVData } from "@/components/dashboard/metric-cards/useTotalGMVData";
 import { calculateAverage } from "@/utils/calculateAverage";
 
 describe("calculateAverage", () => {

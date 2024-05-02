@@ -2,7 +2,7 @@ import React from "react";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/LoadingCard";
 import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";
 import { useOrderCountData } from "./useOrderCountData";
-import { CardProps } from "../CardProps";
+import { CardProps } from "../../CardProps";
 
 export const OrderCountCard = ({
   vendorIds,

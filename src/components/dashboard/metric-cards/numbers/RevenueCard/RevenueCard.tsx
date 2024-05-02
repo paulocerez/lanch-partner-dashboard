@@ -1,5 +1,5 @@
 import React from "react";
-import { CardProps } from "../CardProps";
+import { CardProps } from "../../CardProps";
 import { useRevenueData } from "./useRevenueData";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/LoadingCard";
 import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";
