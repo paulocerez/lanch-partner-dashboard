@@ -1,11 +1,21 @@
 import React from "react";
-import { CardProps } from "../../CardProps";
-import { useRevenueData } from "./useRevenueData";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/LoadingCard";
 import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";
+import { useTotalGMVData } from "../../useTotalGMVData";
+import { CardProps } from "../../CardProps";
 
-const RevenueCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
-  const { loading, data } = useRevenueData(vendorIds, dateRange, orderPortal);
+export const RevenueCard = ({
+  vendorIds,
+  dateRange,
+  orderPortal,
+}: CardProps) => {
+  const { loading, error, data } = useTotalGMVData(
+    vendorIds,
+    dateRange,
+    orderPortal
+  );
+
+  console.log("Revenue data:", data);
 
   let orderPortalList: string[];
   if (!orderPortal) {
@@ -15,9 +25,17 @@ const RevenueCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   }
 
   if (loading) return <LoadingCard metricTitle="Umsatz" />;
-  const totalGMV = data?.aggregate?.sum?.toString() || "Anfrage fehlgeschlagen";
 
-  return <CardComponent title="Anz. Bestellungen" metric={totalGMV} />;
+  if (error) {
+    console.error("Error fetching Revenue data:", error);
+    return <div>Error loading data</div>;
+  }
+
+  const totalGMV =
+    data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate.sum.gmv.toString() ||
+    "Anfrage fehlgeschlagen";
+
+  return <CardComponent title="Gesamtumsatz" metric={totalGMV} />;
 };
 
 export default RevenueCard;

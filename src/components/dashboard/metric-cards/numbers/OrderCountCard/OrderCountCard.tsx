@@ -1,7 +1,7 @@
 import React from "react";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/LoadingCard";
 import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";
-import { useOrderCountData } from "./useOrderCountData";
+import { useTotalGMVData } from "../../useTotalGMVData";
 import { CardProps } from "../../CardProps";
 
 export const OrderCountCard = ({
@@ -9,7 +9,7 @@ export const OrderCountCard = ({
   dateRange,
   orderPortal,
 }: CardProps) => {
-  const { loading, data } = useOrderCountData(
+  const { loading, error, data } = useTotalGMVData(
     vendorIds,
     dateRange,
     orderPortal
@@ -23,8 +23,15 @@ export const OrderCountCard = ({
   }
 
   if (loading) return <LoadingCard metricTitle="Anz. Bestellungen" />;
+
+  if (error) {
+    console.error("Error fetching Order count data:", error);
+    return <div>Error loading data</div>;
+  }
+
   const orderCount =
-    data?.aggregate?.count?.toString() || "Anfrage fehlgeschlagen";
+    data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate?.count?.toString() ||
+    "Anfrage fehlgeschlagen";
 
   return <CardComponent title="Anz. Bestellungen" metric={orderCount} />;
 };

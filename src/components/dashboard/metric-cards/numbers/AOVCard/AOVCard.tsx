@@ -1,22 +1,18 @@
 import React from "react";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/LoadingCard";
 import { CardProps } from "../../CardProps";
-import { useAOVData } from "./useAOVData";
+import { useTotalGMVData } from "../../useTotalGMVData";
 import { calculateAverage } from "@/utils/calculateAverage";
 import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";
 
 export const AOVCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
-  const { loading, error, data } = useAOVData(
+  const { loading, error, data } = useTotalGMVData(
     vendorIds,
     dateRange,
     orderPortal
   );
 
-  console.log("Loading status:", loading);
-  console.log("Data:", data);
-
   let orderPortalList: string[];
-
   if (!orderPortal) {
     orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
   } else {
