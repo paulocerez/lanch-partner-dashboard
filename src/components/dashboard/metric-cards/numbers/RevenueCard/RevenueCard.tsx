@@ -15,8 +15,6 @@ export const RevenueCard = ({
     orderPortal
   );
 
-  console.log("Revenue data:", data);
-
   let orderPortalList: string[];
   if (!orderPortal) {
     orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];

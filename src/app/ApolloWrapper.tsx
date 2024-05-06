@@ -52,7 +52,7 @@ const createApolloClient = (
 // Define the props for the ApolloWrapper component
 interface ApolloWrapperProps {
   children: React.ReactNode;
-  initialState?: InitialStateType; // Optional prop for initial state
+  initialState?: InitialStateType;
 }
 
 // ApolloWrapper component with TypeScript
@@ -60,7 +60,7 @@ export const ApolloWrapper: React.FC<ApolloWrapperProps> = ({
   children,
   initialState,
 }) => {
-  const { hasuraToken } = useAuth(); // Your useAuth hook should return a valid token
+  const { hasuraToken } = useAuth();
 
   // Use useMemo to avoid recreating the Apollo client on every render
   const client = useMemo(
