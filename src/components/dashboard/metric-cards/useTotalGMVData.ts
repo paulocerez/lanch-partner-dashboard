@@ -1,7 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { getTotalGMVQuery } from "@/utils/gqlQueries";
-import { DateRangePickerValue } from "./CardProps";
-import { GMVData } from "./CardProps";
+import { GET_TOTAL_GMV } from "@/utils/gqlQueries";
+import { DateRangePickerValue, GMVData } from "./CardProps";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 
@@ -17,7 +16,7 @@ export const useTotalGMVData = (
     _order_source_name: orderPortalList,
   };
 
-  const { loading, error, data } = useQuery<GMVData>(getTotalGMVQuery, {
+  const { loading, error, data } = useQuery<GMVData>(GET_TOTAL_GMV, {
     variables,
   });
   return { loading, error, data };

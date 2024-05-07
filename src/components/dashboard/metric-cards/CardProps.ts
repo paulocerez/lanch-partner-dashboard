@@ -18,3 +18,25 @@ export interface GMVData {
     };
   };
 }
+
+export interface DailyGMVData {
+  api_partner_dashboard_api_pd_food_orders_daily: {
+    totalGMV: string;
+    orderCount: string;
+    orderSourceName: string;
+    orderDate: string;
+    brand: string;
+  };
+}
+export interface InputType {
+  totalGMV: string;
+  orderCount: string;
+  orderSourceName: string;
+  orderDate: string;
+  brand: string;
+}
+
+export interface OutputType {
+  date: string;
+  [key: string]: string;
+}
