@@ -17,14 +17,15 @@ const OrderChartCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
 
   let orderData: OutputType[] = [];
   if (data) {
+    console.log("Data before aggregation: ", data);
     orderData = aggregateOrderData(data);
   }
 
   console.log(orderData);
-  if (loading) return <LoadingGraph metricTitle="Umsatz" />;
+  if (loading) return <LoadingGraph metricTitle="Orders" />;
 
   if (error) {
-    console.error("Error fetching AOV data:", error);
+    console.error("Error fetching Order graph data:", error);
     return <div>Error loading data</div>;
   }
 

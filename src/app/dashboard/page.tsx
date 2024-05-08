@@ -137,7 +137,6 @@ const Home = () => {
           <Tab>Wolt</Tab>
           <Tab>LANCH Shop</Tab>
         </TabList>
-         
         <TabPanels>
           <TabPanel>
             <Title>Umsatz</Title>

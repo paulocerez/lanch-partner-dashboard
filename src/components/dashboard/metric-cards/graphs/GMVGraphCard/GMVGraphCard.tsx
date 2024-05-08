@@ -24,7 +24,7 @@ const GMVGraphCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   if (loading) return <LoadingGraph metricTitle="Umsatz" />;
 
   if (error) {
-    console.error("Error fetching AOV data:", error);
+    console.error("Error fetching GMV graph data:", error);
     return <div>Error loading data</div>;
   }
 
