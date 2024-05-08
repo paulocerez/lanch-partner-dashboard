@@ -31,7 +31,7 @@ const GMVGraphCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   return (
     <Card>
       <Title>Umsatz</Title>
-      <Text>Außenumsatz nach Plattform</Text>
+      <Text>Außenumsatz nach Plattform (relativ)</Text>
       <BarChart
         className="mt-4 h-80"
         data={revenueData}

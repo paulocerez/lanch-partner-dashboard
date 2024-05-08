@@ -9,11 +9,12 @@ export const useTotalGMVData = (
   dateRange: DateRangePickerValue,
   orderPortalList: string[]
 ) => {
+  const portalFilter = orderPortalList.length > 0 ? orderPortalList : undefined;
   const variables = {
     _vendor_ids: vendorIds,
     _fromDate: dateRange?.from?.toISOString(),
     _toDate: dateRange?.to?.toISOString(),
-    _order_source_name: orderPortalList,
+    _order_source_name: portalFilter,
   };
 
   const { loading, error, data } = useQuery<GMVData>(GET_TOTAL_GMV, {

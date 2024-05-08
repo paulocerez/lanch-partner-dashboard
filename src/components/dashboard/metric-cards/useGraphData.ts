@@ -9,6 +9,7 @@ export const useGraphData = (
   dateRange: DateRangePickerValue,
   orderPortalList: string[]
 ) => {
+  const portalFilter = orderPortalList.length > 0 ? orderPortalList : undefined;
   const variables = {
     _vendor_ids: vendorIds,
     _fromDate: dateRange?.from
@@ -17,13 +18,14 @@ export const useGraphData = (
     _toDate: dateRange?.to
       ? dateRange.to.toISOString().split("T")[0]
       : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
-    _order_source_names: orderPortalList,
+    _order_source_names: portalFilter,
   };
 
   const { loading, error, data } = useQuery<GetGMVperDailyResponse>(
     GET_GMV_PER_DAY,
     {
       variables,
+      fetchPolicy: "cache-and-network",
     }
   );
 

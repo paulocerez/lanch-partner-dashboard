@@ -165,9 +165,10 @@ const Home = () => {
             </Grid>
             <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
               <div>
-                <RevenueChartCard
+                <GMVGraphCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
+                  orderPortal={[]}
                 />
               </div>
               <div>
@@ -187,13 +188,6 @@ const Home = () => {
             <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
               <div>
                 <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
-              </div>
-              <div>
-                <GMVGraphCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                  orderPortal={[]}
-                />
               </div>
             </Grid>
           </TabPanel>
@@ -225,7 +219,7 @@ const Home = () => {
               </Grid>
               <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
                 <div>
-                  <RevenueChartCard
+                  <GMVGraphCard
                     vendorIds={selectedVendors}
                     dateRange={dateRange}
                     orderPortal={[orderPortal]}
@@ -255,11 +249,6 @@ const Home = () => {
                     orderPortal={[orderPortal]}
                   />
                 </div>
-                <GMVGraphCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                  orderPortal={[orderPortal]}
-                />
               </Grid>
             </TabPanel>
           ))}
