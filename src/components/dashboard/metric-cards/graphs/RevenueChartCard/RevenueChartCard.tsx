@@ -33,19 +33,19 @@ type OutputType = {
 function aggregateData(data: InputType[]): OutputType[] {
   const aggregate: { [key: string]: { [key: string]: string } } = {};
 
-  data.forEach((datum) => {
-    const local_order_date = convertDateFormat(datum.order_date);
+  data.forEach((date) => {
+    const local_order_date = convertDateFormat(date.order_date);
     if (!aggregate[local_order_date]) {
       aggregate[local_order_date] = {};
     }
 
-    if (!aggregate[local_order_date][datum.order_source_name]) {
-      aggregate[local_order_date][datum.order_source_name] = datum.total_gmv;
+    if (!aggregate[local_order_date][date.order_source_name]) {
+      aggregate[local_order_date][date.order_source_name] = date.total_gmv;
     } else {
       // Convert the total_gmv to a number, add the current total_gmv, then convert it back to a string
-      aggregate[local_order_date][datum.order_source_name] = (
-        parseFloat(aggregate[local_order_date][datum.order_source_name]) +
-        parseFloat(datum.total_gmv)
+      aggregate[local_order_date][date.order_source_name] = (
+        parseFloat(aggregate[local_order_date][date.order_source_name]) +
+        parseFloat(date.total_gmv)
       )
         .toFixed(2)
         .toString();

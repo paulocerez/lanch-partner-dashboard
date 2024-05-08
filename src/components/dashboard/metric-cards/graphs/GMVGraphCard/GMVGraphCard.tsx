@@ -1,6 +1,6 @@
 "use client";
 import { BarChart, Card, Text, Title } from "@tremor/react";
-import { CardProps, OutputType, InputType } from "../../CardProps";
+import { CardProps, OutputType } from "../../CardProps";
 import React from "react";
 import { useGraphData } from "../../useGraphData";
 import { aggregateData, valueFormatter } from "@/utils/dataUtils";
@@ -13,16 +13,20 @@ const GMVGraphCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
     orderPortal
   );
 
+  console.log(data);
+
+  let revenueData: OutputType[] = [];
+  if (data) {
+    revenueData = aggregateData(data);
+  }
+
+  console.log(revenueData);
   if (loading) return <LoadingGraph metricTitle="Umsatz" />;
 
   if (error) {
     console.error("Error fetching AOV data:", error);
     return <div>Error loading data</div>;
   }
-
-  const revenueData: OutputType[] =
-    data?.api_partner_dashboard_api_pd_food_orders_daily.totalGMV ||
-    "Anfrage fehlgeschlagen";
 
   return (
     <Card>

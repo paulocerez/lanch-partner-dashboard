@@ -22,16 +22,14 @@ import RevenueChartCard from "../../components/dashboard/metric-cards/graphs/Rev
 import ReviewCard from "../../components/dashboard/metric-cards/numbers/ReviewCard";
 import OrderChartCard from "../../components/dashboard/metric-cards/graphs/OrderChartCard/orderChartCard";
 import TopItemChartCard from "../../components/dashboard/metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
-import RatingByVendorCard from "../../components/dashboard/metric-cards/numbers/RatingByVendorCard";
-import RatingAverageCard from "../../components/dashboard/metric-cards/numbers/RatingAverageCard";
 
 import { auth } from "@/firebase/config";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { AOVCard } from "@/components/dashboard/metric-cards/numbers/AOVCard/AOVCard";
 import LatestRatingCard from "../../components/dashboard/metric-cards/numbers/CurrentRatingCard/CurrentRatingCard";
 import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
-import RatingGraphCard from "../../components/dashboard/metric-cards/graphs/FoodRatingOverTimeChart";
 import { useAuth } from "../context/AuthContext";
+import GMVGraphCard from "@/components/dashboard/metric-cards/graphs/GMVGraphCard/GMVGraphCard";
 
 enum OrderPortal {
   "LIEFERANDO" = "Lieferando",
@@ -190,12 +188,13 @@ const Home = () => {
               <div>
                 <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
               </div>
-              {/* <div>
-                <RatingGraphCard
+              <div>
+                <GMVGraphCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
+                  orderPortal={[]}
                 />
-              </div> */}
+              </div>
             </Grid>
           </TabPanel>
 
@@ -256,13 +255,11 @@ const Home = () => {
                     orderPortal={[orderPortal]}
                   />
                 </div>
-                {/* <div>
-                  <RatingGraphCard
-                    vendorIds={selectedVendors}
-                    dateRange={dateRange}
-                    orderPortal={[orderPortal]}
-                  />
-                </div> */}
+                <GMVGraphCard
+                  vendorIds={selectedVendors}
+                  dateRange={dateRange}
+                  orderPortal={[orderPortal]}
+                />
               </Grid>
             </TabPanel>
           ))}

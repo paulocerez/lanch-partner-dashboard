@@ -1,4 +1,5 @@
 import {
+  DailyGMVData,
   InputType,
   OutputType,
 } from "@/components/dashboard/metric-cards/CardProps";
@@ -20,18 +21,17 @@ export const aggregateData = (data: InputType[]): OutputType[] => {
   const aggregate: { [key: string]: { [key: string]: string } } = {};
 
   data.forEach((date) => {
-    const localOrderDate = convertDateFormat(date.orderDate);
+    const localOrderDate = convertDateFormat(date.order_date);
     if (!aggregate[localOrderDate]) {
       aggregate[localOrderDate] = {};
     }
 
-    if (!aggregate[localOrderDate][date.orderSourceName]) {
-      aggregate[localOrderDate][date.orderSourceName] = date.totalGMV;
+    if (!aggregate[localOrderDate][date.order_source_name]) {
+      aggregate[localOrderDate][date.order_source_name] = date.total_gmv;
     } else {
-      // Convert the total_gmv to a number, add the current total_gmv, then convert it back to a string
-      aggregate[localOrderDate][date.orderSourceName] = (
-        parseFloat(aggregate[localOrderDate][date.orderSourceName]) +
-        parseFloat(date.totalGMV)
+      aggregate[localOrderDate][date.order_source_name] = (
+        parseFloat(aggregate[localOrderDate][date.order_source_name]) +
+        parseFloat(date.total_gmv)
       )
         .toFixed(2)
         .toString();

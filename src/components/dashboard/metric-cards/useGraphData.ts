@@ -1,6 +1,6 @@
-import { useQuery, useSuspenseQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GET_GMV_PER_DAY } from "@/utils/gqlQueries";
-import { DailyGMVData, DateRangePickerValue } from "./CardProps";
+import { DateRangePickerValue, GetGMVperDailyResponse } from "./CardProps";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 
@@ -20,10 +20,20 @@ export const useGraphData = (
     _order_source_names: orderPortalList,
   };
 
-  const { loading, error, data } = useQuery<DailyGMVData>(GET_GMV_PER_DAY, {
-    variables,
-  });
-  return { loading, error, data };
+  const { loading, error, data } = useQuery<GetGMVperDailyResponse>(
+    GET_GMV_PER_DAY,
+    {
+      variables,
+    }
+  );
 
-  // <DailyGMVData> as the expected shape of the data to be returned (TS generic type), getTotalGMVQuery as the query to be performed, { variables } as the object passed to the useQuery hook and being passed to the query itself
+  console.log(data);
+
+  return {
+    loading,
+    error,
+    data: data?.api_partner_dashboard_api_pd_food_orders_daily,
+  };
 };
+
+// <DailyGMVData> as the expected shape of the data to be returned (TS generic type), getTotalGMVQuery as the query to be performed, { variables } as the object passed to the useQuery hook and being passed to the query itself

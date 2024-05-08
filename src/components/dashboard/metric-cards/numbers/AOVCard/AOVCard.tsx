@@ -27,7 +27,6 @@ export const AOVCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   }
 
   const averageValue = calculateAverage(data, vendorIds.length);
-  console.log("Average value:", averageValue);
 
   return (
     <CardComponent title="Durchschn. Warenkorbwert" metric={averageValue} />
