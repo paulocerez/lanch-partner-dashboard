@@ -5,7 +5,7 @@ import generateHasuraJWT from "@/utils/generateHasuraJWT";
 
 export async function POST(req: NextRequest) {
   try {
-    const authorizationHeader = req.headers.get("Authorization");›
+    const authorizationHeader = req.headers.get("Authorization");
 
     if (authorizationHeader?.startsWith("Bearer ")) {
       const idToken = authorizationHeader.split("Bearer ")[1];
