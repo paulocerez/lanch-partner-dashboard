@@ -29,8 +29,8 @@ export const GET_TOTAL_GMV = gql`
   }
 `;
 
-export const GET_GMV_PER_DAY = gql`
-  query getGMVperDay(
+export const GET_FOOD_ORDERS_DAILY = gql`
+  query getFoodOrdersDaily(
     $_vendor_ids: [String!] = ["DE_Berlin_0014"]
     $_fromDate: Date = "2023-09-15"
     $_toDate: Date = "2023-10-27"

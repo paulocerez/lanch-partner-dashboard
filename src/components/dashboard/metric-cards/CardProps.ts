@@ -19,7 +19,7 @@ export interface GMVData {
   };
 }
 
-export interface DailyGMVData {
+export interface DailyFoodOrderData {
   total_gmv: string;
   order_count: string;
   order_source_name: string;
@@ -27,8 +27,8 @@ export interface DailyGMVData {
   brand: string;
 }
 
-export interface GetGMVperDailyResponse {
-  api_partner_dashboard_api_pd_food_orders_daily: DailyGMVData[];
+export interface FoordOrderDataDaily {
+  api_partner_dashboard_api_pd_food_orders_daily: DailyFoodOrderData[];
 }
 
 export type InputType = {

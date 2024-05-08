@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { GET_GMV_PER_DAY } from "@/utils/gqlQueries";
-import { DateRangePickerValue, GetGMVperDailyResponse } from "./CardProps";
+import { GET_FOOD_ORDERS_DAILY } from "@/utils/gqlQueries";
+import { DateRangePickerValue, FoordOrderDataDaily } from "./CardProps";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 
@@ -21,8 +21,8 @@ export const useGraphData = (
     _order_source_names: portalFilter,
   };
 
-  const { loading, error, data } = useQuery<GetGMVperDailyResponse>(
-    GET_GMV_PER_DAY,
+  const { loading, error, data } = useQuery<FoordOrderDataDaily>(
+    GET_FOOD_ORDERS_DAILY,
     {
       variables,
       fetchPolicy: "cache-and-network",

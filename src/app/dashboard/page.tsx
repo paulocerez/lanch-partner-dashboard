@@ -18,9 +18,8 @@ import { useEffect, useState } from "react";
 
 import RevenueCard from "../../components/dashboard/metric-cards/numbers/RevenueCard/RevenueCard";
 import OrderCountCard from "../../components/dashboard/metric-cards/numbers/OrderCountCard/OrderCountCard";
-import RevenueChartCard from "../../components/dashboard/metric-cards/graphs/RevenueChartCard/RevenueChartCard";
 import ReviewCard from "../../components/dashboard/metric-cards/numbers/ReviewCard";
-import OrderChartCard from "../../components/dashboard/metric-cards/graphs/OrderChartCard/orderChartCard";
+import OrderChartCard from "@/components/dashboard/metric-cards/graphs/OrderChartCard/orderChartCard";
 import TopItemChartCard from "../../components/dashboard/metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
 
 import { auth } from "@/firebase/config";
@@ -175,6 +174,7 @@ const Home = () => {
                 <OrderChartCard
                   vendorIds={selectedVendors}
                   dateRange={dateRange}
+                  orderPortal={[]}
                 />
               </div>
               <div>

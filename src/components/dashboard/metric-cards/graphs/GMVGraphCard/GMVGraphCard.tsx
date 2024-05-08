@@ -1,9 +1,11 @@
-"use client";
 import { BarChart, Card, Text, Title } from "@tremor/react";
 import { CardProps, OutputType } from "../../CardProps";
 import React from "react";
 import { useGraphData } from "../../useGraphData";
-import { aggregateData, valueFormatter } from "@/utils/dataUtils";
+import {
+  aggregateGMVData,
+  valueFormatter,
+} from "@/utils/aggregateDataForGraphs";
 import LoadingGraph from "@/components/dashboard/dashboard-helpers/LoadingGraph";
 
 const GMVGraphCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
@@ -13,11 +15,9 @@ const GMVGraphCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
     orderPortal
   );
 
-  console.log(data);
-
   let revenueData: OutputType[] = [];
   if (data) {
-    revenueData = aggregateData(data);
+    revenueData = aggregateGMVData(data);
   }
 
   console.log(revenueData);
