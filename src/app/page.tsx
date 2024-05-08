@@ -114,7 +114,7 @@ export default function Home() {
 
   //const vendors = data.other_api_pd_food_orders.
 
-  const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
+  const [vendorIds, setSelectedVendors] = useState<string[]>([]);
 
   // const handleValueChange = (values: string[]) => {
   //   setSelectedVendors(values);
@@ -143,10 +143,7 @@ export default function Home() {
             <DatePicker />
           </div>
           <div className="md:w-80 md:mx-6 space-y-6 w-auto mt-4 md:mt-0">
-            <MultiSelect
-              value={selectedVendors}
-              onValueChange={setSelectedVendors}
-            >
+            <MultiSelect value={vendorIds} onValueChange={setSelectedVendors}>
               {MultiSelectItemArray}
             </MultiSelect>
           </div>

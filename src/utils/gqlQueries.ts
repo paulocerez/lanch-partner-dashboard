@@ -57,3 +57,24 @@ export const GET_FOOD_ORDERS_DAILY = gql`
     }
   }
 `;
+
+export const GET_ALL_VENDORS = gql`
+  query getAllVendors {
+    api_partner_dashboard_api_pd_food_orders(
+      distinct_on: vendor_id
+      order_by: { vendor_id: asc }
+    ) {
+      vendor_id
+      vendor_name
+    }
+  }
+`;
+
+export const GET_ASSIGNED_VENDORS = gql`
+  query getVendorList($_userID: String) {
+    vendors_of_user(where: { user_id: { _eq: $_userID } }) {
+      vendor_id
+      user_id
+    }
+  }
+`;

@@ -16,19 +16,11 @@ import {
 
 import { useEffect, useState } from "react";
 
-import RevenueCard from "../../components/dashboard/metric-cards/numbers/RevenueCard/RevenueCard";
-import OrderCountCard from "../../components/dashboard/metric-cards/numbers/OrderCountCard/OrderCountCard";
-import ReviewCard from "../../components/dashboard/metric-cards/numbers/ReviewCard";
-import OrderChartCard from "@/components/dashboard/metric-cards/graphs/OrderChartCard/orderChartCard";
-import TopItemChartCard from "../../components/dashboard/metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
-
 import { auth } from "@/firebase/config";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { AOVCard } from "@/components/dashboard/metric-cards/numbers/AOVCard/AOVCard";
-import LatestRatingCard from "../../components/dashboard/metric-cards/numbers/CurrentRatingCard/CurrentRatingCard";
 import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
 import { useAuth } from "../context/AuthContext";
-import GMVGraphCard from "@/components/dashboard/metric-cards/graphs/GMVGraphCard/GMVGraphCard";
+import { DashboardTabs } from "@/components/dashboard/sections/DashboardTabs";
 
 enum OrderPortal {
   "LIEFERANDO" = "Lieferando",
@@ -43,9 +35,9 @@ enum OrderPortal {
 
 const Home = () => {
   // state management
-  const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
-  const updateSelectedVendors = (newSelectedVendors: string[]) => {
-    setSelectedVendors(newSelectedVendors);
+  const [vendorIds, setVendorIds] = useState<string[]>([]);
+  const updateVendorIds = (newSelectedVendors: string[]) => {
+    setVendorIds(newSelectedVendors);
   };
 
   const { hasuraToken } = useAuth();
@@ -105,7 +97,6 @@ const Home = () => {
         console.log("local dash: nope nobody is signed in");
       }
     });
-
     // Cleanup function to unsubscribe when the component unmounts
     return () => unsubscribe();
   }, []);
@@ -125,8 +116,8 @@ const Home = () => {
         user={user}
         dateRange={dateRange}
         updateDateRange={updateDateRange}
-        selectedVendors={selectedVendors}
-        updateSelectedVendors={updateSelectedVendors}
+        vendorIds={vendorIds}
+        updateSelectedVendorIds={updateVendorIds}
       />
 
       <TabGroup className="mt-6">
@@ -138,117 +129,23 @@ const Home = () => {
           <Tab>LANCH Shop</Tab>
         </TabList>
         <TabPanels>
+          {/* aggregated data for all platforms */}
           <TabPanel>
-            <Title>Umsatz</Title>
-            <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
-              <RevenueCard
-                vendorIds={selectedVendors}
-                dateRange={dateRange}
-                orderPortal={[]}
-              />
-              <OrderCountCard
-                vendorIds={selectedVendors}
-                dateRange={dateRange}
-                orderPortal={[]}
-              />
-              <AOVCard
-                vendorIds={selectedVendors}
-                dateRange={dateRange}
-                orderPortal={[]}
-              />
-              <LatestRatingCard
-                vendorIds={selectedVendors}
-                dateRange={dateRange}
-              />
-            </Grid>
-            <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
-              <div>
-                <GMVGraphCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                  orderPortal={[]}
-                />
-              </div>
-              <div>
-                <OrderChartCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                  orderPortal={[]}
-                />
-              </div>
-              <div>
-                <TopItemChartCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                />
-              </div>
-            </Grid>
-            <Title className="mt-6">Performance</Title>
-            <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
-              <div>
-                <ReviewCard vendorIds={selectedVendors} dateRange={dateRange} />
-              </div>
-            </Grid>
+            <DashboardTabs
+              vendorIds={vendorIds}
+              dateRange={dateRange}
+              orderPortal={[]}
+            />
           </TabPanel>
 
+          {/* individual platforms */}
           {orderPortals.map((orderPortal) => (
             <TabPanel key={orderPortal}>
-              <Title>Umsatz</Title>
-              <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
-                <RevenueCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                  orderPortal={[orderPortal]}
-                />
-                <OrderCountCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                  orderPortal={[orderPortal]}
-                />
-                <AOVCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                  orderPortal={[orderPortal]}
-                />
-                <LatestRatingCard
-                  vendorIds={selectedVendors}
-                  dateRange={dateRange}
-                  orderPortal={[orderPortal]}
-                />
-              </Grid>
-              <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
-                <div>
-                  <GMVGraphCard
-                    vendorIds={selectedVendors}
-                    dateRange={dateRange}
-                    orderPortal={[orderPortal]}
-                  />
-                </div>
-                <div>
-                  <OrderChartCard
-                    vendorIds={selectedVendors}
-                    dateRange={dateRange}
-                    orderPortal={[orderPortal]}
-                  />
-                </div>
-                <div>
-                  <TopItemChartCard
-                    vendorIds={selectedVendors}
-                    dateRange={dateRange}
-                    orderPortal={[orderPortal]}
-                  />
-                </div>
-              </Grid>
-              <Title className="mt-6">Performance</Title>
-              <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
-                <div>
-                  <ReviewCard
-                    vendorIds={selectedVendors}
-                    dateRange={dateRange}
-                    orderPortal={[orderPortal]}
-                  />
-                </div>
-              </Grid>
+              <DashboardTabs
+                vendorIds={vendorIds}
+                dateRange={dateRange}
+                orderPortal={[orderPortal]}
+              />
             </TabPanel>
           ))}
         </TabPanels>
