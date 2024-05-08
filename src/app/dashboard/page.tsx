@@ -1,26 +1,16 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase/config";
+import { useAuth } from "../context/AuthContext";
+import { useDateRange } from "@/utils/dateUtils"; // Assuming you have this hook
 
+import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
 import HeaderComponent from "../../components/dashboard/dashboard-helpers/Header";
 import FilterBarComponent from "../../components/dashboard/dashboard-helpers/FilterBar";
-
-import {
-  Grid,
-  Tab,
-  TabList,
-  TabGroup,
-  TabPanel,
-  TabPanels,
-  DateRangePickerValue,
-  Title,
-} from "@tremor/react";
-
-import { useEffect, useState } from "react";
-
-import { auth } from "@/firebase/config";
-import { User, onAuthStateChanged } from "firebase/auth";
-import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
-import { useAuth } from "../context/AuthContext";
 import { DashboardTabs } from "@/components/dashboard/sections/DashboardTabs";
+
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@tremor/react";
 
 enum OrderPortal {
   "LIEFERANDO" = "Lieferando",
@@ -34,68 +24,27 @@ enum OrderPortal {
 }
 
 const Home = () => {
-  // state management
-  const [vendorIds, setVendorIds] = useState<string[]>([]);
-  const updateVendorIds = (newSelectedVendors: string[]) => {
-    setVendorIds(newSelectedVendors);
-  };
-
   const { hasuraToken } = useAuth();
+  const [vendorIds, setVendorIds] = useState<string[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+
+  const { dateRange, updateDateRange } = useDateRange({
+    from: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
+    to: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
+  });
 
   useEffect(() => {
     console.log("Dashboard hasuraToken:", hasuraToken);
   }, [hasuraToken]);
 
-  const [dateRange, setDateRange] = useState<DateRangePickerValue>({
-    from: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
-    to: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
-  });
-
-  const updateDateRange = (newDateRange: DateRangePickerValue) => {
-    if (newDateRange?.selectValue) {
-      if (newDateRange.selectValue === "last_week") {
-        newDateRange.from = new Date(
-          new Date().getTime() - 1000 * 60 * 60 * 24 * 8
-        );
-        newDateRange.to = new Date(
-          new Date().getTime() - 1000 * 60 * 60 * 24 * 1
-        );
-      } else if (newDateRange.selectValue === "last_two_week") {
-        newDateRange.from = new Date(
-          new Date().getTime() - 1000 * 60 * 60 * 24 * 15
-        );
-        newDateRange.to = new Date(
-          new Date().getTime() - 1000 * 60 * 60 * 24 * 1
-        );
-      } else if (newDateRange.selectValue === "last_month") {
-        newDateRange.from = new Date(
-          new Date().getTime() - 1000 * 60 * 60 * 24 * 29
-        );
-        newDateRange.to = new Date(
-          new Date().getTime() - 1000 * 60 * 60 * 24 * 1
-        );
-      } else if (newDateRange.selectValue === "last_three_month") {
-        newDateRange.from = new Date(
-          new Date().getTime() - 1000 * 60 * 60 * 24 * 85
-        );
-        newDateRange.to = new Date(
-          new Date().getTime() - 1000 * 60 * 60 * 24 * 1
-        );
-      }
-    }
-    setDateRange(newDateRange);
-  };
-
-  const [user, setUser] = useState<User | null>(null);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-        console.log("local dash: user is signed in");
-      } else {
-        console.log("local dash: nope nobody is signed in");
-      }
+      setUser(user);
+      console.log(
+        user
+          ? "local dash: user is signed in"
+          : "local dash: nobody is signed in"
+      );
     });
     // Cleanup function to unsubscribe when the component unmounts
     return () => unsubscribe();
@@ -117,7 +66,7 @@ const Home = () => {
         dateRange={dateRange}
         updateDateRange={updateDateRange}
         vendorIds={vendorIds}
-        updateSelectedVendorIds={updateVendorIds}
+        updateSelectedVendorIds={setVendorIds}
       />
 
       <TabGroup className="mt-6">

@@ -7,14 +7,20 @@ import {
 } from "@tremor/react";
 import { useFilterBarData } from "./useFilterBarData";
 import { FilterBarProps } from "./FilterBar/FilterBarProps";
+import { getUpdatedDateRange, useDateRange } from "@/utils/dateUtils";
 
 const FilterBarComponent = ({
   vendorIds,
   updateSelectedVendorIds,
-  dateRange,
-  updateDateRange,
   user,
 }: FilterBarProps) => {
+  const initialDateRange = {
+    from: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
+    to: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
+  };
+
+  const { dateRange, updateDateRange } = useDateRange(initialDateRange);
+
   const {
     assignedVendorList = [],
     vendorList = [],
@@ -22,32 +28,18 @@ const FilterBarComponent = ({
     error,
   } = useFilterBarData(user?.uid);
 
-  useEffect(() => {
-    // Get the current list of vendor IDs
-    const currentVendorIds = assignedVendorList.map(
-      (vendor) => vendor.vendor_id
-    );
+  const handleDateRangeUpdate = (selectedValue: string) => {
+    const newDateRange = getUpdatedDateRange(selectedValue);
+    updateDateRange(newDateRange);
+  };
 
-    // Check if the current list of vendor IDs is different from the previously selected ones
-    const hasVendorIdsChanged =
-      vendorIds.length !== currentVendorIds.length ||
-      vendorIds.some((id, index) => id !== currentVendorIds[index]);
-
-    // Update the selected vendor IDs only if they have changed
-    if (hasVendorIdsChanged) {
-      updateSelectedVendorIds(currentVendorIds);
-    }
-  }, [assignedVendorList, vendorIds, updateSelectedVendorIds]);
+  // Handle the vendor selection update logic
+  const handleVendorSelectionChange = (selectedVendorIds: string[]) => {
+    updateSelectedVendorIds(selectedVendorIds);
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
-
-  // Filter the vendor list to include only those that are assigned to the user
-  const filteredVendorList = vendorList.filter((vendor) =>
-    assignedVendorList.some(
-      (assignedVendor) => assignedVendor.vendor_id === vendor.vendor_id
-    )
-  );
 
   return (
     <div>
@@ -60,7 +52,7 @@ const FilterBarComponent = ({
             value={vendorIds}
             onValueChange={updateSelectedVendorIds}
           >
-            {filteredVendorList.map((vendor) => (
+            {vendorList.map((vendor) => (
               <MultiSelectItem key={vendor.vendor_id} value={vendor.vendor_id}>
                 {vendor.vendor_name}
               </MultiSelectItem>

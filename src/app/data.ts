@@ -1,27 +1,26 @@
-  // some mock data
-  const topSeller = [
-    { name: "Pizza", value: 1230 },
-    { name: "Chicken", value: 751 },
-    { name: "Rolls", value: 471 },
-    { name: "Waffel", value: 280 },
-    { name: "Drinks", value: 78 },
-  ];
-  
-  const vendors = [
-    { name: "Berlin Mitte", value: "DE_Berlin_0001"},
-    { name: "Berlin Prenzlauer Berg", value: "DE_Berlin_0002"},
-    { name: "Berlin Friedrichshain", value: "DE_Berlin_0003"},
-    { name: "Berlin Kreuzberg", value: "DE_Berlin_0004"},
-    { name: "Berlin Neukölln", value: "DE_Berlin_0005"},
-    { name: "Berlin Schöneberg", value: "DE_Berlin_0006"},
-    { name: "Berlin Charlottenburg", value: "DE_Berlin_0007"},
-    { name: "Berlin Spandau", value: "DE_Berlin_0008"},
-    { name: "Berlin Steglitz", value: "DE_Berlin_0009"},
-    { name: "Berlin Tempelhof", value: "DE_Berlin_0010"},
-    { name: "Berlin Wedding", value: "DE_Berlin_0011"},
-    { name: "Berlin Reinickendorf", value: "DE_Berlin_0012"},
-  ]
+// some mock data
+const topSeller = [
+  { name: "Pizza", value: 1230 },
+  { name: "Chicken", value: 751 },
+  { name: "Rolls", value: 471 },
+  { name: "Waffel", value: 280 },
+  { name: "Drinks", value: 78 },
+];
 
+const vendors = [
+  { name: "Berlin Mitte", value: "DE_Berlin_0001" },
+  { name: "Berlin Prenzlauer Berg", value: "DE_Berlin_0002" },
+  { name: "Berlin Friedrichshain", value: "DE_Berlin_0003" },
+  { name: "Berlin Kreuzberg", value: "DE_Berlin_0004" },
+  { name: "Berlin Neukölln", value: "DE_Berlin_0005" },
+  { name: "Berlin Schöneberg", value: "DE_Berlin_0006" },
+  { name: "Berlin Charlottenburg", value: "DE_Berlin_0007" },
+  { name: "Berlin Spandau", value: "DE_Berlin_0008" },
+  { name: "Berlin Steglitz", value: "DE_Berlin_0009" },
+  { name: "Berlin Tempelhof", value: "DE_Berlin_0010" },
+  { name: "Berlin Wedding", value: "DE_Berlin_0011" },
+  { name: "Berlin Reinickendorf", value: "DE_Berlin_0012" },
+];
 
 const categories = [
   {
@@ -168,7 +167,7 @@ const revenueData = [
 const itemsSold = [
   {
     name: "Pizza",
-    value: 456,   
+    value: 456,
   },
   {
     name: "Pasta",
@@ -200,4 +199,4 @@ const itemsSold = [
   },
 ];
 
-export { topSeller, vendors, categories, revenueData, itemsSold }
+export { topSeller, vendors, categories, revenueData, itemsSold };
