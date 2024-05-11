@@ -13,7 +13,7 @@ import {
   BarList,
 } from "@tremor/react";
 import React from "react";
-import Spinner from "@/components/dashboard/dashboard-helpers/Spinner";
+import Spinner from "@/components/dashboard/dashboard-helpers/Loading/Spinner";
 
 interface TopItemCardProps {
   vendorIds: string[];

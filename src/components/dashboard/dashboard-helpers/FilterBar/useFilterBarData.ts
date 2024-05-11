@@ -1,9 +1,11 @@
+// useFilterBarData: hook using Apollo Client to fetch data about vendors based on the current user ID
+
 import { useQuery } from "@apollo/client";
 import { GET_ALL_VENDORS, GET_ASSIGNED_VENDORS } from "@/utils/gqlQueries";
 import {
   GetAllVendorsResponse,
   GetAssignedVendorsResponse,
-} from "./FilterBar/FilterBarProps";
+} from "./FilterBarProps";
 
 export const useFilterBarData = (userId: string | undefined) => {
   const {

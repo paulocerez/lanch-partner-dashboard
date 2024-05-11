@@ -1,5 +1,5 @@
 import React from "react";
-import LoadingCard from "@/components/dashboard/dashboard-helpers/LoadingCard";
+import LoadingCard from "@/components/dashboard/dashboard-helpers/Loading/LoadingCard";
 import { CardProps } from "../../CardProps";
 import { useTotalGMVData } from "../../useTotalGMVData";
 import { calculateAverage } from "@/utils/calculateAverage";

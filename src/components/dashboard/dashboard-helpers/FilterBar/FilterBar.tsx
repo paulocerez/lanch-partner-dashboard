@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { DatePicker } from "./DatePickerFilter";
+import { DatePicker } from "../Date/DatePickerFilter";
 import {
   MultiSelect,
   MultiSelectItem,
   DateRangePickerValue,
 } from "@tremor/react";
 import { useFilterBarData } from "./useFilterBarData";
-import { FilterBarProps } from "./FilterBar/FilterBarProps";
+import { FilterBarProps } from "./FilterBarProps";
 import { getUpdatedDateRange, useDateRange } from "@/utils/dateUtils";
 
 const FilterBarComponent = ({

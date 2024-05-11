@@ -6,7 +6,7 @@ import {
   aggregateGMVData,
   valueFormatter,
 } from "@/utils/aggregateDataForGraphs";
-import LoadingGraph from "@/components/dashboard/dashboard-helpers/LoadingGraph";
+import LoadingGraph from "@/components/dashboard/dashboard-helpers/Loading/LoadingGraph";
 
 const GMVGraphCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   const { loading, error, data } = useGraphData(

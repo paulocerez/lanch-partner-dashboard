@@ -19,7 +19,6 @@ export const useTotalGMVData = (
 
   const { loading, error, data } = useQuery<GMVData>(GET_TOTAL_GMV, {
     variables,
-    fetchPolicy: "cache-and-network",
   });
   return { loading, error, data };
 

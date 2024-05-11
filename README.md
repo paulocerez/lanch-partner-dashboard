@@ -4,13 +4,7 @@
 
 # LANCH Partner Dashboard
 
-The partner dashboard enables LANCH partners to track their most important operations metrics by accessing data from LANCH's data warehouse and other sources. Features include:
-
-## ✨ Features
-
-- Tracking most important sales and cost metrics
-- Insights on LANCH's marketing measures
-- ...
+The partner dashboard enables LANCH partners to track their most important operations metrics by accessing data from LANCH's data warehouse and other sources. It displays them in an easy-to-access way using cards and graphs, separating between different platforms.
 
 </div>
 
@@ -40,7 +34,9 @@ npm run dev
 
 ## CI/CD
 
-- waiting for Tobi
+```console
+Vercel
+```
 
 ## Data
 

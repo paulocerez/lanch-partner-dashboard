@@ -7,7 +7,7 @@ import { useDateRange } from "@/utils/dateUtils"; // Assuming you have this hook
 
 import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
 import HeaderComponent from "../../components/dashboard/dashboard-helpers/Header";
-import FilterBarComponent from "../../components/dashboard/dashboard-helpers/FilterBar";
+import FilterBarComponent from "../../components/dashboard/dashboard-helpers/FilterBar/FilterBar";
 import { DashboardTabs } from "@/components/dashboard/sections/DashboardTabs";
 
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@tremor/react";
