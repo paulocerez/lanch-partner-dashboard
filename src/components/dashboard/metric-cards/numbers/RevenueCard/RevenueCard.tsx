@@ -29,9 +29,10 @@ export const RevenueCard = ({
     return <div>Error loading data</div>;
   }
 
-  const totalGMV =
-    data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate.sum.gmv.toString() ||
-    "Anfrage fehlgeschlagen";
+  const totalGMV = data?.api_partner_dashboard_api_pd_food_orders_aggregate
+    ?.aggregate?.sum?.gmv
+    ? data.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate.sum.gmv.toString()
+    : "Anfrage fehlgeschlagen";
 
   return <CardComponent title="Gesamtumsatz" metric={totalGMV} />;
 };
