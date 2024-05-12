@@ -140,3 +140,24 @@ export const GET_ALL_RATINGS = gql`
     }
   }
 `;
+
+export const GET_TOP_SELLING_ITEMS = gql`
+  query getTopItemsQuery(
+    $_vendor_ids: [String!] = ["DE_Berlin_0014"]
+    $_fromDate: Date = "2023-09-15"
+    $_toDate: Date = "2023-10-27"
+  ) {
+    api_partner_dashboard_api_pd_food_order_items_daily(
+      where: {
+        vendor_id: { _in: $_vendor_ids }
+        order_date: { _gt: $_fromDate, _lte: $_toDate }
+      }
+      order_by: { order_date: asc }
+    ) {
+      vendor_id
+      quantity
+      order_date
+      article_name
+    }
+  }
+`;

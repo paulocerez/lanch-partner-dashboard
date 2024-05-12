@@ -12,15 +12,8 @@ export const RevenueCard = ({
   const { loading, error, data } = useTotalGMVData(
     vendorIds,
     dateRange,
-    orderPortal
+    orderPortal ?? []
   );
-
-  let orderPortalList: string[];
-  if (!orderPortal) {
-    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
-  } else {
-    orderPortalList = orderPortal;
-  }
 
   if (loading) return <LoadingCard metricTitle="Umsatz" />;
 
@@ -29,12 +22,14 @@ export const RevenueCard = ({
     return <div>Error loading data</div>;
   }
 
-  const totalGMV = data?.api_partner_dashboard_api_pd_food_orders_aggregate
-    ?.aggregate?.sum?.gmv
-    ? data.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate.sum.gmv.toString()
+  const gmv =
+    data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate?.sum
+      ?.gmv;
+  const formattedGMV = gmv
+    ? `${parseFloat(gmv).toFixed(2)}€`
     : "Anfrage fehlgeschlagen";
 
-  return <CardComponent title="Gesamtumsatz" metric={totalGMV} />;
+  return <CardComponent title="Gesamtumsatz" metric={formattedGMV} />;
 };
 
 export default RevenueCard;

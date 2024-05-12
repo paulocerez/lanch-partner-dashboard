@@ -1,11 +1,14 @@
 import { useQuery } from "@apollo/client";
-import { GET_FOOD_ORDERS_DAILY } from "@/utils/gqlQueries";
+import {
+  GET_FOOD_ORDERS_DAILY,
+  GET_TOP_SELLING_ITEMS,
+} from "@/utils/gqlQueries";
+import { GetTopItemsResponse } from "../ResponseProps";
 import { DateRangePickerValue } from "../CardProps";
-import { GetDailyFoodOrderDataResponse } from "../ResponseProps";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 
-export const useGraphData = (
+export const useTopItemsData = (
   vendorIds: string[],
   dateRange: DateRangePickerValue,
   orderPortalList: string[] = []
@@ -22,8 +25,8 @@ export const useGraphData = (
     _order_source_names: portalFilter,
   };
 
-  const { loading, error, data } = useQuery<GetDailyFoodOrderDataResponse>(
-    GET_FOOD_ORDERS_DAILY,
+  const { loading, error, data } = useQuery<GetTopItemsResponse>(
+    GET_TOP_SELLING_ITEMS,
     {
       variables,
     }
@@ -32,7 +35,7 @@ export const useGraphData = (
   return {
     loading,
     error,
-    data: data?.api_partner_dashboard_api_pd_food_orders_daily,
+    data,
   };
 };
 

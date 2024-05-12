@@ -1,8 +1,5 @@
-import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
 import {
   Card,
-  DateRangePickerValue,
-  Metric,
   Table,
   TableBody,
   TableCell,
@@ -13,10 +10,9 @@ import {
   Title,
 } from "@tremor/react";
 import React from "react";
-import Spinner from "../../../dashboard-helpers/Loading/Spinner";
 import LoadingCard from "../../../dashboard-helpers/Loading/LoadingCard";
 import { useReviewData } from "../useReviewData";
-import { CardProps, Review } from "../../CardProps";
+import { CardProps, ReviewData } from "../../CardProps";
 
 const ReviewCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   const { loading, error, data } = useReviewData(
@@ -24,13 +20,6 @@ const ReviewCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
     dateRange,
     orderPortal
   );
-
-  let orderPortalList: string[];
-  if (!orderPortal) {
-    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
-  } else {
-    orderPortalList = orderPortal;
-  }
 
   if (loading) return <LoadingCard metricTitle="Reviews & Ratings" />;
 
@@ -57,7 +46,7 @@ const ReviewCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
 
           <TableBody>
             {data?.api_partner_dashboard_api_pd_food_orders.map(
-              (review: Review) => (
+              (review: ReviewData) => (
                 <TableRow key={review.order_id}>
                   <TableCell>{review.order_id}</TableCell>
                   <TableCell>{review.rating_food}</TableCell>

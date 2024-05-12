@@ -4,10 +4,10 @@ import OrderCountCard from "../metric-cards/numbers/OrderCountCard/OrderCountCar
 import { AOVCard } from "@/components/dashboard/metric-cards/numbers/AOVCard/AOVCard";
 import GMVGraphCard from "@/components/dashboard/metric-cards/graphs/GMVGraphCard/GMVGraphCard";
 import LatestRatingCard from "../metric-cards/numbers/CurrentRatingCard/CurrentRatingCard";
-import TopItemChartCard from "../metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
 import ReviewCard from "../metric-cards/graphs/ReviewsAndRatingsCard/ReviewCard";
 import OrderChartCard from "../metric-cards/graphs/OrderChartCard/OrderChartCard";
 import { CardProps } from "../metric-cards/CardProps";
+import { TopItemChartCard } from "../metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
 
 export const DashboardTabs = ({
   vendorIds,

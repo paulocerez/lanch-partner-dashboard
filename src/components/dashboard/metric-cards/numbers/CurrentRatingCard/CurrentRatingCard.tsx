@@ -35,7 +35,10 @@ const LatestRatingCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   }
 
   return (
-    <CardComponent title="Anz. Bestellungen" metric={displayData.avg_rating} />
+    <CardComponent
+      title="Aktuelles Durchschnittsrating"
+      metric={displayData.avg_rating}
+    />
   );
 };
 

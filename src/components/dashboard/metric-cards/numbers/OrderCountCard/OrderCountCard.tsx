@@ -12,15 +12,8 @@ export const OrderCountCard = ({
   const { loading, error, data } = useTotalGMVData(
     vendorIds,
     dateRange,
-    orderPortal
+    orderPortal ?? []
   );
-
-  let orderPortalList: string[];
-  if (!orderPortal) {
-    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
-  } else {
-    orderPortalList = orderPortal;
-  }
 
   if (loading) return <LoadingCard metricTitle="Anz. Bestellungen" />;
 
@@ -30,7 +23,7 @@ export const OrderCountCard = ({
   }
 
   const orderCount =
-    data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate?.count?.toString() ||
+    data?.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate?.count?.toString() ||
     "Anfrage fehlgeschlagen";
 
   return <CardComponent title="Anz. Bestellungen" metric={orderCount} />;
