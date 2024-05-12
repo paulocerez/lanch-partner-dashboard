@@ -7,7 +7,7 @@ import { DateRangePickerValue, FoordOrderDataDaily } from "./CardProps";
 export const useGraphData = (
   vendorIds: string[],
   dateRange: DateRangePickerValue,
-  orderPortalList: string[]
+  orderPortalList: string[] = []
 ) => {
   const portalFilter = orderPortalList.length > 0 ? orderPortalList : undefined;
   const variables = {
@@ -25,11 +25,8 @@ export const useGraphData = (
     GET_FOOD_ORDERS_DAILY,
     {
       variables,
-      fetchPolicy: "cache-and-network",
     }
   );
-
-  console.log(data);
 
   return {
     loading,
