@@ -15,7 +15,7 @@ import {
 import { StatusOnlineIcon } from "@heroicons/react/outline";
 
 import { gql, useQuery } from "@apollo/client";
-import Spinner from "../dashboard-helpers/Spinner";
+import Spinner from "../dashboard-helpers/Loading/Spinner";
 
 import { useRouter } from "next/navigation";
 

@@ -1,10 +1,10 @@
 import {
-  GMVData,
   DailyFoodOrderData,
+  FoodOrderItemData,
+  GMVData,
   ReviewData,
   VendorRatingData,
-  FoodOrderItemData,
-} from "./CardProps";
+} from "./cardProps";
 
 export interface GetGMVDataResponse {
   api_partner_dashboard_api_pd_food_orders_aggregate: GMVData;

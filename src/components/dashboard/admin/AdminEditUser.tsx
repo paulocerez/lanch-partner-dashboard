@@ -15,12 +15,7 @@ import {
 } from "@tremor/react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
-import Spinner from "../dashboard-helpers/Spinner";
-import SuccessMsg from "../dashboard-helpers/SuccessMessage";
-
-import { auth } from "@/firebase/config";
-import { User, onAuthStateChanged } from "firebase/auth";
-import { get } from "http";
+import Spinner from "../dashboard-helpers/Loading/Spinner";
 
 interface Vendor {
   vendor_id: string;
