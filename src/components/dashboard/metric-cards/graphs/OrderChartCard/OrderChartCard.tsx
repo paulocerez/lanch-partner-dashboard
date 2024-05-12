@@ -1,7 +1,7 @@
 import { BarChart, Card, Text, Title } from "@tremor/react";
 import { CardProps, OutputType } from "../../CardProps";
 import React from "react";
-import { useGraphData } from "../../useGraphData";
+import { useGraphData } from "../useGraphData";
 import {
   aggregateOrderData,
   valueFormatter,

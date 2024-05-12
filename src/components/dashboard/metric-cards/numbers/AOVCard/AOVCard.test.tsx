@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { AOVCard } from "@/components/dashboard/metric-cards/numbers/AOVCard/AOVCard";
 import { CardProps } from "../../CardProps";
-import { useTotalGMVData } from "../../useTotalGMVData";
+import { useTotalGMVData } from "../useTotalGMVData";
 import { calculateAverage } from "@/utils/metricCalculations";
 
 // Mocking useTotalGMVData hook and calculateAverage utility function

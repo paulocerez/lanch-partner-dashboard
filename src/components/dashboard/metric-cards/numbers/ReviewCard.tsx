@@ -13,30 +13,134 @@ import {
   Title,
 } from "@tremor/react";
 import React from "react";
-import Spinner from "../../dashboard-helpers/Loading/Spinner";
-import LoadingCard from "../../dashboard-helpers/Loading/LoadingCard";
-import { useReviewData } from "./useReviewData";
-import { CardProps, Review } from "../CardProps";
+import Spinner from "../../dashboard-helpers/Spinner";
 
-const ReviewCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
-  const { loading, error, data } = useReviewData(
-    vendorIds,
-    dateRange,
-    orderPortal
-  );
+interface ReviewCardProps {
+  vendorIds: string[];
+  dateRange: DateRangePickerValue;
+  orderPortal?: string[];
+}
+
+interface Review {
+  order_id: string;
+  rating_delivery: string;
+  rating_food: string;
+  review_customer_comment: string;
+  order_source_name: string;
+}
+
+interface GetAllReviewsResponse {
+  api_partner_dashboard_api_pd_food_orders: Review[];
+}
+
+const ReviewCard = (ReviewCardProps: ReviewCardProps) => {
+  const { vendorIds, dateRange, orderPortal } = ReviewCardProps;
 
   let orderPortalList: string[];
+
   if (!orderPortal) {
     orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
   } else {
     orderPortalList = orderPortal;
   }
 
-  if (loading) return <LoadingCard metricTitle="Reviews & Ratings" />;
+  const getAllReviews = gql`
+    query getAllReviews(
+      $_vendor_ids: [String!] = ["DE_Berlin_0014"]
+      $_fromDate: Timestamp = "2023-09-15"
+      $_toDate: Timestamp = "2023-10-27"
+      $_order_source_names: [String!] = [
+        "Lieferando"
+        "Uber Eats"
+        "Wolt"
+        "Lanch Webshop"
+      ]
+    ) {
+      api_partner_dashboard_api_pd_food_orders(
+        where: {
+          _and: [
+            { vendor_id: { _in: $_vendor_ids } }
+            { ordered_at: { _gte: $_fromDate, _lte: $_toDate } }
+            { order_source_name: { _in: $_order_source_names } }
+            {
+              _or: [
+                { rating_delivery: { _is_null: false } }
+                { rating_food: { _is_null: false } }
+                { review_customer_comment: { _is_null: false } }
+              ]
+            }
+          ]
+        }
+      ) {
+        order_id
+        ordered_at
+        rating_delivery
+        rating_food
+        review_customer_comment
+        order_source_name
+      }
+    }
+  `;
+
+  const toISOStringLocal = (d: Date) => {
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, -5);
+  };
+
+  // Function to add days to a date
+  const addDays = (date: Date, days: number) => {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  };
+
+  const variables = {
+    _vendor_ids: vendorIds,
+    _fromDate: dateRange?.from
+      ? toISOStringLocal(new Date(dateRange.from))
+      : toISOStringLocal(
+          new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 7)
+        ),
+    _toDate: dateRange?.to
+      ? toISOStringLocal(
+          new Date(addDays(new Date(dateRange.to), 1).setSeconds(-1))
+        )
+      : toISOStringLocal(
+          new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1)
+        ),
+    _order_source_names: orderPortalList,
+    // Other variables can be added here
+  };
+
+  //   console.log("Query variables:", variables);
+
+  const { loading, error, data } = useQuery<GetAllReviewsResponse>(
+    getAllReviews,
+    {
+      // if one of these variables changes, the getTotalGMV query is triggered
+      variables: variables,
+    }
+  );
+
+  //   console.log("Query loading:", loading);
+  //   console.log("Query error:", error);
+  //   console.log("Query data:", data);
+
+  if (loading)
+    return (
+      <Card>
+        <Text>Reviews</Text>
+        <Spinner />
+      </Card>
+    );
 
   if (error) {
-    console.error("Error fetching Reviews & Ratings data:", error);
-    return <div>Error loading data</div>;
+    return (
+      <Card>
+        <Text>Error: {error.message}</Text>
+      </Card>
+    );
   }
 
   return (

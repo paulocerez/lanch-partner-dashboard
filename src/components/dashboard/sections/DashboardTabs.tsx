@@ -5,7 +5,7 @@ import { AOVCard } from "@/components/dashboard/metric-cards/numbers/AOVCard/AOV
 import GMVGraphCard from "@/components/dashboard/metric-cards/graphs/GMVGraphCard/GMVGraphCard";
 import LatestRatingCard from "../metric-cards/numbers/CurrentRatingCard/CurrentRatingCard";
 import TopItemChartCard from "../metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
-import ReviewCard from "../metric-cards/numbers/ReviewCard";
+import ReviewCard from "../metric-cards/graphs/ReviewsAndRatingsCard/ReviewCard";
 import OrderChartCard from "../metric-cards/graphs/OrderChartCard/OrderChartCard";
 import { CardProps } from "../metric-cards/CardProps";
 
@@ -15,7 +15,7 @@ export const DashboardTabs = ({
   orderPortal,
 }: CardProps) => {
   return (
-    <>
+    <div className="py-8">
       <Title>Umsatz & Performance Metriken</Title>
       <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
         <RevenueCard
@@ -53,6 +53,6 @@ export const DashboardTabs = ({
           <ReviewCard vendorIds={vendorIds} dateRange={dateRange} />
         </div>
       </Grid>
-    </>
+    </div>
   );
 };
