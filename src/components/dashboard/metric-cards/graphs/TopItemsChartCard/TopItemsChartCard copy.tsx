@@ -1,181 +1,181 @@
-import { gql, useQuery } from "@apollo/client";
-import {
-  BarChart,
-  Bold,
-  Card,
-  DateRangePickerValue,
-  Flex,
-  List,
-  ListItem,
-  Metric,
-  Text,
-  Title,
-  BarList,
-} from "@tremor/react";
-import React from "react";
-import Spinner from "@/components/dashboard/dashboard-helpers/Loading/Spinner";
+// import { gql, useQuery } from "@apollo/client";
+// import {
+//   BarChart,
+//   Bold,
+//   Card,
+//   DateRangePickerValue,
+//   Flex,
+//   List,
+//   ListItem,
+//   Metric,
+//   Text,
+//   Title,
+//   BarList,
+// } from "@tremor/react";
+// import React from "react";
+// import Spinner from "@/components/dashboard/dashboard-helpers/Loading/Spinner";
 
-interface TopItemCardProps {
-  vendorIds: string[];
-  dateRange: DateRangePickerValue;
-  orderPortal?: string[];
-}
-
-interface FoodOrderItem {
-  vendor_id: string;
-  quantity: string;
-  order_date: string;
-  article_name: string;
-}
-
-interface GetTopItemsResponse {
-  api_partner_dashboard_api_pd_food_order_items_daily: FoodOrderItem[];
-}
-
-// interface InputType {
-//   data: Data;
+// interface TopItemCardProps {
+//   vendorIds: string[];
+//   dateRange: DateRangePickerValue;
+//   orderPortal?: string[];
 // }
 
-const valueFormatter = (number: number) =>
-  Intl.NumberFormat("de").format(number).toString();
+// interface FoodOrderItem {
+//   vendor_id: string;
+//   quantity: string;
+//   order_date: string;
+//   article_name: string;
+// }
 
-interface TopItems {
-  name: string;
-  value: number;
-}
+// interface GetTopItemsResponse {
+//   api_partner_dashboard_api_pd_food_order_items_daily: FoodOrderItem[];
+// }
 
-function calculateTotal(items: FoodOrderItem[]): TopItems[] {
-  let map = new Map<string, number>();
+// // interface InputType {
+// //   data: Data;
+// // }
 
-  // Loop through each order
-  for (let item of items) {
-    let articleName = item.article_name;
-    let quantity = parseInt(item.quantity);
+// const valueFormatter = (number: number) =>
+//   Intl.NumberFormat("de").format(number).toString();
 
-    // If the article name is in the map, add the quantity to it
-    if (map.has(articleName)) {
-      map.set(articleName, map.get(articleName)! + quantity);
-    }
-    // Else, add the article name to the map with the quantity
-    else {
-      map.set(articleName, quantity);
-    }
-  }
+// interface TopItems {
+//   name: string;
+//   value: number;
+// }
 
-  // Create an array of items and their total quantities
-  let result: TopItems[] = [];
-  map.forEach((value: number, key: string) => {
-    result.push({ name: key, value: value });
-  });
+// function calculateTotal(items: FoodOrderItem[]): TopItems[] {
+//   let map = new Map<string, number>();
 
-  // Sort the result array in descending order by total_count
-  result.sort((a, b) => b.value - a.value);
+//   // Loop through each order
+//   for (let item of items) {
+//     let articleName = item.article_name;
+//     let quantity = parseInt(item.quantity);
 
-  return result;
-}
+//     // If the article name is in the map, add the quantity to it
+//     if (map.has(articleName)) {
+//       map.set(articleName, map.get(articleName)! + quantity);
+//     }
+//     // Else, add the article name to the map with the quantity
+//     else {
+//       map.set(articleName, quantity);
+//     }
+//   }
 
-const TopItemChartCard = (RevenueCardProps: TopItemCardProps) => {
-  const { vendorIds, dateRange, orderPortal } = RevenueCardProps;
+//   // Create an array of items and their total quantities
+//   let result: TopItems[] = [];
+//   map.forEach((value: number, key: string) => {
+//     result.push({ name: key, value: value });
+//   });
 
-  // console.log(vendorIds)
+//   // Sort the result array in descending order by total_count
+//   result.sort((a, b) => b.value - a.value);
 
-  let orderPortalList: string[];
+//   return result;
+// }
 
-  if (!orderPortal) {
-    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
-  } else {
-    orderPortalList = orderPortal;
-  }
+// const TopItemChartCard = (RevenueCardProps: TopItemCardProps) => {
+//   const { vendorIds, dateRange, orderPortal } = RevenueCardProps;
 
-  const getTopItemsQuery = gql`
-    query getTopItemsQuery(
-      $_vendor_ids: [String!] = ["DE_Berlin_0014"]
-      $_fromDate: Date = "2023-09-15"
-      $_toDate: Date = "2023-10-27"
-    ) {
-      api_partner_dashboard_api_pd_food_order_items_daily(
-        where: {
-          vendor_id: { _in: $_vendor_ids }
-          order_date: { _gt: $_fromDate, _lte: $_toDate }
-        }
-        order_by: { order_date: asc }
-      ) {
-        vendor_id
-        quantity
-        order_date
-        article_name
-      }
-    }
-  `;
+//   // console.log(vendorIds)
 
-  // not showing the right data currently! still needs to be fixed timewise
-  const { loading, error, data } = useQuery<GetTopItemsResponse>(
-    getTopItemsQuery,
-    {
-      variables: {
-        _vendor_ids: vendorIds,
-        _fromDate: dateRange?.from
-          ? dateRange.from.toISOString().split("T")[0]
-          : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
-        _toDate: dateRange?.to
-          ? dateRange.to.toISOString().split("T")[0]
-          : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
-        _order_source_names: orderPortalList,
-        // Other variables can be added here
-      },
-    }
-  );
+//   let orderPortalList: string[];
 
-  let topItems: TopItems[] = [];
-  if (data?.api_partner_dashboard_api_pd_food_order_items_daily) {
-    topItems = calculateTotal(
-      data?.api_partner_dashboard_api_pd_food_order_items_daily
-    );
-  }
+//   if (!orderPortal) {
+//     orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
+//   } else {
+//     orderPortalList = orderPortal;
+//   }
 
-  if (loading)
-    return (
-      <Card>
-        <Title>Top Seller</Title>
-        <br></br>
-        <br></br>
-        <Spinner />
-        <br></br>
-        <br></br>
-      </Card>
-    );
+//   const getTopItemsQuery = gql`
+//     query getTopItemsQuery(
+//       $_vendor_ids: [String!] = ["DE_Berlin_0014"]
+//       $_fromDate: Date = "2023-09-15"
+//       $_toDate: Date = "2023-10-27"
+//     ) {
+//       api_partner_dashboard_api_pd_food_order_items_daily(
+//         where: {
+//           vendor_id: { _in: $_vendor_ids }
+//           order_date: { _gt: $_fromDate, _lte: $_toDate }
+//         }
+//         order_by: { order_date: asc }
+//       ) {
+//         vendor_id
+//         quantity
+//         order_date
+//         article_name
+//       }
+//     }
+//   `;
 
-  return (
-    <Card className="max-w">
-      <Title>Top Selling Products</Title>
-      <Flex className="mt-4">
-        <Text>
-          <Bold>Item</Bold>
-        </Text>
-        <Text>
-          <Bold>Verkäufe</Bold>
-        </Text>
-      </Flex>
-      <BarList data={topItems.slice(0, 10)} className="mt-2" />
-    </Card>
+//   // not showing the right data currently! still needs to be fixed timewise
+//   const { loading, error, data } = useQuery<GetTopItemsResponse>(
+//     getTopItemsQuery,
+//     {
+//       variables: {
+//         _vendor_ids: vendorIds,
+//         _fromDate: dateRange?.from
+//           ? dateRange.from.toISOString().split("T")[0]
+//           : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
+//         _toDate: dateRange?.to
+//           ? dateRange.to.toISOString().split("T")[0]
+//           : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
+//         _order_source_names: orderPortalList,
+//         // Other variables can be added here
+//       },
+//     }
+//   );
 
-    //   <Card className="max-w-xs">
-    //   <Title>Top Seller</Title>
-    //   <List>
-    //     <ListItem key="header">
-    //         <span>Artikel</span>
-    //         <span>Anzahl</span>
-    //     </ListItem>
+//   let topItems: TopItems[] = [];
+//   if (data?.api_partner_dashboard_api_pd_food_order_items_daily) {
+//     topItems = calculateTotal(
+//       data?.api_partner_dashboard_api_pd_food_order_items_daily
+//     );
+//   }
 
-    //     {topItems.map((item) => (
-    //       <ListItem key={item.article_name}>
-    //         <span>{item.article_name}</span>
-    //         <span>{item.total_count}</span>
-    //       </ListItem>
-    //     ))}
-    //   </List>
-    // </Card>
-  );
-};
+//   if (loading)
+//     return (
+//       <Card>
+//         <Title>Top Seller</Title>
+//         <br></br>
+//         <br></br>
+//         <Spinner />
+//         <br></br>
+//         <br></br>
+//       </Card>
+//     );
 
-export default TopItemChartCard;
+//   return (
+//     <Card className="max-w">
+//       <Title>Top Selling Products</Title>
+//       <Flex className="mt-4">
+//         <Text>
+//           <Bold>Item</Bold>
+//         </Text>
+//         <Text>
+//           <Bold>Verkäufe</Bold>
+//         </Text>
+//       </Flex>
+//       <BarList data={topItems.slice(0, 10)} className="mt-2" />
+//     </Card>
+
+//     //   <Card className="max-w-xs">
+//     //   <Title>Top Seller</Title>
+//     //   <List>
+//     //     <ListItem key="header">
+//     //         <span>Artikel</span>
+//     //         <span>Anzahl</span>
+//     //     </ListItem>
+
+//     //     {topItems.map((item) => (
+//     //       <ListItem key={item.article_name}>
+//     //         <span>{item.article_name}</span>
+//     //         <span>{item.total_count}</span>
+//     //       </ListItem>
+//     //     ))}
+//     //   </List>
+//     // </Card>
+//   );
+// };
+
+// export default TopItemChartCard;

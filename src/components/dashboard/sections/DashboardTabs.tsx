@@ -3,11 +3,11 @@ import RevenueCard from "../metric-cards/numbers/RevenueCard/RevenueCard";
 import OrderCountCard from "../metric-cards/numbers/OrderCountCard/OrderCountCard";
 import { AOVCard } from "@/components/dashboard/metric-cards/numbers/AOVCard/AOVCard";
 import GMVGraphCard from "@/components/dashboard/metric-cards/graphs/GMVGraphCard/GMVGraphCard";
-import LatestRatingCard from "../metric-cards/numbers/CurrentRatingCard/CurrentRatingCard";
 import ReviewCard from "../metric-cards/graphs/ReviewsAndRatingsCard/ReviewCard";
 import OrderChartCard from "../metric-cards/graphs/OrderChartCard/OrderChartCard";
 import { TopItemChartCard } from "../metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
-import { CardProps } from "../metric-cards/CardProps";
+import { CardProps } from "../metric-cards/cardProps";
+import { CurrentRatingCard } from "../metric-cards/numbers/CurrentRatingCard/CurrentRatingCard";
 
 export const DashboardTabs = ({
   vendorIds,
@@ -29,7 +29,7 @@ export const DashboardTabs = ({
           orderPortal={orderPortal}
         />
         <AOVCard vendorIds={vendorIds} dateRange={dateRange} orderPortal={[]} />
-        <LatestRatingCard vendorIds={vendorIds} dateRange={dateRange} />
+        <CurrentRatingCard vendorIds={vendorIds} dateRange={dateRange} />
       </Grid>
       <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
         <div>

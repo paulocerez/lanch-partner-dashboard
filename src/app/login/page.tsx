@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { getRedirectResult, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, analytics } from "@/firebase/config";
-import Spinner from "@/components/dashboard/dashboard-helpers/Loading/Spinner";
+import { Spinner } from "@/components/dashboard/dashboard-helpers/Loading/Spinner";
 import { sendGAEvent } from "@next/third-parties/google";
 import { setGAUserId, trackGAEvent } from "../../utils/googleAnalytics";
 import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";

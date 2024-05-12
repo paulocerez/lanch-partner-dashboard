@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Text } from "@tremor/react";
-import Spinner from "./Spinner";
+import { Spinner } from "@/components/dashboard/dashboard-helpers/Loading/Spinner";
 
 interface LoadingCardProps {
   metricTitle: string;

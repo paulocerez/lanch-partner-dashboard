@@ -15,7 +15,7 @@ import {
 } from "@tremor/react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
-import Spinner from "../dashboard-helpers/Loading/Spinner";
+import { Spinner } from "@/components/dashboard/dashboard-helpers/Loading/Spinner";
 
 interface Vendor {
   vendor_id: string;
