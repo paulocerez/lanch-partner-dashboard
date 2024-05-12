@@ -12,7 +12,7 @@ export const OrderCountCard = ({
   const { loading, error, data } = useTotalGMVData(
     vendorIds,
     dateRange,
-    orderPortal ?? []
+    orderPortal
   );
 
   if (loading) return <LoadingCard metricTitle="Anz. Bestellungen" />;

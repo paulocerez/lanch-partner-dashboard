@@ -15,8 +15,8 @@ export const GET_TOTAL_GMV = gql`
     api_partner_dashboard_api_pd_food_orders_aggregate(
       where: {
         vendor_id: { _in: $_vendor_ids }
-        order_source_name: { _in: $_order_source_names }
         ordered_at: { _gte: $_fromDate, _lte: $_toDate }
+        order_source_name: { _in: $_order_source_names }
       }
     ) {
       aggregate {
@@ -120,7 +120,7 @@ export const GET_ALL_REVIEWS = gql`
 export const GET_ALL_RATINGS = gql`
   query getRatingsQuery(
     $_vendor_ids: [String!] = ["DE_Berlin_0014"]
-    $_order_source_names: [String!] = [
+    $_order_platform_names: [String!] = [
       "Lieferando"
       "Uber Eats"
       "Wolt"
@@ -130,7 +130,7 @@ export const GET_ALL_RATINGS = gql`
     api_partner_dashboard_api_pd_vendor_display_ratings_latest(
       where: {
         vendor_id: { _in: $_vendor_ids }
-        order_platform_name: { _in: $_order_source_names }
+        order_platform_name: { _in: $_order_platform_names }
       }
     ) {
       vendor_id

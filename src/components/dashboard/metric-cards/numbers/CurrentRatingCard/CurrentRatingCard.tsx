@@ -1,7 +1,7 @@
 import React from "react";
+import LoadingCard from "@/components/dashboard/dashboard-helpers/Loading/LoadingCard";
 import { CardProps, DisplayData } from "../../cardProps";
 import { useRatingData } from "../useRatingData";
-import LoadingCard from "@/components/dashboard/dashboard-helpers/Loading/LoadingCard";
 import { CardComponent } from "@/components/dashboard/dashboard-helpers/CardComponent";
 import { calculateRatingPerVendor } from "@/utils/metricCalculations";
 
@@ -16,16 +16,17 @@ export const CurrentRatingCard = ({
     orderPortal
   );
 
-  let displayData: DisplayData = { avg_rating: "0", count: 0 };
-  if (data) {
-    displayData = calculateRatingPerVendor(data);
-  }
   if (loading)
     return <LoadingCard metricTitle="Aktuelles Durchschnittsrating" />;
 
   if (error) {
     console.error("Error fetching Rating data:", error);
     return <div>Error loading data</div>;
+  }
+
+  let displayData: DisplayData = { avg_rating: "0", count: 0 };
+  if (data) {
+    displayData = calculateRatingPerVendor(data);
   }
 
   return (

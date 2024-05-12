@@ -25,7 +25,7 @@ export const RevenueCard = ({
   const gmv = data?.aggregate?.sum?.gmv;
   const formattedGMV = gmv
     ? `${parseFloat(gmv).toFixed(2)}€`
-    : "Anfrage fehlgeschlagen";
+    : "Keine Umsatzdaten verfügbar";
 
   return <CardComponent title="Gesamtumsatz" metric={formattedGMV} />;
 };

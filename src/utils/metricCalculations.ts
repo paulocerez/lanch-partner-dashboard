@@ -34,21 +34,20 @@ export const calculateAverage = (
 export const calculateRatingPerVendor = (
   ratings: VendorRatingData[]
 ): DisplayData => {
-  let temp_rating: number = 0;
-  let count: number = 0;
+  let totalRating: number = 0;
+  let totalCount: number = 0;
 
   // Loop through each order
   for (let rating of ratings) {
     let newRating = parseFloat(rating.rating_display);
     let newCount = parseFloat(rating.rating_count);
 
-    temp_rating =
-      (temp_rating * count + newRating * newCount) / (count + newCount);
-    count = count + newCount;
+    totalRating += newRating * newCount;
+    totalCount += newCount;
   }
-  let avg_rating = temp_rating.toFixed(2);
+  let avg_rating = totalCount ? (totalRating / totalCount).toFixed(2) : "0";
 
-  return { avg_rating, count };
+  return { avg_rating, count: totalCount };
 };
 
 export const calculateTotal = (items: FoodOrderItemData[]): TopItems[] => {

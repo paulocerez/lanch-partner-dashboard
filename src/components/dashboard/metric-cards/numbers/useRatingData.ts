@@ -11,6 +11,15 @@ export const useRatingData = (
   dateRange: DateRangePickerValue,
   orderPortal?: string[]
 ) => {
+  const defaultOrderPortals = [
+    "Lieferando",
+    "Uber Eats",
+    "Wolt",
+    "Lanch Webshop",
+  ];
+
+  const orderPortalFilter =
+    orderPortal && orderPortal.length > 0 ? orderPortal : defaultOrderPortals;
   const variables = {
     _vendor_ids: vendorIds,
     _fromDate: dateRange?.from
@@ -25,8 +34,7 @@ export const useRatingData = (
       : toISOStringLocal(
           new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1)
         ),
-    _order_source_name:
-      orderPortal && orderPortal.length > 0 ? orderPortal : undefined,
+    _order_platform_names: orderPortalFilter,
   };
 
   const { loading, error, data } = useQuery<GetAllVendorRatingDataResponse>(

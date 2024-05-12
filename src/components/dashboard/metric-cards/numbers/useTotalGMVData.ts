@@ -10,12 +10,21 @@ export const useTotalGMVData = (
   dateRange: DateRangePickerValue,
   orderPortal?: string[]
 ) => {
+  const defaultOrderPortals = [
+    "Lieferando",
+    "Uber Eats",
+    "Wolt",
+    "Lanch Webshop",
+  ];
+
+  const orderPortalFilter =
+    orderPortal && orderPortal.length > 0 ? orderPortal : defaultOrderPortals;
+
   const variables = {
     _vendor_ids: vendorIds,
     _fromDate: dateRange?.from?.toISOString(),
     _toDate: dateRange?.to?.toISOString(),
-    _order_source_name:
-      orderPortal && orderPortal.length > 0 ? orderPortal : undefined,
+    _order_source_names: orderPortalFilter,
   };
 
   const { loading, error, data } = useQuery<GetGMVDataResponse>(GET_TOTAL_GMV, {

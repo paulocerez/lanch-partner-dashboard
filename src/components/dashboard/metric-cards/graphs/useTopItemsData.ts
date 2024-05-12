@@ -13,6 +13,15 @@ export const useTopItemsData = (
   dateRange: DateRangePickerValue,
   orderPortal?: string[]
 ) => {
+  const defaultOrderPortals = [
+    "Lieferando",
+    "Uber Eats",
+    "Wolt",
+    "Lanch Webshop",
+  ];
+
+  const orderPortalFilter =
+    orderPortal && orderPortal.length > 0 ? orderPortal : defaultOrderPortals;
   const variables = {
     _vendor_ids: vendorIds,
     _fromDate: dateRange?.from
@@ -21,8 +30,7 @@ export const useTopItemsData = (
     _toDate: dateRange?.to
       ? dateRange.to.toISOString().split("T")[0]
       : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
-    _order_source_names:
-      orderPortal && orderPortal.length > 0 ? orderPortal : undefined,
+    _order_source_names: orderPortalFilter,
   };
 
   const { loading, error, data } = useQuery<GetTopItemsResponse>(

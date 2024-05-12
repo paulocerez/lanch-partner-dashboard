@@ -29,7 +29,7 @@ const ReviewCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   }
 
   return (
-    <Card>
+    <Card className="h-[552px] overflow-y-auto">
       <Title>Reviews & Ratings</Title>
       <Text></Text>
       <div className="mx-auto max-w-2xl">
