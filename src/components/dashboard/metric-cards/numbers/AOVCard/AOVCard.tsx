@@ -3,7 +3,7 @@ import LoadingCard from "@/components/dashboard/dashboard-helpers/Loading/Loadin
 import { CardProps } from "../../cardProps";
 import { useTotalGMVData } from "../useTotalGMVData";
 import { calculateAverage } from "@/utils/metricCalculations";
-import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";
+import { CardComponent } from "@/components/dashboard/dashboard-helpers/CardComponent";
 
 export const AOVCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   const { loading, error, data } = useTotalGMVData(
@@ -11,13 +11,6 @@ export const AOVCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
     dateRange,
     orderPortal ?? []
   );
-
-  let orderPortalList: string[];
-  if (!orderPortal) {
-    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
-  } else {
-    orderPortalList = orderPortal;
-  }
 
   if (loading) return <LoadingCard metricTitle="Durchschn. Warenkorb" />;
 

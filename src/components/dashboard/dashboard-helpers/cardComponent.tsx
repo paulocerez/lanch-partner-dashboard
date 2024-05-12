@@ -8,11 +8,9 @@ interface CardComponentProps {
   metric: string;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({ title, metric }) => (
+export const CardComponent = ({ title, metric }: CardComponentProps) => (
   <Card>
     <Text>{title}</Text>
     <Metric>{metric}</Metric>
   </Card>
 );
-
-export default CardComponent;
