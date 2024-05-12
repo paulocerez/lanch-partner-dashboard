@@ -70,15 +70,6 @@ export const GET_ALL_VENDORS = gql`
   }
 `;
 
-export const GET_ASSIGNED_VENDORS = gql`
-  query getVendorList($_userID: String) {
-    vendors_of_user(where: { user_id: { _eq: $_userID } }) {
-      vendor_id
-      user_id
-    }
-  }
-`;
-
 export const GET_ALL_REVIEWS = gql`
   query getAllReviews(
     $_vendor_ids: [String!] = ["DE_Berlin_0014"]
@@ -192,6 +183,51 @@ export const GET_WEEKLY_RATINGS = gql`
         rating_food_avg: avg_rating_food
         rating_food_count: count
       }
+    }
+  }
+`;
+
+// Admin queries
+export const GET_VENDOR_LIST = gql`
+  query getVendorList {
+    api_partner_dashboard_api_pd_food_order_items(
+      distinct_on: vendor_id
+      order_by: { vendor_id: asc }
+    ) {
+      vendor_id
+      vendor_name
+      vendor_region
+    }
+  }
+`;
+
+export const GET_ASSIGNED_VENDORS = gql`
+  query getVendorList($_userID: String) {
+    vendors_of_user(where: { user_id: { _eq: $_userID } }) {
+      vendor_id
+      user_id
+    }
+  }
+`;
+
+export const ADD_VENDOR_TO_USER = gql`
+  mutation addVendorToUser($_userID: String, $_vendorID: String) {
+    insert_vendors_of_user(
+      objects: { user_id: $_userID, vendor_id: $_vendorID }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const REMOVE_VENDOR_FROM_USER = gql`
+  mutation setVendorForUser($_userID: String, $_vendorID: String) {
+    delete_vendors_of_user(
+      where: {
+        _and: { user_id: { _eq: $_userID }, vendor_id: { _eq: $_vendorID } }
+      }
+    ) {
+      affected_rows
     }
   }
 `;
