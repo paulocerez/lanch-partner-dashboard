@@ -2,7 +2,7 @@ import { Bold, Card, Flex, Text, Title, BarList } from "@tremor/react";
 import React from "react";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/Loading/LoadingCard";
 import { calculateTotal } from "@/utils/metricCalculations";
-import { CardProps, TopItems } from "../../CardProps";
+import { CardProps, TopItems } from "../../cardProps";
 import { useTopItemsData } from "../useTopItemsData";
 
 export const TopItemChartCard = ({

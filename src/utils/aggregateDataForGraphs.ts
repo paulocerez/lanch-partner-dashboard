@@ -1,7 +1,7 @@
 import {
   InputType,
   OutputType,
-} from "@/components/dashboard/metric-cards/CardProps";
+} from "@/components/dashboard/metric-cards/cardProps";
 import { convertDateFormat } from "./dateUtils";
 
 export const valueFormatter = (number: number) =>

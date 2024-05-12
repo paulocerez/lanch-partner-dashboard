@@ -1,5 +1,5 @@
 import React from "react";
-import { CardProps, DisplayData } from "../../CardProps";
+import { CardProps, DisplayData } from "../../cardProps";
 import { useRatingData } from "../useRatingData";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/Loading/LoadingCard";
 import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";

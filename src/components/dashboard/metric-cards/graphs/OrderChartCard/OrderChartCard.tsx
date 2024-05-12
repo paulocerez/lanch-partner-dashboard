@@ -6,7 +6,7 @@ import {
   valueFormatter,
 } from "@/utils/aggregateDataForGraphs";
 import LoadingGraph from "@/components/dashboard/dashboard-helpers/Loading/LoadingGraph";
-import { CardProps, OutputType } from "../../CardProps";
+import { CardProps, OutputType } from "../../cardProps";
 
 const OrderChartCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   const { loading, error, data } = useGraphData(
