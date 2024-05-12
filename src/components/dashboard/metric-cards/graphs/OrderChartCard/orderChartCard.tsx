@@ -1,5 +1,4 @@
 import { BarChart, Card, Text, Title } from "@tremor/react";
-import { CardProps, OutputType } from "../../CardProps";
 import React from "react";
 import { useGraphData } from "../useGraphData";
 import {
@@ -7,6 +6,7 @@ import {
   valueFormatter,
 } from "@/utils/aggregateDataForGraphs";
 import LoadingGraph from "@/components/dashboard/dashboard-helpers/Loading/LoadingGraph";
+import { CardProps, OutputType } from "../../CardProps";
 
 const OrderChartCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   const { loading, error, data } = useGraphData(

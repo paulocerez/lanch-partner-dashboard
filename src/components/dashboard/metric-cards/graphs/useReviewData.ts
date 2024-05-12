@@ -5,7 +5,7 @@ import {
   GetAllRatingsResponse,
   GetAllReviewsResponse,
   Review,
-} from "../CardProps";
+} from "../cardProps";
 import { addDays, toISOStringLocal } from "@/utils/dateUtils";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)

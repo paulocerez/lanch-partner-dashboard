@@ -6,8 +6,8 @@ import GMVGraphCard from "@/components/dashboard/metric-cards/graphs/GMVGraphCar
 import LatestRatingCard from "../metric-cards/numbers/CurrentRatingCard/CurrentRatingCard";
 import ReviewCard from "../metric-cards/graphs/ReviewsAndRatingsCard/ReviewCard";
 import OrderChartCard from "../metric-cards/graphs/OrderChartCard/OrderChartCard";
-import { CardProps } from "../metric-cards/CardProps";
 import { TopItemChartCard } from "../metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
+import { CardProps } from "../metric-cards/CardProps";
 
 export const DashboardTabs = ({
   vendorIds,
