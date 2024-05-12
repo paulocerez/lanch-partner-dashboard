@@ -40,7 +40,7 @@ export const calculateRatingPerVendor = (
   // Loop through each order
   for (let rating of ratings) {
     let newRating = parseFloat(rating.rating_display);
-    let newCount = parseFloat(rating.rating_display);
+    let newCount = parseFloat(rating.rating_count);
 
     temp_rating =
       (temp_rating * count + newRating * newCount) / (count + newCount);

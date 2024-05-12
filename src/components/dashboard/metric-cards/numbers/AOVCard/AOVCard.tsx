@@ -9,7 +9,7 @@ export const AOVCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   const { loading, error, data } = useTotalGMVData(
     vendorIds,
     dateRange,
-    orderPortal ?? []
+    orderPortal
   );
 
   if (loading) return <LoadingCard metricTitle="Durchschn. Warenkorb" />;
@@ -19,9 +19,7 @@ export const AOVCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
     return <div>Error loading data</div>;
   }
 
-  const aggregateData =
-    data?.api_partner_dashboard_api_pd_food_orders_aggregate;
-  const averageValue = calculateAverage(aggregateData, vendorIds.length);
+  const averageValue = calculateAverage(data, vendorIds.length);
 
   return (
     <CardComponent title="Durchschn. Warenkorbwert" metric={averageValue} />

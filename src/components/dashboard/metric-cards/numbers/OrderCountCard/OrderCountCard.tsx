@@ -23,8 +23,7 @@ export const OrderCountCard = ({
   }
 
   const orderCount =
-    data?.api_partner_dashboard_api_pd_food_orders_aggregate.aggregate?.count?.toString() ||
-    "Anfrage fehlgeschlagen";
+    data?.aggregate?.count?.toString() || "Anfrage fehlgeschlagen";
 
   return <CardComponent title="Anz. Bestellungen" metric={orderCount} />;
 };

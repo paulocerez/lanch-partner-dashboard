@@ -28,8 +28,16 @@ export const DashboardTabs = ({
           dateRange={dateRange}
           orderPortal={orderPortal}
         />
-        <AOVCard vendorIds={vendorIds} dateRange={dateRange} orderPortal={[]} />
-        <CurrentRatingCard vendorIds={vendorIds} dateRange={dateRange} />
+        <AOVCard
+          vendorIds={vendorIds}
+          dateRange={dateRange}
+          orderPortal={orderPortal}
+        />
+        <CurrentRatingCard
+          vendorIds={vendorIds}
+          dateRange={dateRange}
+          orderPortal={orderPortal}
+        />
       </Grid>
       <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
         <div>
@@ -47,10 +55,18 @@ export const DashboardTabs = ({
           />
         </div>
         <div>
-          <TopItemChartCard vendorIds={vendorIds} dateRange={dateRange} />
+          <TopItemChartCard
+            vendorIds={vendorIds}
+            dateRange={dateRange}
+            orderPortal={orderPortal}
+          />
         </div>
         <div>
-          <ReviewCard vendorIds={vendorIds} dateRange={dateRange} />
+          <ReviewCard
+            vendorIds={vendorIds}
+            dateRange={dateRange}
+            orderPortal={orderPortal}
+          />
         </div>
       </Grid>
     </div>

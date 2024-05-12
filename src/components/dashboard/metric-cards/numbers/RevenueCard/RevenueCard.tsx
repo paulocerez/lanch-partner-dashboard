@@ -12,7 +12,7 @@ export const RevenueCard = ({
   const { loading, error, data } = useTotalGMVData(
     vendorIds,
     dateRange,
-    orderPortal ?? []
+    orderPortal
   );
 
   if (loading) return <LoadingCard metricTitle="Umsatz" />;
@@ -22,9 +22,7 @@ export const RevenueCard = ({
     return <div>Error loading data</div>;
   }
 
-  const gmv =
-    data?.api_partner_dashboard_api_pd_food_orders_aggregate?.aggregate?.sum
-      ?.gmv;
+  const gmv = data?.aggregate?.sum?.gmv;
   const formattedGMV = gmv
     ? `${parseFloat(gmv).toFixed(2)}€`
     : "Anfrage fehlgeschlagen";

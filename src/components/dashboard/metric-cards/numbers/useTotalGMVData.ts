@@ -22,7 +22,11 @@ export const useTotalGMVData = (
     variables,
   });
 
-  return { loading, error, data };
+  return {
+    loading,
+    error,
+    data: data?.api_partner_dashboard_api_pd_food_orders_aggregate,
+  };
 
   // <GMVData> as the expected shape of the data to be returned (TS generic type), getTotalGMVQuery as the query to be performed, { variables } as the object passed to the useQuery hook and being passed to the query itself
 };
