@@ -16,7 +16,7 @@ export const DashboardTabs = ({
 }: CardProps) => {
   return (
     <>
-      <Title>Umsatz</Title>
+      <Title>Umsatz & Performance Metriken</Title>
       <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
         <RevenueCard
           vendorIds={vendorIds}

@@ -35,19 +35,25 @@ npm run dev
 ## CI/CD
 
 ```console
-Vercel
+Vercel -> Push to 'main' branch
 ```
 
 ## Data
 
 ### BigQuery
 
-- Accessing data from LANCH's data warehouse about food orders and vendor data
+Accessing data from LANCH's data warehouse about food orders, vendor data (dashboard content).
+
+Hasura directly accesses BigQuery tables from the LANCH data warehouse. It has access to all tables in the dataset api_partner_dashboard. This dataset is dedicated to contain all tables with data relevant for the partner dashboard.
+
+As such, if new data is needed to be accessed by the partner dashboard, a table (dbt model) in api_partner_dashboard should be created.
+
 - Data transformation using dbt here to process data before queries:
   https://github.com/trycrumz/data-transformations/blob/main/models/reporting/api_partner_dashboard/api_pd_vendor_food_ratings.sql
 
-### Google Cloud Platform
-
--
-
 ## Outlook
+
+- **Vendor <> Partner assignment process**: We need to protect the admin route in a way that only admin users can access it through their session, right now it’s protected for everybody and just accessible through state changes on the server-side.
+- **Automated Onboarding**: Right now the vendor <> partner assignments are done manually by the tech team per partner (user). This process can be automated theoretically through matching vendor_id’s and unique partner identifiers (email, id, etc.).
+- **Displaying new metrics**: Implementing charts and sections for reviews, ratings, issues.
+- **User model for vendor list:** As of now we’re querying the vendor list based on the entire food_orders dataset and filter for the unique vendor_id’s, which is not only performance-wise very difficult, but as well requires the partner to have had at least one order already (which slows down the assignment process).
