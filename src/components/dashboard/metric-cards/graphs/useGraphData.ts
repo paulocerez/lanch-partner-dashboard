@@ -8,9 +8,8 @@ import { DateRangePickerValue } from "../cardProps";
 export const useGraphData = (
   vendorIds: string[],
   dateRange: DateRangePickerValue,
-  orderPortalList: string[] = []
+  orderPortal?: string[]
 ) => {
-  const portalFilter = orderPortalList.length > 0 ? orderPortalList : undefined;
   const variables = {
     _vendor_ids: vendorIds,
     _fromDate: dateRange?.from
@@ -19,7 +18,8 @@ export const useGraphData = (
     _toDate: dateRange?.to
       ? dateRange.to.toISOString().split("T")[0]
       : new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
-    _order_source_names: portalFilter,
+    _order_source_names:
+      orderPortal && orderPortal.length > 0 ? orderPortal : undefined,
   };
 
   const { loading, error, data } = useQuery<GetDailyFoodOrderDataResponse>(

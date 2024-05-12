@@ -1,21 +1,16 @@
 import { useQuery } from "@apollo/client";
 import { GET_ALL_RATINGS, GET_ALL_REVIEWS } from "@/utils/gqlQueries";
-import {
-  DateRangePickerValue,
-  GetAllRatingsResponse,
-  GetAllReviewsResponse,
-  Review,
-} from "../cardProps";
+import { DateRangePickerValue } from "../cardProps";
 import { addDays, toISOStringLocal } from "@/utils/dateUtils";
+import { GetAllReviewDataResponse } from "../responseProps";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 
 export const useReviewData = (
   vendorIds: string[],
   dateRange: DateRangePickerValue,
-  orderPortalList: string[] = []
+  orderPortal?: string[]
 ) => {
-  const portalFilter = orderPortalList.length > 0 ? orderPortalList : undefined;
   const variables = {
     _vendor_ids: vendorIds,
     _fromDate: dateRange?.from
@@ -30,10 +25,11 @@ export const useReviewData = (
       : toISOStringLocal(
           new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1)
         ),
-    _order_source_name: portalFilter,
+    _order_source_name:
+      orderPortal && orderPortal.length > 0 ? orderPortal : undefined,
   };
 
-  const { loading, error, data } = useQuery<GetAllReviewsResponse>(
+  const { loading, error, data } = useQuery<GetAllReviewDataResponse>(
     GET_ALL_REVIEWS,
     {
       variables,

@@ -5,26 +5,20 @@ import LoadingCard from "@/components/dashboard/dashboard-helpers/Loading/Loadin
 import CardComponent from "@/components/dashboard/dashboard-helpers/CardComponent";
 import { calculateRatingPerVendor } from "@/utils/metricCalculations";
 
-const LatestRatingCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
+export const CurrentRatingCard = ({
+  vendorIds,
+  dateRange,
+  orderPortal,
+}: CardProps) => {
   const { loading, error, data } = useRatingData(
     vendorIds,
     dateRange,
     orderPortal
   );
 
-  let orderPortalList: string[];
-
-  if (!orderPortal) {
-    orderPortalList = ["Lieferando", "Uber Eats", "Wolt", "Lanch Webshop"];
-  } else {
-    orderPortalList = orderPortal;
-  }
-
   let displayData: DisplayData = { avg_rating: "0", count: 0 };
-  if (data?.api_partner_dashboard_api_pd_vendor_display_ratings_latest) {
-    displayData = calculateRatingPerVendor(
-      data?.api_partner_dashboard_api_pd_vendor_display_ratings_latest
-    );
+  if (data) {
+    displayData = calculateRatingPerVendor(data);
   }
   if (loading)
     return <LoadingCard metricTitle="Aktuelles Durchschnittsrating" />;
@@ -41,5 +35,3 @@ const LatestRatingCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
     />
   );
 };
-
-export default LatestRatingCard;

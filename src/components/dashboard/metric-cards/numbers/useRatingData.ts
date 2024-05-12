@@ -1,21 +1,16 @@
 import { useQuery } from "@apollo/client";
 import { GET_ALL_RATINGS, GET_ALL_REVIEWS } from "@/utils/gqlQueries";
-import {
-  DateRangePickerValue,
-  GetAllRatingsResponse,
-  GetAllReviewsResponse,
-  Review,
-} from "../cardProps";
+import { DateRangePickerValue } from "../cardProps";
 import { addDays, toISOStringLocal } from "@/utils/dateUtils";
+import { GetAllVendorRatingDataResponse } from "../responseProps";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 
 export const useRatingData = (
   vendorIds: string[],
   dateRange: DateRangePickerValue,
-  orderPortalList: string[] = []
+  orderPortal?: string[]
 ) => {
-  const portalFilter = orderPortalList.length > 0 ? orderPortalList : undefined;
   const variables = {
     _vendor_ids: vendorIds,
     _fromDate: dateRange?.from
@@ -30,16 +25,21 @@ export const useRatingData = (
       : toISOStringLocal(
           new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1)
         ),
-    _order_source_name: portalFilter,
+    _order_source_name:
+      orderPortal && orderPortal.length > 0 ? orderPortal : undefined,
   };
 
-  const { loading, error, data } = useQuery<GetAllRatingsResponse>(
+  const { loading, error, data } = useQuery<GetAllVendorRatingDataResponse>(
     GET_ALL_RATINGS,
     {
       variables,
     }
   );
-  return { loading, error, data };
+  return {
+    loading,
+    error,
+    data: data?.api_partner_dashboard_api_pd_vendor_display_ratings_latest,
+  };
 
   // <GMVData> as the expected shape of the data to be returned (TS generic type), getTotalGMVQuery as the query to be performed, { variables } as the object passed to the useQuery hook and being passed to the query itself
 };

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { auth } from "@/firebase/config";
 import Image from "next/image";
-import Spinner from "../../components/dashboard/dashboard-helpers/Spinner";
 import { useAuth } from "@/app/context/AuthContext";
 
 interface FirebaseError extends Error {

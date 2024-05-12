@@ -50,6 +50,7 @@ export interface ReviewData {
   review_customer_comment: string;
   order_source_name: string;
 }
+
 export interface VendorRatingData {
   vendor_id: string;
   order_platform_name: string;

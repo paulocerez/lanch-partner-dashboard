@@ -5,9 +5,6 @@ import { calculateTotal } from "@/utils/metricCalculations";
 import { CardProps, TopItems } from "../../cardProps";
 import { useTopItemsData } from "../useTopItemsData";
 
-const valueFormatter = (number: number) =>
-  Intl.NumberFormat("de").format(number).toString();
-
 export const TopItemChartCard = ({
   vendorIds,
   dateRange,

@@ -1,8 +1,7 @@
 import {
-  OutputType,
-  DailyFoodOrderData,
   InputType,
-} from "@/components/dashboard/metric-cards/CardProps";
+  OutputType,
+} from "@/components/dashboard/metric-cards/cardProps";
 import { convertDateFormat } from "./dateUtils";
 
 export const valueFormatter = (number: number) =>
