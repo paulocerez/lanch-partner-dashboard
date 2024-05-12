@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { GET_ALL_RATINGS, GET_ALL_REVIEWS } from "@/utils/gqlQueries";
-import { DateRangePickerValue } from "../cardProps";
+import { DateRangePickerValue } from "../CardProps";
 import { addDays, toISOStringLocal } from "@/utils/dateUtils";
 import { GetAllVendorRatingDataResponse } from "../responseProps";
 

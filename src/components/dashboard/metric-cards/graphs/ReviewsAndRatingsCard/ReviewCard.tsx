@@ -12,7 +12,7 @@ import {
 import React from "react";
 import LoadingCard from "../../../dashboard-helpers/Loading/LoadingCard";
 import { useReviewData } from "../useReviewData";
-import { CardProps, ReviewData } from "../../cardProps";
+import { CardProps, ReviewData } from "../../CardProps";
 
 const ReviewCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
   const { loading, error, data } = useReviewData(

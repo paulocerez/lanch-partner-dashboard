@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { calculateAverage } from "@/utils/metricCalculations";
-import { GMVData } from "@/components/dashboard/metric-cards/cardProps";
+import { GMVData } from "@/components/dashboard/metric-cards/CardProps";
 
 describe("calculateAverage", () => {
   it("should return the correct average if the input values are valid", () => {

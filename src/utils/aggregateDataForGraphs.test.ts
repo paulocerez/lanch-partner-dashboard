@@ -3,7 +3,7 @@
 import {
   InputType,
   OutputType,
-} from "@/components/dashboard/metric-cards/cardProps";
+} from "@/components/dashboard/metric-cards/CardProps";
 import { describe, expect, it } from "vitest";
 import { aggregateGMVData } from "./aggregateDataForGraphs";
 
