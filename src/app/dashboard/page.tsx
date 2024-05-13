@@ -4,7 +4,6 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import { useAuth } from "../context/AuthContext";
 import { useDateRange } from "@/utils/dateUtils";
-
 import GoogleAnalytics from "../../components/dashboard/dashboard-helpers/GoogleAnalytics";
 import HeaderComponent from "../../components/dashboard/dashboard-helpers/Header";
 import FilterBarComponent from "../../components/dashboard/dashboard-helpers/FilterBar/FilterBar";
