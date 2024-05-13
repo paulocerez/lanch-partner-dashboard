@@ -8,7 +8,7 @@ import {
 import LoadingGraph from "@/components/dashboard/dashboard-helpers/Loading/LoadingGraph";
 import { CardProps, OutputType } from "../../cardProps";
 
-export const OrderChartCard = ({
+export const OrderGraphCard = ({
   vendorIds,
   dateRange,
   orderPortal,
