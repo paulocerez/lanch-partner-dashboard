@@ -1,5 +1,5 @@
 import { Grid, Title } from "@tremor/react";
-import { CardProps } from "../metric-cards/cardProps";
+import { CardProps } from "../metric-cards/cardProperties";
 import { AOVCard } from "@/components/dashboard/metric-cards/numbers/AOVCard/AOVCard";
 import { TopItemChartCard } from "../metric-cards/graphs/TopItemsChartCard/TopItemsChartCard";
 import { CurrentRatingCard } from "../metric-cards/numbers/CurrentRatingCard/CurrentRatingCard";

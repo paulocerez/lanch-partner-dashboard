@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
 import { GET_ALL_RATINGS, GET_ALL_REVIEWS } from "@/utils/gqlQueries";
-import { DateRangePickerValue } from "../cardProps";
+import { DateRangePickerValue } from "../cardProperties";
 import { addDays, toISOStringLocal } from "@/utils/dateUtils";
-import { GetAllReviewDataResponse } from "../responseProps";
+import { GetAllReviewDataResponse } from "../responseProperties";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 

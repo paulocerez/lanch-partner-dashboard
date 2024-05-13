@@ -1,6 +1,6 @@
 import React from "react";
 import LoadingCard from "@/components/dashboard/dashboard-helpers/Loading/LoadingCard";
-import { CardProps, DisplayData } from "../../cardProps";
+import { CardProps, DisplayData } from "../../cardProperties";
 import { useRatingData } from "../useRatingData";
 import { CardComponent } from "@/components/dashboard/dashboard-helpers/CardComponent";
 import { calculateRatingPerVendor } from "@/utils/metricCalculations";

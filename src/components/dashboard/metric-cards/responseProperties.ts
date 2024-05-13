@@ -4,7 +4,7 @@ import {
   GMVData,
   ReviewData,
   VendorRatingData,
-} from "./cardProps";
+} from "./cardProperties";
 
 export interface GetGMVDataResponse {
   api_partner_dashboard_api_pd_food_orders_aggregate: GMVData;

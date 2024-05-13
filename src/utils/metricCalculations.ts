@@ -4,7 +4,7 @@ import {
   DisplayData,
   FoodOrderItemData,
   TopItems,
-} from "@/components/dashboard/metric-cards/cardProps";
+} from "@/components/dashboard/metric-cards/cardProperties";
 
 export const calculateAverage = (
   data: GMVData | undefined,

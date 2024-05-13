@@ -3,8 +3,8 @@ import {
   GET_FOOD_ORDERS_DAILY,
   GET_TOP_SELLING_ITEMS,
 } from "@/utils/gqlQueries";
-import { GetTopItemsResponse } from "../responseProps";
-import { DateRangePickerValue } from "../cardProps";
+import { GetTopItemsResponse } from "../responseProperties";
+import { DateRangePickerValue } from "../cardProperties";
 
 // hook taking vendorIds, dateRange (from the DateRange Picker), and the list of orderPortals as an object -> eventually transforming and inserting it into the query as parameters to fetch data accordingly from the GraphQL API through Apollo Client (and useQuery)
 
