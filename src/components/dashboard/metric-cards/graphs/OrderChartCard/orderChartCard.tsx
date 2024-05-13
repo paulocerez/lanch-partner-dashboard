@@ -8,7 +8,11 @@ import {
 import LoadingGraph from "@/components/dashboard/dashboard-helpers/Loading/LoadingGraph";
 import { CardProps, OutputType } from "../../cardProps";
 
-const OrderChartCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
+export const OrderChartCard = ({
+  vendorIds,
+  dateRange,
+  orderPortal,
+}: CardProps) => {
   const { loading, error, data } = useGraphData(
     vendorIds,
     dateRange,
@@ -45,5 +49,3 @@ const OrderChartCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
     </Card>
   );
 };
-
-export default OrderChartCard;

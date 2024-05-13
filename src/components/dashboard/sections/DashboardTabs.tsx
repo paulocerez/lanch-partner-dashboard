@@ -7,7 +7,7 @@ import RevenueCard from "../metric-cards/numbers/RevenueCard/RevenueCard";
 import ReviewCard from "../metric-cards/graphs/ReviewsAndRatingsCard/ReviewCard";
 import OrderCountCard from "../metric-cards/numbers/OrderCountCard/OrderCountCard";
 import GMVGraphCard from "@/components/dashboard/metric-cards/graphs/GMVGraphCard/GMVGraphCard";
-import OrderChartCard from "../metric-cards/graphs/OrderChartCard/OrderChartCard";
+import { OrderChartCard } from "../metric-cards/graphs/OrderChartCard/OrderChartCard";
 
 export const DashboardTabs = ({
   vendorIds,
