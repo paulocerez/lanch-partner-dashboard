@@ -11,6 +11,7 @@ import FilterBarComponent from "../../components/dashboard/dashboard-helpers/Fil
 import { DashboardTabs } from "@/components/dashboard/sections/DashboardTabs";
 
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@tremor/react";
+import { useFilterBarData } from "@/components/dashboard/dashboard-helpers/FilterBar/useFilterBarData";
 
 enum OrderPortal {
   "LIEFERANDO" = "Lieferando",
@@ -25,13 +26,21 @@ enum OrderPortal {
 
 const Home = () => {
   const { hasuraToken } = useAuth();
-  const [vendorIds, setVendorIds] = useState<string[]>([]);
   const [user, setUser] = useState<User | null>(null);
+  const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
 
   const { dateRange, updateDateRange } = useDateRange({
     from: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8),
     to: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 1),
   });
+
+  const { assignedVendorList } = useFilterBarData(user?.uid);
+
+  useEffect(() => {
+    if (assignedVendorList) {
+      setSelectedVendors(assignedVendorList.map((vendor) => vendor.vendor_id));
+    }
+  }, [assignedVendorList]);
 
   useEffect(() => {
     console.log("Dashboard hasuraToken:", hasuraToken);
@@ -65,8 +74,8 @@ const Home = () => {
         user={user}
         dateRange={dateRange}
         updateDateRange={updateDateRange}
-        vendorIds={vendorIds}
-        updateSelectedVendorIds={setVendorIds}
+        vendorIds={selectedVendors}
+        updateSelectedVendorIds={setSelectedVendors}
       />
 
       <TabGroup className="mt-6">
@@ -81,7 +90,7 @@ const Home = () => {
           {/* aggregated data for all platforms */}
           <TabPanel>
             <DashboardTabs
-              vendorIds={vendorIds}
+              vendorIds={selectedVendors}
               dateRange={dateRange}
               orderPortal={[]}
             />
@@ -91,7 +100,7 @@ const Home = () => {
           {orderPortals.map((orderPortal) => (
             <TabPanel key={orderPortal}>
               <DashboardTabs
-                vendorIds={vendorIds}
+                vendorIds={selectedVendors}
                 dateRange={dateRange}
                 orderPortal={[orderPortal]}
               />
