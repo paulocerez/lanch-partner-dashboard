@@ -16,12 +16,16 @@ export const AOVCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
 
   if (error) {
     console.error("Error fetching AOV data:", error);
-    return <div>Error loading data</div>;
+    return <div role="alert">Error loading data</div>;
   }
 
   const averageValue = calculateAverage(data, vendorIds.length);
 
   return (
-    <CardComponent title="Durchschn. Warenkorbwert" metric={averageValue} />
+    <CardComponent
+      title="Durchschn. Warenkorbwert"
+      metric={averageValue}
+      aria-label={`Durchschnittlicher Warenkorbwert ist ${averageValue}`}
+    />
   );
 };

@@ -27,7 +27,13 @@ export const RevenueCard = ({
     ? `${parseFloat(gmv).toFixed(2)}€`
     : "Keine Umsatzdaten verfügbar";
 
-  return <CardComponent title="Gesamtumsatz" metric={formattedGMV} />;
+  return (
+    <CardComponent
+      title="Gesamtumsatz"
+      metric={formattedGMV}
+      aria-label={`Gesamtumsatz beträgt ${formattedGMV}`}
+    />
+  );
 };
 
 export default RevenueCard;

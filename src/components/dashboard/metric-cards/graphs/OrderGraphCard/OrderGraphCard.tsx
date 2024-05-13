@@ -45,6 +45,7 @@ export const OrderGraphCard = ({
         valueFormatter={valueFormatter}
         stack={true}
         relative={false}
+        aria-label={`Eine Übersicht der aktuellen Orderzahlen per Plattform ${orderData}`}
       />
     </Card>
   );

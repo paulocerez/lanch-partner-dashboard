@@ -25,7 +25,7 @@ const GMVGraphCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
 
   if (error) {
     console.error("Error fetching GMV graph data:", error);
-    return <div>Error loading data</div>;
+    return <div role="alert">Error loading data</div>;
   }
 
   return (
@@ -41,6 +41,7 @@ const GMVGraphCard = ({ vendorIds, dateRange, orderPortal }: CardProps) => {
         valueFormatter={valueFormatter}
         stack={true}
         relative={true}
+        aria-label={`Eine Übersicht des aktuellen Umsatzes per Plattform ${revenueData}`}
       />
     </Card>
   );

@@ -17,7 +17,12 @@ export const DashboardTabs = ({
   return (
     <div className="py-8">
       <Title>Umsatz & Performance Metriken</Title>
-      <Grid numItemsMd={2} numItemsLg={4} className="gap-6 mt-6">
+      <Grid
+        numItemsMd={2}
+        numItemsLg={4}
+        className="gap-6 mt-6"
+        aria-labelledby="dashboard-metrics-title"
+      >
         <RevenueCard
           vendorIds={vendorIds}
           dateRange={dateRange}
@@ -39,7 +44,12 @@ export const DashboardTabs = ({
           orderPortal={orderPortal}
         />
       </Grid>
-      <Grid numItemsMd={1} numItemsLg={2} className="gap-6 mt-6">
+      <Grid
+        numItemsMd={1}
+        numItemsLg={2}
+        className="gap-6 mt-6"
+        aria-labelledby="dashboard-metrics-title"
+      >
         <div>
           <GMVGraphCard
             vendorIds={vendorIds}

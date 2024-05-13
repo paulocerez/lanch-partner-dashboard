@@ -33,6 +33,7 @@ export const CurrentRatingCard = ({
     <CardComponent
       title="Aktuelles Durchschnittsrating"
       metric={displayData.avg_rating}
+      aria-label={`Aktuelles Durchschnittsrating ist ${displayData.avg_rating}`}
     />
   );
 };

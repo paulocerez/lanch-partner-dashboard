@@ -25,7 +25,13 @@ export const OrderCountCard = ({
   const orderCount =
     data?.aggregate?.count?.toString() || "Anfrage fehlgeschlagen";
 
-  return <CardComponent title="Anz. Bestellungen" metric={orderCount} />;
+  return (
+    <CardComponent
+      title="Anz. Bestellungen"
+      metric={orderCount}
+      aria-label={`Anzahl an Bestellungen ist ${orderCount}`}
+    />
+  );
 };
 
 export default OrderCountCard;
