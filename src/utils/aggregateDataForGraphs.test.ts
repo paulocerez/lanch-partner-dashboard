@@ -7,8 +7,8 @@ import {
 import { describe, expect, it } from "vitest";
 import { aggregateGMVData } from "./aggregateDataForGraphs";
 
-describe("", () => {
-  it("aggregates data correctly", () => {
+describe("Aggregate Order data for graphs function", () => {
+  it("aggregates data correctly per date and per platform", () => {
     const data: InputType[] = [
       {
         total_gmv: "10000",

@@ -13,8 +13,8 @@ describe("AOVCard", () => {
   const mockProps: CardProps = {
     vendorIds: ["DE_Berlin_0001", "DE_Hamburg_0001"],
     dateRange: {
-      from: new Date(2023, 1, 1),
-      to: new Date(),
+      from: new Date(2024, 1, 1),
+      to: new Date(2024, 1, 8),
     },
     orderPortal: ["Lieferando", "Uber Eats"],
   };
