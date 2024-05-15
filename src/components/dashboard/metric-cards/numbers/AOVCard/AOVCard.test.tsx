@@ -32,23 +32,6 @@ const successMock = [
   },
 ];
 
-const loadingMock = [
-  {
-    request: {
-      query: GET_TOTAL_GMV,
-      variables: {
-        _vendor_ids: ["DE_Berlin_0001", "DE_Hamburg_0001"],
-        _fromDate: new Date(2024, 1, 1).toISOString(),
-        _toDate: new Date(2024, 1, 8).toISOString(),
-        _order_source_names: ["Lieferando", "Uber Eats"],
-      },
-    },
-    result: {
-      loading: true,
-    },
-  },
-];
-
 const errorMock = [
   {
     request: {

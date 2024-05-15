@@ -17,7 +17,7 @@ export const CurrentRatingCard = ({
   );
 
   if (loading)
-    return <LoadingCard metricTitle="Aktuelles Durchschnittsrating" />;
+    return <LoadingCard metricTitle="Aktueller Ratingdurchschnitt" />;
 
   if (error) {
     console.error("Error fetching Rating data:", error);
