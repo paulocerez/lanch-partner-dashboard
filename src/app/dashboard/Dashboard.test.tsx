@@ -1,44 +1,64 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import App from "../src/App"; // Assuming your main component is named App and includes routing and state management
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import SignIn from "../login/page";
+import Dashboard from "../dashboard/page";
 
 describe("Dashboard End-to-End Tests", () => {
   beforeEach(() => {
-    // Render the main component before each test
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={["/login"]}>
+        <Routes>
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </MemoryRouter>
+    );
   });
 
   afterEach(() => {
-    // Cleanup the document body
     cleanup();
   });
 
-  it("should login and display the dashboard metrics", async () => {
-    // Assume there is an input for username and password, and a submit button
-    const usernameInput = screen.getByPlaceholderText("Username");
+  it("should handle user login and interact with the dashboard", async () => {
+    // Simulating user login
+    const userEmailInput = screen.getByPlaceholderText("Email");
     const passwordInput = screen.getByPlaceholderText("Password");
     const loginButton = screen.getByRole("button", { name: "Login" });
 
-    // Simulate user typing
-    await userEvent.type(usernameInput, "testuser");
-    await userEvent.type(passwordInput, "password");
-
-    // Simulate user clicking on login button
+    await userEvent.type(userEmailInput, "testuser@example.com");
+    await userEvent.type(passwordInput, "password123");
     await userEvent.click(loginButton);
 
-    // Check if the dashboard is displayed after login
-    const dashboardHeader = await screen.findByText(
-      "Dashboard Metrics",
-      {},
-      { timeout: 5000 }
-    ); // Adjust timeout based on expected response time
-    expect(dashboardHeader).toBeInTheDocument();
+    // after redirecting to Dashboard page
+    await screen.findByText("Dashboard Metrics");
 
-    // Example: Check if a specific metric is displayed
-    const salesMetric = await screen.findByText("Total Sales: $5000");
-    expect(salesMetric).toBeInTheDocument();
+    // Interacting with date filters on the dashboard
+    const dateFromInput = screen.getByLabelText("From Date");
+    const dateToInput = screen.getByLabelText("To Date");
+    await userEvent.type(dateFromInput, "2024-01-01");
+    await userEvent.type(dateToInput, "2024-01-31");
+    const applyFilterButton = screen.getByText("Apply Filters");
+    await userEvent.click(applyFilterButton);
+
+    // Navigating through tabs and interacting with specific elements
+    const tabs = screen.getByRole("tablist");
+    const uberEatsTab = within(tabs).getByText("Uber Eats");
+    await userEvent.click(uberEatsTab);
+
+    // Ensure data loads in the selected tab
+    await screen.findByText("Umsatz & Performance Metriken");
+
+    // Check if data is being displayed correctly
+    const revenueCard = screen.getByText("Revenue");
+    expect(revenueCard).toBeInTheDocument();
+    const revenueValue = within(revenueCard).getByText("5000€");
+    expect(revenueValue).toBeInTheDocument();
+
+    // Logout
+    const logoutButton = screen.getByRole("button", { name: "Logout" });
+    await userEvent.click(logoutButton);
+    await screen.findByText("Please log in");
   });
-
-  // Additional tests can be added here
 });

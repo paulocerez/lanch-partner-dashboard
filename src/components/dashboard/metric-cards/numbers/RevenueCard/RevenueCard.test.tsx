@@ -20,6 +20,7 @@ const successMock = [
       data: {
         api_partner_dashboard_api_pd_food_orders_aggregate: {
           aggregate: {
+            count: "50",
             sum: {
               gmv: "1000",
             },
@@ -77,7 +78,7 @@ describe("RevenueCard", async () => {
         <RevenueCard {...mockProps} />
       </MockedProvider>
     );
-    const loadingText = await screen.findByText("Umsatz");
+    const loadingText = await screen.findByText("Umsatz wird geladen...");
     expect(loadingText).toBeDefined();
   });
 

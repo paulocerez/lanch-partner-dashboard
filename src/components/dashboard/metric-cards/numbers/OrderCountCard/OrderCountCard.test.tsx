@@ -20,7 +20,10 @@ const successMock = [
       data: {
         api_partner_dashboard_api_pd_food_orders_aggregate: {
           aggregate: {
-            count: 120,
+            count: "50",
+            sum: {
+              gmv: "1000",
+            },
           },
         },
       },
@@ -61,7 +64,7 @@ describe("OrderCountCard", () => {
     );
 
     await waitFor(() => {
-      const metricElement = screen.getByText("120");
+      const metricElement = screen.getByText("50");
       expect(metricElement).toBeDefined();
       const titleElement = screen.getByText("Anz. Bestellungen");
       expect(titleElement).toBeDefined();
